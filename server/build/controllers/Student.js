@@ -7,8 +7,8 @@ class Student {
         this.route = express_1.Router();
     }
     create() {
-        return this.route.get("/create", (req, res) => {
-            res.send("It does work");
+        return this.route.get("/create", (dtoIn, dtoOut) => {
+            dtoOut.send("It does work");
         });
     }
     update() { }
