@@ -8,13 +8,13 @@ const Student_1 = require("./controllers/Student");
 const Connections_1 = require("./database/Connections");
 const dotenv_1 = require("dotenv");
 dotenv_1.config();
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6000;
 const App = express_1.default();
 Connections_1.connect.then((dbConnectionState) => {
     if (dbConnectionState === 1) {
         App.use("/student/", Student_1.student.create());
         App.listen(PORT, () => {
-            console.log("Server is running");
+            console.log("Server is running!");
         });
     }
 });
