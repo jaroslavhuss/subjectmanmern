@@ -4,21 +4,19 @@ import Main from "./routes/Main";
 import About from "./routes/About";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLanguage } from "./store/reducers/language"
+import Translate from "./utils/Translate";
+
 const App = () => {
   const dispatch = useDispatch();
-  const lang = useSelector((data: {
-    language: {
-      language: "cz" | "eng"
-    }
-  }) => {
+  const lang = useSelector((data: any) => {
     return data.language.language
   })
 
   return (
     <div className="container">
       <BrowserRouter>
-        <Link to="/">Hlavní stránka</Link>
-        <Link to="/about">O nas</Link>
+        <Link to="/"><Translate translationChunk="mainPage" /></Link>
+        <Link to="/about"><Translate translationChunk="about" /></Link>
         <select onChange={(e) => {
           dispatch(changeLanguage(e.target.value))
         }}>
