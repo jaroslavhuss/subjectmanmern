@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
 const mongoose_1 = require("mongoose");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userSchema = new mongoose_1.Schema({
     username: {
         type: String,
@@ -52,5 +53,15 @@ userSchema.pre("save", function (next) {
         next();
     });
 });
+userSchema.methods.matchPasswords = function (password) {
+    return __awaiter(this, void 0, void 0, function* () {
+        return yield bcryptjs_1.default.compare(password, this.password);
+    });
+};
+userSchema.methods.getSignedToken = function () {
+    return jsonwebtoken_1.default.sign({ id: this._id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRE,
+    });
+};
 exports.User = mongoose_1.model("User", userSchema);
 //# sourceMappingURL=User.js.map

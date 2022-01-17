@@ -15,23 +15,12 @@ Auth.post(
     const errors = validationResult(req);
     if (errors.isEmpty()) {
       try {
-        const user = User.create(
-          {
-            username,
-            email,
-            password,
-          },
-          (err, document) => {
-            if (err) {
-              return (errorMap.err = err.message);
-            }
-          }
-        );
-        return res.status(201).json({
-          success: true,
-          user,
-          errorMap,
+        const user = await User.create({
+          username,
+          email,
+          password,
         });
+        sendToken(user, 201, res);
       } catch (error) {
         errorMap.err = error.message;
         return res.status(500).json({
@@ -48,8 +37,30 @@ Auth.post(
     }
   }
 );
-Auth.post("/login", (req: Request, res: Response, next: NextFunction) => {
-  return res.send("Funguji");
+Auth.post("/login", async (req: Request, res: Response, next: NextFunction) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email }).select("+password");
+    if (!user) {
+      errorMap.err = "Invalid credentials";
+      return res.status(404).json({
+        errorMap,
+      });
+    }
+    const isMatched: boolean = await user.matchPasswords(password);
+    if (!isMatched) {
+      errorMap.err = "Invalid credentials";
+      return res.status(404).json({
+        errorMap,
+      });
+    }
+    sendToken(user, 200, res);
+  } catch (error) {
+    errorMap.err = error.message;
+    return res.status(500).json({
+      errorMap,
+    });
+  }
 });
 Auth.post(
   "/forgot-password",
@@ -63,3 +74,11 @@ Auth.post(
     return res.send("Funguji");
   }
 );
+
+const sendToken = (user: any, statusCode: any, res: any) => {
+  const token = user.getSignedToken();
+  res.status(statusCode).json({
+    success: true,
+    token,
+  });
+};

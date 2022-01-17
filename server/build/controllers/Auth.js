@@ -20,20 +20,12 @@ exports.Auth.post("/register", express_validator_1.body("username").notEmpty().i
     const errors = express_validator_1.validationResult(req);
     if (errors.isEmpty()) {
         try {
-            const user = User_1.User.create({
+            const user = yield User_1.User.create({
                 username,
                 email,
                 password,
-            }, (err, document) => {
-                if (err) {
-                    return (errorMap.err = err.message);
-                }
             });
-            return res.status(201).json({
-                success: true,
-                user,
-                errorMap,
-            });
+            sendToken(user, 201, res);
         }
         catch (error) {
             errorMap.err = error.message;
@@ -51,13 +43,43 @@ exports.Auth.post("/register", express_validator_1.body("username").notEmpty().i
         });
     }
 }));
-exports.Auth.post("/login", (req, res, next) => {
-    return res.send("Funguji");
-});
+exports.Auth.post("/login", (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { email, password } = req.body;
+    try {
+        const user = yield User_1.User.findOne({ email }).select("+password");
+        if (!user) {
+            errorMap.err = "Invalid credentials";
+            return res.status(404).json({
+                errorMap,
+            });
+        }
+        const isMatched = yield user.matchPasswords(password);
+        if (!isMatched) {
+            errorMap.err = "Invalid credentials";
+            return res.status(404).json({
+                errorMap,
+            });
+        }
+        sendToken(user, 200, res);
+    }
+    catch (error) {
+        errorMap.err = error.message;
+        return res.status(500).json({
+            errorMap,
+        });
+    }
+}));
 exports.Auth.post("/forgot-password", (req, res, next) => {
     return res.send("Funguji");
 });
 exports.Auth.post("/reset-password", (req, res, next) => {
     return res.send("Funguji");
 });
+const sendToken = (user, statusCode, res) => {
+    const token = user.getSignedToken();
+    res.status(statusCode).json({
+        success: true,
+        token,
+    });
+};
 //# sourceMappingURL=Auth.js.map
