@@ -8,21 +8,42 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.connect = void 0;
-const mongoose_1 = require("mongoose");
-class Connect {
-    constructor() {
-        this.mongoose = new mongoose_1.Mongoose();
+const mongoose_1 = __importDefault(require("mongoose"));
+const dotenv_1 = require("dotenv");
+dotenv_1.config();
+const connect = () => __awaiter(void 0, void 0, void 0, function* () {
+    /**
+     *   const dev_mode = process.env.DEV_MODE;
+    if (dev_mode === "development") {
+      const connectionResuls = await new Mongoose()
+        .createConnection(process.env.DB_LOCAL)
+        .asPromise();
+      console.log("\x1b[42m", "Connecting to the local DB.");
+      return connectionResuls.readyState;
+    } else {
+      const connectionResuls = await new Mongoose()
+        .createConnection(process.env.DB_PRODUCTION)
+        .asPromise();
+      console.log("\x1b[41m", "Connecting to the production DB.");
+      return connectionResuls.readyState;
     }
-    connect() {
-        return __awaiter(this, void 0, void 0, function* () {
-            const connectionResuls = yield this.mongoose
-                .createConnection("mongodb://127.0.0.1:27017/subjectman")
-                .asPromise();
-            return connectionResuls.readyState;
+     */
+    const dev_mode = process.env.DEV_MODE;
+    if (dev_mode === "development") {
+        yield mongoose_1.default.connect(process.env.DB_LOCAL).then((status) => {
+            console.log("\x1b[42m", "Connected to the local DB.");
         });
     }
-}
-exports.connect = new Connect().connect();
+    else {
+        yield mongoose_1.default.connect(process.env.DB_PRODUCTION).then((status) => {
+            console.log("\x1b[41m", "Connected to the production DB.");
+        });
+    }
+});
+exports.connect = connect;
 //# sourceMappingURL=Connections.js.map
