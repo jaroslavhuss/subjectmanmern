@@ -14,7 +14,7 @@ const App = () => {
   const lang = useSelector((data: any) => {
     return data.language.language
   })
-  const auth = useSelector((data: any) => {
+  useSelector((data: any) => {
     console.log(data)
   })
 

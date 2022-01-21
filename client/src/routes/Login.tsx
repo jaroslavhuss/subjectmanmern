@@ -5,8 +5,6 @@ import { useState } from "react";
 import validator from "validator";
 
 import "./Login.css"
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 
 const Login = () => {
 
