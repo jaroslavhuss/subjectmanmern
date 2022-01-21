@@ -1,9 +1,9 @@
 import React from 'react'
-
+import Translate from '../utils/Translate'
 const Main = () => {
     return (
         <div>
-            Hlavní stránka
+            <Translate translationChunk='mainPage' />
         </div>
     )
 }

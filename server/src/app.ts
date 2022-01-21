@@ -3,14 +3,15 @@ import { Auth } from "./controllers/Auth";
 import { protectedRoute } from "./routes/Private";
 import { connect } from "./database/Connections";
 import { config } from "dotenv";
+import cors from "cors";
 config();
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 5001;
 const App = Express();
 App.use(Express.json());
 connect();
 
-App.use("/auth-api/", Auth);
-App.use("/api/", protectedRoute);
+App.use("/auth-api/", cors(), Auth);
+App.use("/api/", cors(), protectedRoute);
 
 const server = App.listen(PORT, () => {
   console.log("Server is running!");

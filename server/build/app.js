@@ -8,13 +8,14 @@ const Auth_1 = require("./controllers/Auth");
 const Private_1 = require("./routes/Private");
 const Connections_1 = require("./database/Connections");
 const dotenv_1 = require("dotenv");
+const cors_1 = __importDefault(require("cors"));
 dotenv_1.config();
-const PORT = process.env.PORT || 6000;
+const PORT = process.env.PORT || 5001;
 const App = express_1.default();
 App.use(express_1.default.json());
 Connections_1.connect();
-App.use("/auth-api/", Auth_1.Auth);
-App.use("/api/", Private_1.protectedRoute);
+App.use("/auth-api/", cors_1.default(), Auth_1.Auth);
+App.use("/api/", cors_1.default(), Private_1.protectedRoute);
 const server = App.listen(PORT, () => {
     console.log("Server is running!");
 });

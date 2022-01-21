@@ -1,9 +1,9 @@
-import React from 'react'
-
+import Translate from "../utils/Translate"
 const About = () => {
+
     return (
         <div>
-            O mně
+            <Translate translationChunk="about" />
         </div>
     )
 }
