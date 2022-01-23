@@ -44,6 +44,7 @@ const App = () => {
       {!auth &&
         <><Link to="/registration"><Translate translationChunk="register" />
         </Link>
+          {" | "}
           <Link to="/login"><Translate translationChunk="login" /></Link></>
       }
       {auth && <button onClick={() => {
