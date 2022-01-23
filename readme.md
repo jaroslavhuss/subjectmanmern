@@ -14,3 +14,7 @@ DB_PRODUCTION = \_tenhle string vám dá Honza* \
 DEV*MODE = development \
 JWT_SECRET = \_tenhle string vám dá Jarda* \
 JWT_EXPIRE = 10min
+
+## Spuštění
+
+cd server && npm run dev
