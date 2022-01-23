@@ -2,25 +2,29 @@ import { createSlice } from "@reduxjs/toolkit";
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
-    token: localStorage.getItem("token"),
-    isAuthenticated: null,
+    token: localStorage.getItem("token") || null,
+    isAuthenticated: false,
     loading: true,
     error: null,
-    user: null,
+    user: {} || null,
   },
   reducers: {
-    /*
-    changeLanguage: (state, action) => {
-      state.language = action.payload;
+    authUserSuccess: (state, action) => {
+      console.log("running aciton payload", action.payload);
+      state.isAuthenticated = true;
+      state.token = action.payload.token;
+      state.loading = false;
+      state.user = action.payload.user;
     },
-    */
-    //Load User
-    //Register User
-    //Login User
-    //Log out User
-    //Clear errors in the state
+    authUserFailed: (state) => {
+      localStorage.removeItem("token");
+      state.isAuthenticated = false;
+      state.token = null;
+      state.loading = true;
+      state.user = {};
+    },
   },
 });
 
-//export const { changeLanguage } = authSlice.actions;
+export const { authUserFailed, authUserSuccess } = authSlice.actions;
 export default authSlice.reducer;

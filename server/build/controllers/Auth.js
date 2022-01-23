@@ -20,12 +20,22 @@ exports.Auth.post("/register", express_validator_1.body("username").notEmpty().i
     const errors = express_validator_1.validationResult(req);
     if (errors.isEmpty()) {
         try {
-            const user = yield User_1.User.create({
-                username,
-                email,
-                password,
-            });
-            sendToken(user, 201, res);
+            const doesUserExists = yield User_1.User.findOne({ email });
+            if (doesUserExists) {
+                errorMap.err = "This user already exists";
+                res.status(409).json({
+                    success: false,
+                    errorMap,
+                });
+            }
+            else {
+                const user = yield User_1.User.create({
+                    username,
+                    email,
+                    password,
+                });
+                sendToken(user, 201, res);
+            }
         }
         catch (error) {
             errorMap.err = error.message;

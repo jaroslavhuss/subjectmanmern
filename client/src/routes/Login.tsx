@@ -1,13 +1,28 @@
 import { Lang } from "../langauges/Dictionary"
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Translate from "../utils/Translate";
 import { useState } from "react";
 import validator from "validator";
-
 import "./Login.css"
-
+import { authUserSuccess } from "../store/reducers/auth";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { setAuthToken } from "../utils/setAuthToken";
 const Login = () => {
+    const authState = useSelector((data: any) => {
+        return data.auth;
+    })
 
+    const navigate = useNavigate();
+    useEffect(() => {
+        console.log(authState);
+        if (authState.isAuthenticated) {
+            navigate("/dashboard")
+        }
+
+    }, [authState, navigate]);
+
+    const dispatch = useDispatch();
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [errorMessage, setErrorMessage] = useState<string>("");
@@ -15,6 +30,7 @@ const Login = () => {
     const lang = useSelector((data: any) => {
         return data.language.language
     })
+
     const submitForm = async (e: any) => {
         e.preventDefault();
         if (!validator.isEmail(email)) {
@@ -37,23 +53,29 @@ const Login = () => {
                     })
                 })
                 const data: { success: boolean, errorMap: { err: [] }, token: string } = await response.json();
+                console.log(data)
                 if (!data.success) {
                     setErrorStatus(false);
                     setErrorMessage(JSON.stringify(data.errorMap.err))
+                    localStorage.removeItem("token");
                 } else {
                     localStorage.setItem("token", data.token)
+                    const getUsersData = await setAuthToken(data.token);
 
+                    dispatch(authUserSuccess({
+                        token: data.token,
+                        user: getUsersData.user
+                    }))
                 }
             } catch (error) {
-                console.log(error)
+                setErrorStatus(false);
+                //@ts-ignore
+                setErrorMessage(JSON.stringify(error.message))
+                localStorage.removeItem("token");
+                dispatch(authUserSuccess(""))
             }
         }
-
-
-
-
     };
-
     return (
         <div className="column-center">
             <h3><Translate translationChunk='login' /></h3>

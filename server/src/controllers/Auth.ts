@@ -15,12 +15,21 @@ Auth.post(
     const errors = validationResult(req);
     if (errors.isEmpty()) {
       try {
-        const user = await User.create({
-          username,
-          email,
-          password,
-        });
-        sendToken(user, 201, res);
+        const doesUserExists = await User.findOne({ email });
+        if (doesUserExists) {
+          errorMap.err = "This user already exists";
+          res.status(409).json({
+            success: false,
+            errorMap,
+          });
+        } else {
+          const user = await User.create({
+            username,
+            email,
+            password,
+          });
+          sendToken(user, 201, res);
+        }
       } catch (error) {
         errorMap.err = error.message;
         return res.status(500).json({
