@@ -15,8 +15,8 @@ const User_1 = require("../models/User");
 const express_validator_1 = require("express-validator");
 exports.Auth = express_1.Router();
 const errorMap = {};
-exports.Auth.post("/register", express_validator_1.body("username").notEmpty().isString(), express_validator_1.body("email").notEmpty().isEmail(), express_validator_1.body("password").notEmpty().isString().isLength({ min: 6 }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { username, email, password } = req.body;
+exports.Auth.post("/register", express_validator_1.body("name").notEmpty().isString(), express_validator_1.body("surname").notEmpty().isString(), express_validator_1.body("form").notEmpty().isString(), express_validator_1.body("level").notEmpty().isString(), express_validator_1.body("language").notEmpty().isString(), express_validator_1.body("email").notEmpty().isEmail(), express_validator_1.body("password").notEmpty().isString().isLength({ min: 6 }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { name, surname, form, level, language, email, password } = req.body;
     const errors = express_validator_1.validationResult(req);
     if (errors.isEmpty()) {
         try {
@@ -30,7 +30,11 @@ exports.Auth.post("/register", express_validator_1.body("username").notEmpty().i
             }
             else {
                 const user = yield User_1.User.create({
-                    username,
+                    name,
+                    surname,
+                    form,
+                    level,
+                    language,
                     email,
                     password,
                 });
@@ -79,12 +83,6 @@ exports.Auth.post("/login", (req, res, next) => __awaiter(void 0, void 0, void 0
         });
     }
 }));
-exports.Auth.post("/forgot-password", (req, res, next) => {
-    return res.send("Funguji");
-});
-exports.Auth.post("/reset-password", (req, res, next) => {
-    return res.send("Funguji");
-});
 const sendToken = (user, statusCode, res) => {
     const token = user.getSignedToken();
     res.status(statusCode).json({

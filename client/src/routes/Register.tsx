@@ -8,7 +8,12 @@ import { authUserFailed } from "../store/reducers/auth";
 import { useNavigate } from "react-router-dom";
 const Register = () => {
     const navigate = useNavigate();
-    const [username, setUsername] = useState<string>("")
+    //const [username, setUsername] = useState<string>("");
+    const [name, setName] = useState<string>("");
+    const [surname, setSurname] = useState<string>("");
+    const [form, setForm] = useState<string>("");
+    const [level, setLevel] = useState<string>("");
+    const [prefferedLanguage, setPrefferedLanguage] = useState<string>("");
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [confirmedPassword, setConfirmedPassword] = useState<string>("")
@@ -21,25 +26,18 @@ const Register = () => {
     })
     const submitForm = async (e: any) => {
         e.preventDefault();
-        if (username.length <= 5) {
-            //
-            dispatch(authUserFailed())
-            setErrorMessage("Username is missing")
+        if (name === "" && surname === "" && form === "" && level === "" && prefferedLanguage === "") {
+            setErrorMessage("All fields are mandatory")
             setErrorStatus(false)
-        } else if (!validator.isEmail(email)) {
+            dispatch(authUserFailed())
+        }
+        else if (password !== confirmedPassword) {
+            setErrorMessage("Passwords does not match!")
+            setErrorStatus(false)
+            dispatch(authUserFailed())
+        }
+        else if (!validator.isEmail(email)) {
             setErrorMessage("Email is missing or this is invalid email")
-            setErrorStatus(false)
-            dispatch(authUserFailed())
-        } else if (password.length < 1 && password.length > 5) {
-            setErrorMessage("Password is missing or its length is lesser than 6 characters")
-            setErrorStatus(false)
-            dispatch(authUserFailed())
-        } else if (confirmedPassword.length < 1) {
-            dispatch(authUserFailed())
-            setErrorMessage("Confirmed password is missing")
-            setErrorStatus(false)
-        } else if (password !== confirmedPassword) {
-            setErrorMessage("Password does not match the confirmed password")
             setErrorStatus(false)
             dispatch(authUserFailed())
         }
@@ -51,7 +49,11 @@ const Register = () => {
                     },
                     method: "post",
                     body: JSON.stringify({
-                        username,
+                        name,
+                        surname,
+                        level,
+                        form,
+                        language: prefferedLanguage,
                         email,
                         password
                     })
@@ -77,14 +79,47 @@ const Register = () => {
     return (
         <div className="column-center">
             <h3><Translate translationChunk='register' /></h3>
-            <form onSubmit={submitForm} className="column-center">
-                <label htmlFor="username">
-                    {
-                        //@ts-ignore
-                        Lang.usernameRegister[lang]
+            <form onSubmit={submitForm} className="column-center" autoComplete="off" style={{ textAlign: "center" }}>
+                <label htmlFor="name">
+                    Name <br />
+                    <input value={name} onChange={(e) => { setName(e.target.value) }} type="text" name="name" />
+                </label>
+                <label htmlFor="surname">
+                    Surname <br />
+                    <input value={surname} onChange={(e) => { setSurname(e.target.value) }} type="text" name="surname" />
+                </label>
+                <label htmlFor="form">
+                    Form <br />
+                    <select onChange={(e) => {
+                        setForm(e.target.value)
                     }
-                    <br />
-                    <input onChange={(e) => { setUsername(e.target.value) }} type="text" name="username" />
+                    }>
+                        <option value="">--</option>
+                        <option value="daily">Daily</option>
+                        <option value="distant">Distant</option>
+                    </select>
+                </label>
+                <label htmlFor="level">
+                    Level <br />
+                    <select onChange={(e) => {
+                        setLevel(e.target.value)
+                    }
+                    }>
+                        <option value="">--</option>
+                        <option value="Ing.">Ing.</option>
+                        <option value="Bc.">Bc.</option>
+                    </select>
+                </label>
+                <label htmlFor="Language">
+                    Preffered Language <br />
+                    <select onChange={(e) => {
+                        setPrefferedLanguage(e.target.value)
+                    }
+                    }>
+                        <option value="">--</option>
+                        <option value="eng">eng</option>
+                        <option value="cz">cz</option>
+                    </select>
                 </label>
                 <label htmlFor="email">
                     {
@@ -92,7 +127,7 @@ const Register = () => {
                         Lang.emailRegister[lang]
                     }
                     <br />
-                    <input onChange={(e) => { setEmail(e.target.value) }} type="email" name="email" />
+                    <input value={email} onChange={(e) => { setEmail(e.target.value) }} type="email" name="email" autoComplete="off" />
                 </label>
                 <label htmlFor="password">
                     {
@@ -100,7 +135,7 @@ const Register = () => {
                         Lang.passwordRegister[lang]
                     }
                     <br />
-                    <input onChange={(e) => { setPassword(e.target.value) }} type="password" name="password" />
+                    <input value={password} onChange={(e) => { setPassword(e.target.value) }} type="password" name="password" />
                 </label>
                 <label htmlFor="password-cofirm">
                     {
@@ -108,7 +143,7 @@ const Register = () => {
                         Lang.passwordConfirmRegister[lang]
                     }
                     <br />
-                    <input onChange={(e) => { setConfirmedPassword(e.target.value) }} type="password" name="password-cofirm" />
+                    <input value={confirmedPassword} onChange={(e) => { setConfirmedPassword(e.target.value) }} type="password" name="password-cofirm" />
                 </label>
                 <input type="submit" value={
                     //@ts-ignore

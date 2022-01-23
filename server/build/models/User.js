@@ -17,9 +17,28 @@ const mongoose_1 = require("mongoose");
 const bcryptjs_1 = __importDefault(require("bcryptjs"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const userSchema = new mongoose_1.Schema({
-    username: {
+    name: {
         type: String,
-        required: [true, "Username is required"],
+        required: [true, "name is required"],
+    },
+    surname: {
+        type: String,
+        required: [true, "surname is required"],
+    },
+    form: {
+        type: String,
+        required: [true, "Study form is required"],
+    },
+    level: {
+        type: String,
+        required: [true, "Level of study is required"],
+    },
+    language: {
+        type: String,
+        required: [true, "Language selection is required"],
+    },
+    Subjects: {
+        type: Array,
     },
     email: {
         type: String,

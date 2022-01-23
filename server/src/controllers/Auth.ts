@@ -7,11 +7,15 @@ const errorMap: ErrorInterface = {};
 
 Auth.post(
   "/register",
-  body("username").notEmpty().isString(),
+  body("name").notEmpty().isString(),
+  body("surname").notEmpty().isString(),
+  body("form").notEmpty().isString(),
+  body("level").notEmpty().isString(),
+  body("language").notEmpty().isString(),
   body("email").notEmpty().isEmail(),
   body("password").notEmpty().isString().isLength({ min: 6 }),
   async (req: Request, res: Response, next: NextFunction) => {
-    const { username, email, password } = req.body;
+    const { name, surname, form, level, language, email, password } = req.body;
     const errors = validationResult(req);
     if (errors.isEmpty()) {
       try {
@@ -24,7 +28,11 @@ Auth.post(
           });
         } else {
           const user = await User.create({
-            username,
+            name,
+            surname,
+            form,
+            level,
+            language,
             email,
             password,
           });
@@ -71,19 +79,6 @@ Auth.post("/login", async (req: Request, res: Response, next: NextFunction) => {
     });
   }
 });
-Auth.post(
-  "/forgot-password",
-  (req: Request, res: Response, next: NextFunction) => {
-    return res.send("Funguji");
-  }
-);
-Auth.post(
-  "/reset-password",
-  (req: Request, res: Response, next: NextFunction) => {
-    return res.send("Funguji");
-  }
-);
-
 const sendToken = (user: any, statusCode: any, res: any) => {
   const token = user.getSignedToken();
   res.status(statusCode).json({

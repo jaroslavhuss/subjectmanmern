@@ -17,7 +17,10 @@ const StudentsDashboard = () => {
         {authState.isAuthenticated &&
             <div>
                 <h1>Studentský Dashboard</h1>
-                <p>Student: {authState.user.username} | {authState.user.email}</p>
+                <p>Student: {authState.user.name} {authState.user.surname} | {authState.user.email}</p>
+                <p>Forma studia: {authState.user.form}</p>
+                <p>Level studia: {authState.user.level}</p>
+                <p>Jazyk studia: {authState.user.language}</p>
                 <div className="flex-row">
                     <div className="left-panel">
                         <label htmlFor="subject-search">
