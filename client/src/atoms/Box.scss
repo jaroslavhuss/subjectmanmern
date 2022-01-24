@@ -1,0 +1,43 @@
+@use "../styles/colorPalatte" as CP;
+.box {
+    color: CP.$text-color;
+    background-color: CP.$bg-color-light;
+    position: absolute;
+    top: 200px;
+    border-radius: 25px;
+    
+    &:before {
+        z-index: -1;
+    }
+
+    &:after {
+        z-index: -2;
+        filter: blur(15px);
+    }
+
+    &:before, &:after {
+        border-radius: 25px;
+        content: '';
+        position: inherit;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: #fff;
+    }
+
+    &:nth-child(2):before, &:nth-child(2):after {
+        background: linear-gradient(-10deg, CP.$bg-color-highlight-green, CP.$bg-color-light, CP.$bg-color-highlight-blue);
+    }
+    
+    &__header{
+        text-align: center;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        font-size: 35px;
+    }    
+}
+
+.big-box{
+    width: 800px;
+}

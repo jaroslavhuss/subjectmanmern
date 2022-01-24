@@ -1,0 +1,39 @@
+@use "../styles/colorPalatte" as CP;
+@import url('https://fonts.googleapis.com/css2?family=Orbitron&display=swap');
+
+.logo {
+    &__S {
+        font-family: 'Orbitron', sans-serif;
+        color: CP.$text-color-highlight-blue;
+        animation:blinking-S 3s infinite;
+        font-size: 100px;
+    }
+
+    &__M {
+        font-family: 'Orbitron', sans-serif;
+        color: CP.$text-color-highlight-green;
+        animation:blinking-M 1s infinite;
+        font-size: 100px;
+    }
+
+    &__text {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 75px;
+    }
+}
+
+@keyframes blinking-S{
+    0%{   color: white;   }
+    47%{   color: CP.$text-color-highlight-blue; }
+    62%{   color: CP.$text-color-highlight-blue; }
+    97%{   color:CP.$text-color-highlight-blue; }
+    100%{  color: white;   }
+}
+
+@keyframes blinking-M{
+    0%{   color: white;   }
+    47%{   color: CP.$text-color-highlight-green; }
+    62%{   color: CP.$text-color-highlight-green; }
+    97%{   color: CP.$text-color-highlight-green; }
+    100%{  color: white;   }
+}

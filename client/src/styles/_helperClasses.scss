@@ -1,0 +1,45 @@
+@use "../styles/colorPalatte" as CP;
+
+.column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 800px;
+}
+
+
+//FORMS
+.form-field {
+    position: relative;
+}
+
+.form-field__input {
+    width: 100%;
+    min-width: 600px;
+    padding: 5px 0;
+    font-size: 35px;
+    color: white;
+    margin-bottom: 30px;
+    border: none;
+    border-bottom: 2px solid white;
+    outline: none;
+    background: transparent;
+
+    &:focus {
+        transition: 0.5s linear;
+        border-bottom: 2px solid CP.$text-color-highlight-green;
+    }
+
+    &:not(:focus) {
+        transition: 0.5s linear;
+        border-bottom: 2px solid white;
+    }
+}
+
+.form-field__label {
+    font-size: 25px;
+    max-width: 200px;
+    color: CP.$text-color-highlight-blue;
+}
+

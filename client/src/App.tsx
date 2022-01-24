@@ -1,4 +1,4 @@
-import "./styles/App.css"
+import "./styles/App.scss"
 import { Route, Routes, Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { changeLanguage } from "./store/reducers/language"

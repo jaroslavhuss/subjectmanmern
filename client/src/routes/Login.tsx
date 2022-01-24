@@ -8,6 +8,9 @@ import { authUserSuccess } from "../store/reducers/auth";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { setAuthToken } from "../utils/setAuthToken";
+import Box from "../atoms/Box";
+import Logo from "../atoms/Logo"
+
 const Login = () => {
     const authState = useSelector((data: any) => {
         return data.auth;
@@ -78,27 +81,25 @@ const Login = () => {
     };
     return (
         <div className="column-center">
-            <h3><Translate translationChunk='login' /></h3>
+            <Logo />
+            <Box header={<Translate translationChunk='login' />}>
             <form onSubmit={submitForm} className="column-center">
 
-                <label htmlFor="email">
-                    {
-                        Lang.emailLogin[lang]
-                    }
-                    <br />
-                    <input required onChange={(e) => { setEmail(e.target.value) }} type="email" name="email" />
-                </label>
-                <label htmlFor="password">
-                    {
-                        Lang.passwordLogin[lang]
-                    }
-                    <br />
-                    <input required onChange={(e) => { setPassword(e.target.value) }} type="password" name="password" />
-                </label>
+            {/* EMAIL */}
+            <div className="form-field">
+                <label className="form-field__label" htmlFor="email" >{ Lang.emailLogin[lang] }</label>
+                <br />
+                <input className="form-field__input" required onChange={(e) => { setEmail(e.target.value) }} type="email" name="email" />
+            </div>
 
-                <input type="submit" value={
-                    Lang.submitBtnLogin[lang]
-                } />
+            {/* PASSWORD */}
+            <div className="form-field">
+                <label className="form-field__label" htmlFor="password"> {Lang.passwordLogin[lang] } </label>
+                <br />
+                <input className="form-field__input" required onChange={(e) => { setPassword(e.target.value) }} type="password" name="password" />
+            </div>
+
+            <input type="submit" value={ Lang.submitBtnLogin[lang] } />
             </form>
             {!errorStatus && <div style={{
                 fontSize: 10,
@@ -107,7 +108,9 @@ const Login = () => {
                 maxWidth: 600,
                 margin: "0 auto"
             }}>{errorMessage}</div>}
+            </Box>
         </div>
+        
     );
 };
 

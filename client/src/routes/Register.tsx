@@ -78,6 +78,7 @@ const Register = () => {
 
     return (
         <div className="column-center">
+            <h1>SUBJECTMAN</h1>
             <h3><Translate translationChunk='register' /></h3>
             <form onSubmit={submitForm} className="column-center" autoComplete="off" style={{ textAlign: "center" }}>
                 <label htmlFor="name">
@@ -104,8 +105,8 @@ const Register = () => {
                     }
                     }>
                         <option value="">--</option>
-                        <option value="daily">Daily</option>
-                        <option value="distant">Distant</option>
+                        <option value="daily">{Lang.formValuesDaily[lang]}</option>
+                        <option value="distant">{Lang.formValuesDistant[lang]}</option>
                     </select>
                 </label>
                 <label htmlFor="level">

@@ -33,6 +33,14 @@ export const Lang : ILang  = {
     cz: "Forma studia",
     en: "Study form",
   },
+  formValuesDaily: {
+    cz: "Denní",
+    en: "Daily",
+  },
+  formValuesDistant: {
+    cz: "Dálková",
+    en: "Distant",
+  },
   level: {
     cz: "Úroveň",
     en: "Level",
