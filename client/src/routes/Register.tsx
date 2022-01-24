@@ -82,15 +82,13 @@ const Register = () => {
             <form onSubmit={submitForm} className="column-center" autoComplete="off" style={{ textAlign: "center" }}>
                 <label htmlFor="name">
                     {
-                        //@ts-ignore
                         Lang.name[lang]
                     }
                     <br />
                     <input value={name} onChange={(e) => { setName(e.target.value) }} type="text" name="name" />
                 </label>
                 <label htmlFor="surname">
-                    {
-                        //@ts-ignore
+                    {  
                         Lang.surname[lang]
                     }
                     <br />
@@ -98,7 +96,6 @@ const Register = () => {
                 </label>
                 <label htmlFor="form">
                     {
-                        //@ts-ignore
                         Lang.form[lang]
                     }
                     <br />
@@ -113,7 +110,6 @@ const Register = () => {
                 </label>
                 <label htmlFor="level">
                     {
-                        //@ts-ignore
                         Lang.level[lang]
                     }
                     <br />
@@ -128,7 +124,6 @@ const Register = () => {
                 </label>
                 <label htmlFor="Language">
                     {
-                        //@ts-ignore
                         Lang.prefferdLanguage[lang]
                     }
                     <br />
@@ -143,7 +138,6 @@ const Register = () => {
                 </label>
                 <label htmlFor="email">
                     {
-                        //@ts-ignore
                         Lang.emailRegister[lang]
                     }
                     <br />
@@ -151,7 +145,6 @@ const Register = () => {
                 </label>
                 <label htmlFor="password">
                     {
-                        //@ts-ignore
                         Lang.passwordRegister[lang]
                     }
                     <br />
@@ -159,14 +152,12 @@ const Register = () => {
                 </label>
                 <label htmlFor="password-cofirm">
                     {
-                        //@ts-ignore
                         Lang.passwordConfirmRegister[lang]
                     }
                     <br />
                     <input value={confirmedPassword} onChange={(e) => { setConfirmedPassword(e.target.value) }} type="password" name="password-cofirm" />
                 </label>
                 <input type="submit" value={
-                    //@ts-ignore
                     Lang.submitBtnRegister[lang]
                 } />
             </form>

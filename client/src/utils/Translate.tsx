@@ -9,7 +9,6 @@ const Translate = ({ translationChunk }: { translationChunk: string }) => {
     return (
         <span>
             {
-                //@ts-ignore
                 Lang[translationChunk][lang]
             }
         </span>

@@ -1,4 +1,12 @@
-export const Lang = {
+interface ILangProps {
+  [key: string]: string
+}
+
+interface ILang {
+  [key: string]: ILangProps;
+}
+
+export const Lang : ILang  = {
   //Menu items
   mainPage: {
     cz: "Hlavní menu",

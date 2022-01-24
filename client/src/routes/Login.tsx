@@ -83,7 +83,6 @@ const Login = () => {
 
                 <label htmlFor="email">
                     {
-                        //@ts-ignore
                         Lang.emailLogin[lang]
                     }
                     <br />
@@ -91,7 +90,6 @@ const Login = () => {
                 </label>
                 <label htmlFor="password">
                     {
-                        //@ts-ignore
                         Lang.passwordLogin[lang]
                     }
                     <br />
@@ -99,7 +97,6 @@ const Login = () => {
                 </label>
 
                 <input type="submit" value={
-                    //@ts-ignore
                     Lang.submitBtnLogin[lang]
                 } />
             </form>
