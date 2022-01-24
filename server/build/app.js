@@ -9,13 +9,13 @@ const Private_1 = require("./routes/Private");
 const Connections_1 = require("./database/Connections");
 const dotenv_1 = require("dotenv");
 const cors_1 = __importDefault(require("cors"));
-dotenv_1.config();
+(0, dotenv_1.config)();
 const PORT = process.env.PORT || 5001;
-const App = express_1.default();
+const App = (0, express_1.default)();
 App.use(express_1.default.json());
-Connections_1.connect();
-App.use("/auth-api/", cors_1.default(), Auth_1.Auth);
-App.use("/api/", cors_1.default(), Private_1.protectedRoute);
+(0, Connections_1.connect)();
+App.use("/auth-api/", (0, cors_1.default)(), Auth_1.Auth);
+App.use("/api/", (0, cors_1.default)(), Private_1.protectedRoute);
 const server = App.listen(PORT, () => {
     console.log("Server is running!");
 });

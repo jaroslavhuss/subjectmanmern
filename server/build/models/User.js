@@ -82,5 +82,5 @@ userSchema.methods.getSignedToken = function () {
         expiresIn: process.env.JWT_EXPIRE,
     });
 };
-exports.User = mongoose_1.model("User", userSchema);
+exports.User = (0, mongoose_1.model)("User", userSchema);
 //# sourceMappingURL=User.js.map

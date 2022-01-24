@@ -13,11 +13,11 @@ exports.Auth = void 0;
 const express_1 = require("express");
 const User_1 = require("../models/User");
 const express_validator_1 = require("express-validator");
-exports.Auth = express_1.Router();
+exports.Auth = (0, express_1.Router)();
 const errorMap = {};
-exports.Auth.post("/register", express_validator_1.body("name").notEmpty().isString(), express_validator_1.body("surname").notEmpty().isString(), express_validator_1.body("form").notEmpty().isString(), express_validator_1.body("level").notEmpty().isString(), express_validator_1.body("language").notEmpty().isString(), express_validator_1.body("email").notEmpty().isEmail(), express_validator_1.body("password").notEmpty().isString().isLength({ min: 6 }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Auth.post("/register", (0, express_validator_1.body)("name").notEmpty().isString(), (0, express_validator_1.body)("surname").notEmpty().isString(), (0, express_validator_1.body)("form").notEmpty().isString(), (0, express_validator_1.body)("level").notEmpty().isString(), (0, express_validator_1.body)("language").notEmpty().isString(), (0, express_validator_1.body)("email").notEmpty().isEmail(), (0, express_validator_1.body)("password").notEmpty().isString().isLength({ min: 6 }), (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, surname, form, level, language, email, password } = req.body;
-    const errors = express_validator_1.validationResult(req);
+    const errors = (0, express_validator_1.validationResult)(req);
     if (errors.isEmpty()) {
         try {
             const doesUserExists = yield User_1.User.findOne({ email });
