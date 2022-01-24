@@ -6,7 +6,7 @@ import validator from "validator";
 import "./Login.css"
 import { authUserSuccess } from "../store/reducers/auth";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { setAuthToken } from "../utils/setAuthToken";
 import Box from "../atoms/Box";
 import Logo from "../atoms/Logo"
@@ -99,18 +99,31 @@ const Login = () => {
                 <input className="form-field__input" required onChange={(e) => { setPassword(e.target.value) }} type="password" name="password" />
             </div>
 
-            <input type="submit" value={ Lang.submitBtnLogin[lang] } />
+            <span style={{ alignSelf: "end", marginRight: "100px", marginBottom: "20px" }}>
+                <input className="submit" type="submit" value={ Lang.submitBtnLogin[lang] } />
+            </span>
             </form>
+
+            {/* ERRORS */}
             {!errorStatus && <div style={{
                 fontSize: 10,
                 color: "red",
                 padding: 10,
                 maxWidth: 600,
                 margin: "0 auto"
-            }}>{errorMessage}</div>}
+            }}>
+            {errorMessage}</div>}
+
+            {/* BOTTOM PART */}
+            <p style={{ marginLeft: "100px", marginBottom: "20px", fontSize: "20px" }}>
+                {Lang.registrationText[lang]}
+                <Link to="/registration"> {Lang.registration[lang]}</Link>
+            </p>
+            <p style={{ marginLeft: "100px", maxWidth: "600px", marginBottom: "20px", fontSize: "15px", color: "grey"}}>
+                {Lang.credits[lang]}
+            </p>
             </Box>
-        </div>
-        
+        </div> 
     );
 };
 

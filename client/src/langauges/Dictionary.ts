@@ -7,6 +7,7 @@ interface ILang {
 }
 
 export const Lang : ILang  = {
+
   //Menu items
   mainPage: {
     cz: "Hlavní menu",
@@ -16,6 +17,7 @@ export const Lang : ILang  = {
     cz: "O nás",
     en: "About",
   },
+
   //Register Component translations
   register: {
     cz: "Registrace",
@@ -69,6 +71,7 @@ export const Lang : ILang  = {
     cz: "Preferovaný Jazyk",
     en: "Preffered Language",
   },
+
   //login
   login: {
     cz: "Přihlášení",
@@ -86,4 +89,16 @@ export const Lang : ILang  = {
     cz: "Přihlásit se",
     en: "Sign in",
   },
+  registrationText: {
+    cz: "Nemáte ještě účet? Zaregistrujte se: ",
+    en: "You dont have an account yet? Register:",
+  },
+  registration: {
+    cz: "ZDE",
+    en: "HERE",
+  },
+  credits: {
+    cz: "Aplikaci SubjectMan, na které se momentálně nacházíte vytvořil tým: Alan Kováč, Jan Vojáček, Jaroslav Huss a Jiří Hejtmánek.",
+    en: "The application on which you are currently using was made by the team of: Alan Kováč, Jan Vojáček, Jaroslav Huss and Jiří Hejtmánek.",
+  }
 };
