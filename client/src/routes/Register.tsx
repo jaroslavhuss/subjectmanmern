@@ -81,15 +81,27 @@ const Register = () => {
             <h3><Translate translationChunk='register' /></h3>
             <form onSubmit={submitForm} className="column-center" autoComplete="off" style={{ textAlign: "center" }}>
                 <label htmlFor="name">
-                    Name <br />
+                    {
+                        //@ts-ignore
+                        Lang.name[lang]
+                    }
+                    <br />
                     <input value={name} onChange={(e) => { setName(e.target.value) }} type="text" name="name" />
                 </label>
                 <label htmlFor="surname">
-                    Surname <br />
+                    {
+                        //@ts-ignore
+                        Lang.surname[lang]
+                    }
+                    <br />
                     <input value={surname} onChange={(e) => { setSurname(e.target.value) }} type="text" name="surname" />
                 </label>
                 <label htmlFor="form">
-                    Form <br />
+                    {
+                        //@ts-ignore
+                        Lang.form[lang]
+                    }
+                    <br />
                     <select onChange={(e) => {
                         setForm(e.target.value)
                     }
@@ -100,7 +112,11 @@ const Register = () => {
                     </select>
                 </label>
                 <label htmlFor="level">
-                    Level <br />
+                    {
+                        //@ts-ignore
+                        Lang.level[lang]
+                    }
+                    <br />
                     <select onChange={(e) => {
                         setLevel(e.target.value)
                     }
@@ -111,13 +127,17 @@ const Register = () => {
                     </select>
                 </label>
                 <label htmlFor="Language">
-                    Preffered Language <br />
+                    {
+                        //@ts-ignore
+                        Lang.prefferdLanguage[lang]
+                    }
+                    <br />
                     <select onChange={(e) => {
                         setPrefferedLanguage(e.target.value)
                     }
                     }>
                         <option value="">--</option>
-                        <option value="eng">eng</option>
+                        <option value="en">en</option>
                         <option value="cz">cz</option>
                     </select>
                 </label>

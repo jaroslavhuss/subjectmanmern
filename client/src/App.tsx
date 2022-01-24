@@ -57,8 +57,8 @@ const App = () => {
         dispatch(changeLanguage(e.target.value))
       }}>
         <option value={lang}>{lang}</option>
-        {lang === "cz" && <option value={"eng"}>{"eng"}</option>}
-        {lang === "eng" && <option value={"cz"}>{"cz"}</option>}
+        {lang === "cz" && <option value={"en"}>{"en"}</option>}
+        {lang === "en" && <option value={"cz"}>{"cz"}</option>}
       </select>
       <Routes>
         <Route path="/registration" element={<Register />} />

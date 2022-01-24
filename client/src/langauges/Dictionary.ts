@@ -1,53 +1,73 @@
 export const Lang = {
   //Menu items
   mainPage: {
-    cz: "Hlavni menu",
-    eng: "Main menu",
+    cz: "Hlavní menu",
+    en: "Main menu",
   },
   about: {
     cz: "O nás",
-    eng: "About",
+    en: "About",
   },
   //Register Component translations
   register: {
     cz: "Registrace",
-    eng: "Registration",
+    en: "Registration",
+  },
+  name: {
+    cz: "Jméno",
+    en: "Name",
+  },
+  surname: {
+    cz: "Přijmení",
+    en: "Surname",
+  },
+  form: {
+    cz: "Forma studia",
+    en: "Study form",
+  },
+  level: {
+    cz: "Úroveň",
+    en: "Level",
   },
   submitBtnRegister: {
     cz: "Zaregistrovat se",
-    eng: "Register",
+    en: "Register",
   },
   usernameRegister: {
     cz: "Uživatelské jméno",
-    eng: "User name",
+    en: "User name",
   },
   emailRegister: {
     cz: "Registrační email",
-    eng: "Register email",
+    en: "Register email",
   },
   passwordRegister: {
     cz: "Heslo",
-    eng: "Password",
+    en: "Password",
   },
   passwordConfirmRegister: {
     cz: "Potvrzení hesla",
-    eng: "Confirm your password",
+    en: "Confirm your password",
+  },
+  prefferdLanguage: {
+    cz: "Preferovaný Jazyk",
+    en: "Preffered Language",
   },
   //login
   login: {
     cz: "Přihlášení",
-    eng: "Log In",
+    en: "Log In",
   },
   emailLogin: {
     cz: "Přihlašovací email",
-    eng: "Email address",
+    en: "Email address",
   },
   passwordLogin: {
     cz: "Heslo",
-    eng: "Password",
+    en: "Password",
   },
   submitBtnLogin: {
     cz: "Přihlásit se",
-    eng: "Sign in",
+    en: "Sign in",
   },
 };
