@@ -47,6 +47,10 @@ const userSchema = new Schema({
   resetPasswordExpire: {
     type: Date,
   },
+  authLevel: {
+    type: String,
+    default: "Student",
+  },
 });
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {

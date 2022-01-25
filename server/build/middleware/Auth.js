@@ -15,6 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.protect = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = require("../models/User");
+const SubjectsView_1 = require("../models/SubjectsView");
 const errorMap = {};
 const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     let token;
@@ -32,14 +33,17 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
         const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
         //@ts-ignore
         const user = yield User_1.User.findById(decoded.id);
+        const subjects = yield SubjectsView_1.SubjectsView.find({});
         if (!user) {
             errorMap.err = "User not found";
             return res.status(404).json({
                 errorMap,
             });
         }
-        //@ts-ignore doprdele
+        //@ts-ignore user
         req.user = user;
+        //@ts-ignore user
+        req.subjects = subjects;
         next();
     }
     catch (error) {
