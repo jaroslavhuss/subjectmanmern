@@ -1,0 +1,11 @@
+.register-form-control {
+  margin-bottom: 25px;
+}
+
+.register-selects {
+  display: grid;
+  width: 600px;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-bottom: 20px;
+  justify-items: center;
+}

@@ -1,0 +1,32 @@
+@use "../../styles/colorPalatte" as CP;
+
+.form-field-select {
+    appearance: none;
+    border: 0;
+    outline: 0;
+
+    border: solid 2px CP.$bg-color-highlight-blue;
+    border-radius: 15px;
+    width: 125px;
+    height: 30px;
+    padding: 0 4em 0 1em;
+    background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg)
+      no-repeat right 0.8em center / 1.4em,
+    linear-gradient(to left, CP.$bg-color-dark, 3em, CP.$bg-color-light 3em);
+    color: white;
+    cursor: pointer;
+
+    &:focus {
+        transition: 0.5s linear;
+        border: solid 2px CP.$bg-color-highlight-green;
+    }
+
+    &:not(:focus) {
+        transition: 0.5s linear;
+        border: solid 2px CP.$bg-color-highlight-blue;
+    }
+
+    option {
+        background-color: CP.$bg-color-light;
+    }
+}

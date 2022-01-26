@@ -1,0 +1,40 @@
+.column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-width: 800px;
+}
+
+.credits {
+    margin-left: 100px; 
+    max-width: 600px; 
+    margin-bottom: 20px; 
+    font-size: 15px; 
+    color: grey;
+}
+
+.login-registration {
+    margin-left: 100px; 
+    margin-bottom: 20px; 
+    font-size: 20px;
+}
+
+.login-submit {
+    align-self: end; 
+    margin-right: 100px; 
+    margin-bottom: 20px;
+}
+
+.header-languge-switch {
+    float: right;
+    margin-right: 100px;
+}
+
+.header-title {
+  float: center;
+}
+
+.header-languge-switch, .header-title {
+    display: block;
+}

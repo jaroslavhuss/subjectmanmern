@@ -7,6 +7,13 @@
         color: CP.$text-color-highlight-blue;
         animation:blinking-S 3s infinite;
         font-size: 100px;
+
+        &-small {
+            font-size: 25px;
+            font-family: 'Orbitron', sans-serif;
+            color: CP.$text-color-highlight-blue;
+            animation:blinking-S 3s infinite;
+        }
     }
 
     &__M {
@@ -14,11 +21,23 @@
         color: CP.$text-color-highlight-green;
         animation:blinking-M 1s infinite;
         font-size: 100px;
+
+        &-small {
+            font-size: 25px;
+            font-family: 'Orbitron', sans-serif;
+            color: CP.$text-color-highlight-green;
+            animation:blinking-M 1s infinite;
+        }
     }
 
     &__text {
         font-family: 'Orbitron', sans-serif;
         font-size: 75px;
+
+        &-small {
+            font-size: 19px;
+            font-family: 'Orbitron', sans-serif;
+        }
     }
 }
 

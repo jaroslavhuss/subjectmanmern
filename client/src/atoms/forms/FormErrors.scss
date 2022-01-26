@@ -1,0 +1,24 @@
+@use "../../styles/colorPalatte" as CP;
+
+.form-error {
+    color: CP.$text-color-highlight-red;
+    max-width: 600px;
+    margin-left: 100px;
+    margin-right: 100px;
+    margin-top: 10px;
+    margin-bottom: 25px;
+    border: solid 1px CP.$bg-color-highlight-red;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    &__icon {
+        font-size: 25px;
+        margin-right: 10px;
+    }
+
+    &__text {
+        font-size: 20px;
+    }
+}
