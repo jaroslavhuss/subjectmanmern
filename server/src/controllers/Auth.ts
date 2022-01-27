@@ -84,5 +84,6 @@ const sendToken = (user: any, statusCode: any, res: any) => {
   res.status(statusCode).json({
     success: true,
     token,
+    errorMap,
   });
 };
