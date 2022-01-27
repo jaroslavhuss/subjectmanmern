@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.protect = void 0;
+exports.protectedSubjectManipulation = exports.protect = void 0;
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const User_1 = require("../models/User");
 const SubjectsView_1 = require("../models/SubjectsView");
@@ -54,4 +54,51 @@ const protect = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.protect = protect;
+const protectedSubjectManipulation = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    let token;
+    if (req.headers.authorization &&
+        req.headers.authorization.startsWith("Bearer")) {
+        token = req.headers.authorization.split(" ")[1];
+    }
+    if (!token) {
+        errorMap.err = "Not authorized";
+        return res.status(401).json({
+            errorMap,
+        });
+    }
+    try {
+        const decoded = jsonwebtoken_1.default.verify(token, process.env.JWT_SECRET);
+        //@ts-ignore
+        const user = yield User_1.User.findById(decoded.id);
+        if (!user) {
+            errorMap.err = "User not found";
+            return res.status(404).json({
+                errorMap,
+            });
+        }
+        else {
+            const findSubjectForSubscribe = yield SubjectsView_1.SubjectsView.findById(req.body.subject);
+            const currentSubjects = user.Subjects;
+            //@ts-ignore
+            currentSubjects.push(findSubjectForSubscribe);
+            //@ts-ignore
+            yield User_1.User.findByIdAndUpdate(
+            //@ts-ignore
+            { _id: decoded.id }, 
+            //@ts-ignore
+            { $set: { Subjects: currentSubjects } });
+            //@ts-ignore
+            req.user = user;
+            next();
+        }
+    }
+    catch (error) {
+        console.log(error);
+        errorMap.err = "Not authorized";
+        return res.status(401).json({
+            errorMap,
+        });
+    }
+});
+exports.protectedSubjectManipulation = protectedSubjectManipulation;
 //# sourceMappingURL=Auth.js.map

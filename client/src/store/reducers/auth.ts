@@ -7,6 +7,7 @@ export const authSlice = createSlice({
     loading: true,
     error: null,
     user: {} || null,
+    subjects: [],
   },
   reducers: {
     authUserSuccess: (state, action) => {
@@ -15,6 +16,7 @@ export const authSlice = createSlice({
       state.token = action.payload.token;
       state.loading = false;
       state.user = action.payload.user;
+      state.subjects = action.payload.subjects;
     },
     authUserFailed: (state) => {
       localStorage.removeItem("token");

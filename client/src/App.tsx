@@ -17,7 +17,8 @@ const App = () => {
       if (res.msg) {
         dispatch(authUserSuccess({
           user: res.user,
-          token: token
+          token: token,
+          subjects: res.subjects
         }))
         navigate("/dashboard")
       } else {

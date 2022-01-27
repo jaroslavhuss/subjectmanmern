@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const Auth_1 = require("./controllers/Auth");
 const Private_1 = require("./routes/Private");
+const userSubject_1 = require("./routes/userSubject");
 const Connections_1 = require("./database/Connections");
 const dotenv_1 = require("dotenv");
 const cors_1 = __importDefault(require("cors"));
@@ -16,6 +17,7 @@ App.use(express_1.default.json());
 Connections_1.connect();
 App.use("/auth-api/", cors_1.default(), Auth_1.Auth);
 App.use("/api/", cors_1.default(), Private_1.protectedRoute);
+App.use("/api/", cors_1.default(), userSubject_1.subscribeSubject);
 const server = App.listen(PORT, () => {
     console.log("Server is running!");
 });
