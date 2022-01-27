@@ -61,6 +61,10 @@ const userSchema = new mongoose_1.Schema({
     resetPasswordExpire: {
         type: Date,
     },
+    authLevel: {
+        type: String,
+        default: "Student",
+    },
 });
 userSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {

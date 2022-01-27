@@ -9,6 +9,8 @@ exports.protectedRoute.get("/protected/", Auth_1.protect, (req, res) => {
         msg: "You are now authorized",
         //@ts-ignore
         user: req.user,
+        //@ts-ignore
+        subjects: req.subjects,
     });
 });
 //# sourceMappingURL=Private.js.map
