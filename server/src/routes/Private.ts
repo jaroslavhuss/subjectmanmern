@@ -7,5 +7,7 @@ protectedRoute.get("/protected/", protect, (req: Request, res: Response) => {
     msg: "You are now authorized",
     //@ts-ignore
     user: req.user,
+    //@ts-ignore
+    subjects: req.subjects,
   });
 });

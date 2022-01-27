@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/User";
+import { SubjectsView } from "../models/SubjectsView";
 import { Request, Response, NextFunction } from "express";
 import { ErrorInterface } from "../interface/AuthInterface";
 const errorMap: ErrorInterface = {};
@@ -28,14 +29,18 @@ export const protect = async (
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     //@ts-ignore
     const user = await User.findById(decoded.id);
+    const subjects = await SubjectsView.find({});
     if (!user) {
       errorMap.err = "User not found";
       return res.status(404).json({
         errorMap,
       });
     }
-    //@ts-ignore doprdele
+
+    //@ts-ignore user
     req.user = user;
+    //@ts-ignore user
+    req.subjects = subjects;
     next();
   } catch (error) {
     errorMap.err = "Not authorized";

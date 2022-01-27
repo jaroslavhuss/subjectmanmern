@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.connect = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = require("dotenv");
-(0, dotenv_1.config)();
+dotenv_1.config();
 const connect = () => __awaiter(void 0, void 0, void 0, function* () {
     /**
      *   const dev_mode = process.env.DEV_MODE;

@@ -61,6 +61,10 @@ const userSchema = new mongoose_1.Schema({
     resetPasswordExpire: {
         type: Date,
     },
+    authLevel: {
+        type: String,
+        default: "Student",
+    },
 });
 userSchema.pre("save", function (next) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -82,5 +86,5 @@ userSchema.methods.getSignedToken = function () {
         expiresIn: process.env.JWT_EXPIRE,
     });
 };
-exports.User = (0, mongoose_1.model)("User", userSchema);
+exports.User = mongoose_1.model("User", userSchema);
 //# sourceMappingURL=User.js.map
