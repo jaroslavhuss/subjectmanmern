@@ -2,7 +2,6 @@ import { Response, Request, Router } from "express";
 import { SubjectsView } from "../models/SubjectsView";
 import { protect } from "../middleware/Auth";
 import { ErrorInterface } from "../interface/AuthInterface";
-import Validator from "express-validator";
 const errorMap: ErrorInterface = {};
 
 export const Subject = Router();
