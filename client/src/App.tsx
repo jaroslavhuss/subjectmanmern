@@ -25,7 +25,8 @@ const App = () => {
       if (res.msg) {
         dispatch(authUserSuccess({
           user: res.user,
-          token: token
+          token: token,
+          subjects: res.subjects
         }))
         navigate("/dashboard")
       } else {
@@ -57,8 +58,8 @@ const App = () => {
         dispatch(changeLanguage(e.target.value))
       }}>
         <option value={lang}>{lang}</option>
-        {lang === "cz" && <option value={"en"}>{"en"}</option>}
-        {lang === "en" && <option value={"cz"}>{"cz"}</option>}
+        {lang === "cs" && <option value={"en"}>{"en"}</option>}
+        {lang === "en" && <option value={"cs"}>{"cs"}</option>}
       </select>
       <Routes>
         <Route path="/registration" element={<Register />} />
