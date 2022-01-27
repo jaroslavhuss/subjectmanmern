@@ -14,9 +14,7 @@ import FormSelect from "../atoms/forms/FormSelect";
 
 const Register = () => {
     const navigate = useNavigate();
-    const lang = useSelector((data: any) => {
-        return data.language.language
-    })
+    const lang = useSelector((data: any) => { return data.language.language })
     const [name, setName] = useState<string>("");
     const [surname, setSurname] = useState<string>("");
     const [form, setForm] = useState<string>( Lang.formValuesDaily[lang] );

@@ -1,6 +1,5 @@
 import { Lang } from "../langauges/Dictionary"
 import { useSelector, useDispatch } from "react-redux";
-//import Translate from "../utils/Translate";
 import React, { useState } from "react";
 import validator from "validator";
 import "./Login.scss"
@@ -15,27 +14,16 @@ import FormErrors from "../atoms/forms/FormErrors";
 import LanguageSwitch from "../atoms/forms/LanguageSwitch";
 
 const Login = () => {
-    const authState = useSelector((data: any) => {
-        return data.auth;
-    })
-
+    const authState = useSelector((data: any) => { return data.auth; })
     const navigate = useNavigate();
-    useEffect(() => {
-        console.log(authState);
-        if (authState.isAuthenticated) {
-            navigate("/dashboard")
-        }
-
-    }, [authState, navigate]);
+    useEffect(() => { if (authState.isAuthenticated) { navigate("/dashboard") } }, [authState, navigate]);
 
     const dispatch = useDispatch();
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [errorMessage, setErrorMessage] = useState<string>("");
     const [errorStatus, setErrorStatus] = useState<boolean>(true);
-    const lang = useSelector((data: any) => {
-        return data.language.language
-    })
+    const lang = useSelector((data: any) => { return data.language.language })
 
     const submitForm = async (e: any) => {
         e.preventDefault();
