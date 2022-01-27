@@ -1,3 +1,4 @@
+import {Server} from "http";
 import Express from "express";
 import { Auth } from "./controllers/Auth";
 import { protectedRoute } from "./routes/Private";
@@ -15,13 +16,21 @@ App.use("/auth-api/", cors(), Auth);
 App.use("/api/", cors(), protectedRoute);
 App.use("/api/", cors(), subscribeSubject);
 
-const server = App.listen(PORT, () => {
-  console.log("Server is running!");
-});
+let server: Server;
+
+if (process.env.TEST !== 'TRUE') {
+  server = App.listen(PORT, () => {
+    console.log("Server is running!");
+  });
+}
 
 process.on("unhandledRejection", (err, promise) => {
   console.log(`Error: ${err}`);
-  server.close(() => {
-    process.exit(1);
-  });
+  if (server) {
+    server.close(() => {
+      process.exit(1);
+    });
+  }
 });
+
+export default App;

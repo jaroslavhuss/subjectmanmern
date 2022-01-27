@@ -31,8 +31,8 @@ export const Lang: ILang = {
     en: "Surname",
   },
   form: {
-    cs: "Forma studia",
-    en: "Study form",
+    cz: "Forma",
+    en: "Form",
   },
   formValuesDaily: {
     cs: "Denní",
@@ -49,6 +49,10 @@ export const Lang: ILang = {
   submitBtnRegister: {
     cs: "Zaregistrovat se",
     en: "Register",
+  },
+  backBtnRegister: {
+    cz: "Zpět",
+    en: "Back",
   },
   usernameRegister: {
     cs: "Uživatelské jméno",
@@ -67,8 +71,8 @@ export const Lang: ILang = {
     en: "Confirm your password",
   },
   prefferdLanguage: {
-    cs: "Preferovaný Jazyk",
-    en: "Preffered Language",
+    cz: "Jazyk",
+    en: "Language",
   },
 
   //login
@@ -99,5 +103,35 @@ export const Lang: ILang = {
   credits: {
     cs: "Aplikaci SubjectMan, na které se momentálně nacházíte vytvořil tým: Alan Kováč, Jan Vojáček, Jaroslav Huss a Jiří Hejtmánek.",
     en: "The application on which you are currently using was made by the team of: Alan Kováč, Jan Vojáček, Jaroslav Huss and Jiří Hejtmánek.",
+  },
+
+   //App Bar
+   btnLogOff: {
+    cz: "Odhlásit",
+    en: "Log off",
+  },
+  profileLabel: {
+    cz: "Profil",
+    en: "Profile",
+  },
+  profileName: {
+    cz: "Jméno",
+    en: "Name",
+  },
+  profileEmail: {
+    cz: "Email",
+    en: "Email",
+  },
+  profileForm: {
+    cz: "Forma studia",
+    en: "Study form",
+  },
+  profileLevel: {
+    cz: "Úroveň",
+    en: "Level",
+  },
+  profileLanguage: {
+    cz: "Jazyk",
+    en: "Language",
   },
 };

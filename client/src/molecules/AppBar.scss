@@ -1,0 +1,25 @@
+.app-bar {
+    height: 42px;
+
+    &__section-right {
+        display: block;
+        float: right;
+        margin-top: 5px;
+        margin-right: 10px;
+    }
+
+    &__section-left {
+        display: block;
+        float: left;
+        margin-left: 10px;
+    }
+}
+
+.switch-bar {
+    vertical-align: middle;
+}
+
+.padder {
+    margin-left: 5px;
+    margin-right: 5px;
+}

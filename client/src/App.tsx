@@ -1,8 +1,6 @@
 import "./styles/App.scss"
-import { Route, Routes, Link, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { changeLanguage } from "./store/reducers/language"
-import Translate from "./utils/Translate";
+import { Route, Routes, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Register from "./routes/Register";
 import Login from "./routes/Login";
 import StudentsDashboard from "./routes/StudentsDashboard";
@@ -13,12 +11,6 @@ import { setAuthToken } from "./utils/setAuthToken";
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const lang = useSelector((data: any) => {
-    return data.language.language
-  })
-  const auth = useSelector((data: any) => {
-    return data.auth.isAuthenticated
-  })
   useEffect(() => {
     const token = localStorage.getItem("token")
     setAuthToken(token).then((res) => {
@@ -31,43 +23,19 @@ const App = () => {
         navigate("/dashboard")
       } else {
         dispatch(authUserFailed())
-
       }
-
     }
     )
-
   },
     [dispatch, navigate])
   return (
     <div className="container">
-
-      {!auth &&
-        <><Link to="/registration"><Translate translationChunk="register" />
-        </Link>
-          {" | "}
-          <Link to="/login"><Translate translationChunk="login" /></Link></>
-      }
-      {auth && <button onClick={() => {
-        //Odhlášení uživatele
-        dispatch(authUserFailed())
-        localStorage.clear()
-      }
-      }>Odhlásit se</button>}
-      <select onChange={(e) => {
-        dispatch(changeLanguage(e.target.value))
-      }}>
-        <option value={lang}>{lang}</option>
-        {lang === "cs" && <option value={"en"}>{"en"}</option>}
-        {lang === "en" && <option value={"cs"}>{"cs"}</option>}
-      </select>
       <Routes>
         <Route path="/registration" element={<Register />} />
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<StudentsDashboard />} />
         <Route path="*" element={<Login />} />
       </Routes>
-
     </div>
   )
 }

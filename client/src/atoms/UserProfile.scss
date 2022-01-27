@@ -1,0 +1,46 @@
+@use "../styles/colorPalatte" as CP;
+
+.user-pill {
+    border: 2px solid CP.$bg-color-highlight-blue;
+    transition: 0.25s;
+    color: white;
+    border-radius: 25px;
+    padding: 2px;
+    height: 30px;
+    width: 100px;
+    text-align: center;
+    display: inline-block;
+
+    &:hover {
+        transition: 0.5s linear;
+        border: solid 2px CP.$bg-color-highlight-green;
+    }
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+
+    &__content {
+        display: none;
+        position: absolute;
+        background-color: CP.$bg-color-dark;
+        min-width: 300px;
+        z-index: 1;
+        border: solid 2px CP.$bg-color-highlight-blue;
+        border-top-right-radius: 25px;
+        border-bottom-left-radius: 25px;
+        border-bottom-right-radius: 25px;
+        margin-top: 2px;
+    }
+
+    &__content span {
+        color: white;
+        padding: 12px 16px;
+        display: block;
+    }
+
+    &:hover &__content {
+        display: block;
+    }
+}

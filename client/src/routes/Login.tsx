@@ -1,15 +1,18 @@
 import { Lang } from "../langauges/Dictionary"
 import { useSelector, useDispatch } from "react-redux";
-import Translate from "../utils/Translate";
-import { useState } from "react";
+//import Translate from "../utils/Translate";
+import React, { useState } from "react";
 import validator from "validator";
-import "./Login.css"
+import "./Login.scss"
 import { authUserSuccess } from "../store/reducers/auth";
 import { useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { setAuthToken } from "../utils/setAuthToken";
 import Box from "../atoms/Box";
 import Logo from "../atoms/Logo"
+import InputText from "../atoms/forms/InputText";
+import FormErrors from "../atoms/forms/FormErrors";
+import LanguageSwitch from "../atoms/forms/LanguageSwitch";
 
 const Login = () => {
     const authState = useSelector((data: any) => {
@@ -46,17 +49,13 @@ const Login = () => {
         else {
             try {
                 const response = await fetch("http://localhost:5001/auth-api/login", {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { 'Content-Type': 'application/json' },
                     method: "post",
-                    body: JSON.stringify({
-                        email,
-                        password
-                    })
+                    body: JSON.stringify({ email, password })
                 })
+
                 const data: { success: boolean, errorMap: { err: [] }, token: string } = await response.json();
-                console.log(data)
+
                 if (!data.success) {
                     setErrorStatus(false);
                     setErrorMessage(JSON.stringify(data.errorMap.err))
@@ -82,46 +81,42 @@ const Login = () => {
     return (
         <div className="column-center">
             <Logo />
-            <Box header={<Translate translationChunk='login' />}>
+            <Box header={
+                <div> 
+                    <span className="header-title">{Lang.login[lang]}</span>
+                    <span className="header-languge-switch"><LanguageSwitch></LanguageSwitch></span>  
+                </div> 
+            }>
+
             <form onSubmit={submitForm} className="column-center">
 
             {/* EMAIL */}
-            <div className="form-field">
-                <label className="form-field__label" htmlFor="email" >{ Lang.emailLogin[lang] }</label>
-                <br />
-                <input className="form-field__input" required onChange={(e) => { setEmail(e.target.value) }} type="email" name="email" />
-            </div>
+            <InputText 
+                label={ Lang.emailLogin[lang] } 
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value) }}
+                htmlFor="email"  
+                type="email" 
+                name="email">
+            </InputText>
 
             {/* PASSWORD */}
-            <div className="form-field">
-                <label className="form-field__label" htmlFor="password"> {Lang.passwordLogin[lang] } </label>
-                <br />
-                <input className="form-field__input" required onChange={(e) => { setPassword(e.target.value) }} type="password" name="password" />
-            </div>
+            <InputText 
+                label={ Lang.passwordLogin[lang] } 
+                onChange={(e: React.ChangeEvent<HTMLInputElement>): void  => { setPassword(e.target.value) }}
+                htmlFor="password"  
+                type="password" 
+                name="password">
+            </InputText>
 
-            <span style={{ alignSelf: "end", marginRight: "100px", marginBottom: "20px" }}>
-                <input className="submit" type="submit" value={ Lang.submitBtnLogin[lang] } />
-            </span>
+            <span className="login-submit"><input className="submit" type="submit" value={ Lang.submitBtnLogin[lang] } /></span>
             </form>
 
             {/* ERRORS */}
-            {!errorStatus && <div style={{
-                fontSize: 10,
-                color: "red",
-                padding: 10,
-                maxWidth: 600,
-                margin: "0 auto"
-            }}>
-            {errorMessage}</div>}
+            {!errorStatus && <FormErrors error={ errorMessage } ></FormErrors>}
 
-            {/* BOTTOM PART */}
-            <p style={{ marginLeft: "100px", marginBottom: "20px", fontSize: "20px" }}>
-                {Lang.registrationText[lang]}
-                <Link to="/registration"> {Lang.registration[lang]}</Link>
-            </p>
-            <p style={{ marginLeft: "100px", maxWidth: "600px", marginBottom: "20px", fontSize: "15px", color: "grey"}}>
-                {Lang.credits[lang]}
-            </p>
+            {/* FOOTER*/}
+            <p className="login-registration"> {Lang.registrationText[lang]} <Link to="/registration"> {Lang.registration[lang]} </Link></p>
+            <p className="credits"> {Lang.credits[lang]} </p>
             </Box>
         </div> 
     );
