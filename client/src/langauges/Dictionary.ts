@@ -31,7 +31,7 @@ export const Lang: ILang = {
     en: "Surname",
   },
   form: {
-    cz: "Forma",
+    cs: "Forma",
     en: "Form",
   },
   formValuesDaily: {
@@ -51,7 +51,7 @@ export const Lang: ILang = {
     en: "Register",
   },
   backBtnRegister: {
-    cz: "Zpět",
+    cs: "Zpět",
     en: "Back",
   },
   usernameRegister: {
@@ -71,7 +71,7 @@ export const Lang: ILang = {
     en: "Confirm your password",
   },
   prefferdLanguage: {
-    cz: "Jazyk",
+    cs: "Jazyk",
     en: "Language",
   },
 
@@ -107,31 +107,31 @@ export const Lang: ILang = {
 
    //App Bar
    btnLogOff: {
-    cz: "Odhlásit",
+    cs: "Odhlásit",
     en: "Log off",
   },
   profileLabel: {
-    cz: "Profil",
+    cs: "Profil",
     en: "Profile",
   },
   profileName: {
-    cz: "Jméno",
+    cs: "Jméno",
     en: "Name",
   },
   profileEmail: {
-    cz: "Email",
+    cs: "Email",
     en: "Email",
   },
   profileForm: {
-    cz: "Forma studia",
+    cs: "Forma studia",
     en: "Study form",
   },
   profileLevel: {
-    cz: "Úroveň",
+    cs: "Úroveň",
     en: "Level",
   },
   profileLanguage: {
-    cz: "Jazyk",
+    cs: "Jazyk",
     en: "Language",
   },
 };

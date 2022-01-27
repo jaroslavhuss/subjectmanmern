@@ -11,8 +11,8 @@ function LanguageSwitch () {
     return (
         <select className="language-switch" onChange={(e) => { dispatch(changeLanguage(e.target.value)) }}>
             <option value={lang}>{lang}</option>
-            { lang === "cz" && <option value={"en"}>{"en"} </option>}
-            { lang === "en" && <option value={"cz"}>{"cz"} </option>}  
+            { lang === "cs" && <option value={"en"}>{"en"} </option>}
+            { lang === "en" && <option value={"cs"}>{"cs"} </option>}  
         </select>  
     )
 }
