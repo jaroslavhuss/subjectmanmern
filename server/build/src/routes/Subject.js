@@ -14,6 +14,7 @@ const express_1 = require("express");
 const SubjectsView_1 = require("../models/SubjectsView");
 const Auth_1 = require("../middleware/Auth");
 const Subject_1 = require("../models/Subject");
+const mongodb_1 = require("mongodb");
 const errorMap = {};
 exports.Subject = (0, express_1.Router)();
 /**
@@ -47,18 +48,16 @@ exports.Subject.get("/subjects", Auth_1.protect, (req, res) => __awaiter(void 0,
 exports.Subject.post("/subject/update", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const subjectToUpdate = req.body.subject;
     const topicsObjectId = subjectToUpdate.topics.map((topic) => {
-        return topic;
+        return new mongodb_1.ObjectId(topic);
     });
-    subjectToUpdate.topics = topicsObjectId;
+    // subjectToUpdate.topics = topicsObjectId;
     const tutorsObjectId = subjectToUpdate.tutors.map((tutor) => {
-        return tutor;
+        return new mongodb_1.ObjectId(tutor);
     });
     //@ts-ignore
     subjectToUpdate.tutors = tutorsObjectId;
     try {
-        const getSubjectBeforeUpdate = yield Subject_1.SubjectModel.findByIdAndUpdate(subjectToUpdate._id, 
-        //@ts-ignore
-        subjectToUpdate, { new: true, upsert: true, setDefaultsOnInsert: true });
+        const getSubjectBeforeUpdate = yield Subject_1.SubjectModel.findByIdAndUpdate(subjectToUpdate._id, Object.assign(Object.assign({}, subjectToUpdate), { topics: topicsObjectId, tutors: tutorsObjectId }), { new: true, upsert: true, setDefaultsOnInsert: true });
         res.status(200).json({
             errorMap,
             success: true,

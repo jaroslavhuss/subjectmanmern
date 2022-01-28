@@ -2,7 +2,7 @@ import { Response, Request, Router } from "express";
 import { SubjectsView } from "../models/SubjectsView";
 import { protect } from "../middleware/Auth";
 import { ErrorInterface } from "../interface/AuthInterface";
-import { SubjectInterface } from "../interface/SubjectInterface";
+import {SubjectInterfaceRequestBody} from "../interface/SubjectInterface";
 import { SubjectModel } from "../models/Subject";
 import { ObjectId } from "mongodb";
 
@@ -43,22 +43,21 @@ Subject.post(
   "/subject/update",
   protect,
   async (req: Request, res: Response) => {
-    const subjectToUpdate: SubjectInterface = req.body.subject;
+    const subjectToUpdate: SubjectInterfaceRequestBody = req.body.subject;
+
     const topicsObjectId = subjectToUpdate.topics.map((topic) => {
-      return topic;
+      return new ObjectId(topic);
     });
 
-    subjectToUpdate.topics = topicsObjectId;
     const tutorsObjectId = subjectToUpdate.tutors.map((tutor) => {
-      return tutor;
+      return new ObjectId(tutor);
     });
-    //@ts-ignore
-    subjectToUpdate.tutors = tutorsObjectId;
+
     try {
       const getSubjectBeforeUpdate = await SubjectModel.findByIdAndUpdate(
         subjectToUpdate._id,
         //@ts-ignore
-        subjectToUpdate,
+          {...subjectToUpdate, topics: topicsObjectId, tutors: tutorsObjectId },
         { new: true, upsert: true, setDefaultsOnInsert: true }
       );
 
