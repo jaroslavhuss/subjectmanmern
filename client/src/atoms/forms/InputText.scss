@@ -6,7 +6,6 @@
 
 .form-field__input {
     width: 100%;
-    min-width: 600px;
     padding: 5px 0;
     font-size: 35px;
     color: white;
@@ -24,5 +23,14 @@
     &:not(:focus) {
         transition: 0.5s linear;
         border-bottom: 2px solid white;
+    }
+
+    &-small {
+        font-size: 20px;
+        max-width: 250px;
+    }
+
+    &-big {
+        min-width: 600px;
     }
 }

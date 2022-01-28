@@ -134,4 +134,15 @@ export const Lang: ILang = {
     cs: "Jazyk",
     en: "Language",
   },
+
+  //dahboard
+  dashboardSearchTitle: {
+    cs: "Vyhledej předměty",
+    en: "Search subjects",
+  },
+  
+  dashboardEnrolledSubjects: {
+    cs: "Zapsané předměty",
+    en: "Enrolled subjects",
+  },
 };
