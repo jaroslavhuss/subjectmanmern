@@ -23,7 +23,22 @@ const subjectSchema = new mongoose_1.Schema({
         type: Array,
         required: [true, "At least one topic must be within the subject"],
     },
-    languages: { type: Array, required: [true, "Language object is missing"] },
+    languages: {
+        cz: {
+            name: String,
+            goal: String,
+            description: String,
+            langSeverity: String,
+            langForm: Array,
+        },
+        eng: {
+            name: String,
+            goal: String,
+            description: String,
+            langSeverity: String,
+            langForm: Array,
+        },
+    },
     tutors: {
         type: Array,
         required: [true, "At least one tutor has to be filled in"],
@@ -31,10 +46,6 @@ const subjectSchema = new mongoose_1.Schema({
     forms: {
         type: Array,
         required: [true, "Study form has to be selected"],
-    },
-    tutorials: {
-        type: Object,
-        require: [true, "At least one tutorial has to be filled!"],
     },
 });
 exports.SubjectModel = (0, mongoose_1.model)("subject", subjectSchema);

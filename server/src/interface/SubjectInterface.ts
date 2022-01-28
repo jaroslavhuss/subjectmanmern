@@ -1,26 +1,28 @@
+import { ObjectId } from "mongoose";
+
 export interface SubjectInterface {
   _id: String;
-  credits: Number;
-  degree: String;
-  forms: String[];
-  links: String[];
-  severity: String;
-  topics: String[];
-  tutors: String[];
+  credits: number; //checked
+  degree: string; //checked
+  forms: string[]; //checked
+  links: string[]; //checked
+  severity: string; //Checked
+  topics: ObjectId[]; //Checked
+  tutors: ObjectId[]; //checked
   languages: {
     cs: {
-      name: String;
-      goal: String;
-      description: String;
-      langSeverity: String;
-      langForm: String[];
+      name: string;
+      goal: string;
+      description: string;
+      langSeverity: string;
+      langForm: string[];
     };
     eng: {
-      name: String;
-      goal: String;
-      description: String;
-      langSeverity: String;
-      langForm: String[];
+      name: string;
+      goal: string;
+      description: string;
+      langSeverity: string;
+      langForm: string[];
     };
   };
 }

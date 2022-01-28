@@ -46,11 +46,34 @@ exports.Subject.get("/subjects", Auth_1.protect, (req, res) => __awaiter(void 0,
 }));
 exports.Subject.post("/subject/update", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const subjectToUpdate = req.body.subject;
-    const getSubjectBeforeUpdate = yield Subject_1.SubjectModel.findById(subjectToUpdate._id);
-    res.status(200).json({
-        errorMap,
-        success: true,
-        subject: getSubjectBeforeUpdate,
+    const topicsObjectId = subjectToUpdate.topics.map((topic) => {
+        return topic;
     });
+    subjectToUpdate.topics = topicsObjectId;
+    const tutorsObjectId = subjectToUpdate.tutors.map((tutor) => {
+        return tutor;
+    });
+    //@ts-ignore
+    subjectToUpdate.tutors = tutorsObjectId;
+    try {
+        const getSubjectBeforeUpdate = yield Subject_1.SubjectModel.findByIdAndUpdate(subjectToUpdate._id, 
+        //@ts-ignore
+        subjectToUpdate, { new: true, upsert: true, setDefaultsOnInsert: true });
+        res.status(200).json({
+            errorMap,
+            success: true,
+            subject: getSubjectBeforeUpdate,
+        });
+    }
+    catch (error) {
+        if (error) {
+            errorMap.err = error.message;
+            res.status(500).json({
+                success: false,
+                errorMap,
+                subjectToUpdate,
+            });
+        }
+    }
 }));
 //# sourceMappingURL=Subject.js.map

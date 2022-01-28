@@ -4,6 +4,8 @@ import { protect } from "../middleware/Auth";
 import { ErrorInterface } from "../interface/AuthInterface";
 import { SubjectInterface } from "../interface/SubjectInterface";
 import { SubjectModel } from "../models/Subject";
+import { ObjectId } from "mongodb";
+
 const errorMap: ErrorInterface = {};
 
 export const Subject = Router();
@@ -42,14 +44,38 @@ Subject.post(
   protect,
   async (req: Request, res: Response) => {
     const subjectToUpdate: SubjectInterface = req.body.subject;
-    const getSubjectBeforeUpdate = await SubjectModel.findById(
-      subjectToUpdate._id
-    );
-
-    res.status(200).json({
-      errorMap,
-      success: true,
-      subject: getSubjectBeforeUpdate,
+    const topicsObjectId = subjectToUpdate.topics.map((topic) => {
+      return topic;
     });
+
+    subjectToUpdate.topics = topicsObjectId;
+    const tutorsObjectId = subjectToUpdate.tutors.map((tutor) => {
+      return tutor;
+    });
+    //@ts-ignore
+    subjectToUpdate.tutors = tutorsObjectId;
+    try {
+      const getSubjectBeforeUpdate = await SubjectModel.findByIdAndUpdate(
+        subjectToUpdate._id,
+        //@ts-ignore
+        subjectToUpdate,
+        { new: true, upsert: true, setDefaultsOnInsert: true }
+      );
+
+      res.status(200).json({
+        errorMap,
+        success: true,
+        subject: getSubjectBeforeUpdate,
+      });
+    } catch (error) {
+      if (error) {
+        errorMap.err = error.message;
+        res.status(500).json({
+          success: false,
+          errorMap,
+          subjectToUpdate,
+        });
+      }
+    }
   }
 );
