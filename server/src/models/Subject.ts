@@ -35,3 +35,4 @@ const subjectSchema = new Schema({
     require: [true, "At least one tutorial has to be filled!"],
   },
 });
+export const SubjectModel = model("subject", subjectSchema);

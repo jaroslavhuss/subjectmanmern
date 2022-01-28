@@ -13,6 +13,7 @@ exports.Subject = void 0;
 const express_1 = require("express");
 const SubjectsView_1 = require("../models/SubjectsView");
 const Auth_1 = require("../middleware/Auth");
+const Subject_1 = require("../models/Subject");
 const errorMap = {};
 exports.Subject = (0, express_1.Router)();
 /**
@@ -42,5 +43,14 @@ exports.Subject.get("/subjects", Auth_1.protect, (req, res) => __awaiter(void 0,
             success: true,
         });
     }
+}));
+exports.Subject.post("/subject/update", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const subjectToUpdate = req.body.subject;
+    const getSubjectBeforeUpdate = yield Subject_1.SubjectModel.findById(subjectToUpdate._id);
+    res.status(200).json({
+        errorMap,
+        success: true,
+        subject: getSubjectBeforeUpdate,
+    });
 }));
 //# sourceMappingURL=Subject.js.map

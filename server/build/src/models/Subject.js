@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.SubjectModel = void 0;
 const mongoose_1 = require("mongoose");
 const subjectSchema = new mongoose_1.Schema({
     credits: {
@@ -36,4 +37,5 @@ const subjectSchema = new mongoose_1.Schema({
         require: [true, "At least one tutorial has to be filled!"],
     },
 });
+exports.SubjectModel = (0, mongoose_1.model)("subject", subjectSchema);
 //# sourceMappingURL=Subject.js.map

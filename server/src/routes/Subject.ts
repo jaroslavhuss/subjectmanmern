@@ -2,6 +2,8 @@ import { Response, Request, Router } from "express";
 import { SubjectsView } from "../models/SubjectsView";
 import { protect } from "../middleware/Auth";
 import { ErrorInterface } from "../interface/AuthInterface";
+import { SubjectInterface } from "../interface/SubjectInterface";
+import { SubjectModel } from "../models/Subject";
 const errorMap: ErrorInterface = {};
 
 export const Subject = Router();
@@ -34,3 +36,20 @@ Subject.get("/subjects", protect, async (req: Request, res: Response) => {
     });
   }
 });
+
+Subject.post(
+  "/subject/update",
+  protect,
+  async (req: Request, res: Response) => {
+    const subjectToUpdate: SubjectInterface = req.body.subject;
+    const getSubjectBeforeUpdate = await SubjectModel.findById(
+      subjectToUpdate._id
+    );
+
+    res.status(200).json({
+      errorMap,
+      success: true,
+      subject: getSubjectBeforeUpdate,
+    });
+  }
+);
