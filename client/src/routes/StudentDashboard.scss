@@ -48,3 +48,21 @@
     }
   }
 }
+
+.dashboard-drop-down {
+  text-align: center;
+  text-decoration: none;
+}
+
+.dashboard-drop-down_link {
+  color: CP.$text-color-highlight-teal;
+
+  &:link, &:visited, &:active {
+    text-decoration: none ;
+  }
+
+  &:hover {
+    transition: 0.5s;
+    color: CP.$text-color-highlight-green;
+  }
+}

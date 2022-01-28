@@ -1,17 +1,19 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./StudentDashboard.scss"
 import AppBar from "../molecules/AppBar";
 import axios from "axios"
 import Searcher from "../molecules/Searcher";
 import { Lang } from "../langauges/Dictionary"
+import { Icon } from '@iconify/react';
 
 const StudentsDashboard = () => {
     const authState = useSelector((data: any) => { return data.auth })
     const lang = useSelector((data: any) => { return data.language.language })
     const navigate = useNavigate();
     const [subjects, setSubjects] = useState<[]>([]);
+    const [_id, setID] = useState<string>("");
 
     useEffect(() => { if (!authState.isAuthenticated) navigate("/") 
         getSubjects()
@@ -26,6 +28,7 @@ const StudentsDashboard = () => {
                     Authorization: `Bearer ${token}`,
                 }
             })
+            console.log(res.data.subjects)
             setSubjects(res.data.subjects);
         } 
         catch (error) {
@@ -33,15 +36,34 @@ const StudentsDashboard = () => {
         }           
     }
 
+    const setIDCallback = (id: SetStateAction<string>) =>{
+        setID(id)
+    }
+
     return <>
         { authState.isAuthenticated &&
             <div>
                 <AppBar />
-                    <h2 className="page-title">Dashboard</h2>
+                    <h2 className="page-title">{ Lang.dashboardTitle[lang] }</h2>
                     <div className="dashborad-wrapper">
                          <div className="dashboard">
-                            <div className="dashboard__left">
-                                <Searcher items={ subjects } title={ Lang.dashboardSearchTitle[lang] } />
+                            <div className="dashboard__left">                        
+                                <Searcher
+                                    setIDCallback = { setIDCallback }
+                                    items={ subjects } 
+                                    title={ Lang.dashboardSearchTitle[lang] } 
+                                    dropDownContent={ 
+                                        <div className="dashboard-drop-down" >
+                                            <Link className="dashboard-drop-down_link" to={`/subjectDetail/${_id}`}>
+                                                <span>
+                                                <Icon inline={true} icon="mdi:file"/>
+                                                    { Lang.dashboardSubjectDetail[lang] }
+                                                </span> 
+                                            </Link>
+                                        </div>
+                                     }
+                                />
+                                
                             </div>
                             <div className="dashboard__right">
                                 <h3 className="dashboard__right__title">{ Lang.dashboardEnrolledSubjects[lang] }</h3>
