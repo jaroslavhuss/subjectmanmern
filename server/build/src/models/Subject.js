@@ -24,14 +24,14 @@ const subjectSchema = new mongoose_1.Schema({
         required: [true, "At least one topic must be within the subject"],
     },
     languages: {
-        cz: {
+        cs: {
             name: String,
             goal: String,
             description: String,
             langSeverity: String,
             langForm: Array,
         },
-        eng: {
+        en: {
             name: String,
             goal: String,
             description: String,

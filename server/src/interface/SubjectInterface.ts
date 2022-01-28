@@ -17,7 +17,7 @@ export interface SubjectInterfaceRequestBody {
       langSeverity: string;
       langForm: string[];
     };
-    eng: {
+    en: {
       name: string;
       goal: string;
       description: string;
@@ -44,7 +44,7 @@ export interface SubjectInterface {
       langSeverity: string;
       langForm: string[];
     };
-    eng: {
+    en: {
       name: string;
       goal: string;
       description: string;
