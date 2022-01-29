@@ -13,10 +13,12 @@ const StudentsDashboard = () => {
     const lang = useSelector((data: any) => { return data.language.language })
     const navigate = useNavigate();
     const [subjects, setSubjects] = useState<[]>([]);
+    const [subsribedSubjects, setSubsribedSubjects] = useState<{}[]>();
     const [_id, setID] = useState<string>("");
 
     useEffect(() => { if (!authState.isAuthenticated) navigate("/") 
         getSubjects()
+        getSubcribedSubjects()
     }, [authState, navigate]);
     
     const getSubjects = async () => {
@@ -28,8 +30,25 @@ const StudentsDashboard = () => {
                     Authorization: `Bearer ${token}`,
                 }
             })
-            console.log(res.data.subjects)
             setSubjects(res.data.subjects);
+        } 
+        catch (error) {
+            console.log(error);
+        }           
+    }
+
+    //get subjects of user that loged in
+    const getSubcribedSubjects = async () => {
+        try {
+            const token = localStorage.getItem("token")
+            const res = await axios.post('http://localhost:5001/api/user/subject/read', { 
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            setSubsribedSubjects(res.data.subjects);
+            console.log(res.data.subjects)
         } 
         catch (error) {
             console.log(error);
