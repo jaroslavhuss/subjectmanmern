@@ -5,7 +5,7 @@ import { ErrorInterface } from "../interface/AuthInterface";
 import { SubjectInterfaceRequestBody } from "../interface/SubjectInterface";
 import { SubjectModel } from "../models/Subject";
 import { ObjectId } from "mongodb";
-const errorMap: ErrorInterface = {};
+
 export const Subject = Router();
 
 /**
@@ -61,6 +61,7 @@ axios(config)
 });
  */
 Subject.get("/subjects", protect, async (req: Request, res: Response) => {
+  const errorMap: ErrorInterface = {};
   if (req.query.id) {
     const subject = await SubjectsView.findOne({ _id: req.query.id });
     if (subject) {
@@ -163,6 +164,7 @@ Subject.post(
   "/subject/update",
   protect,
   async (req: Request, res: Response) => {
+    const errorMap: ErrorInterface = {};
     const subjectToUpdate: SubjectInterfaceRequestBody = req.body.subject;
     const topicsObjectId = subjectToUpdate.topics.map((topic) => {
       return new ObjectId(topic);
@@ -233,6 +235,7 @@ Subject.post(
   "/subject/delete",
   protect,
   async (req: Request, res: Response) => {
+    const errorMap: ErrorInterface = {};
     const subjectToUpdate: SubjectInterfaceRequestBody = req.body.subject;
     try {
       const getSubjectTobeDeleted = await SubjectModel.findByIdAndDelete(
@@ -346,6 +349,7 @@ Subject.post(
   "/subject/create",
   protect,
   async (req: Request, res: Response) => {
+    const errorMap: ErrorInterface = {};
     const subjectToBeCreated: SubjectInterfaceRequestBody = req.body.subject;
     const topicsObjectId = subjectToBeCreated.topics.map((topic) => {
       return new ObjectId(topic);

@@ -7,6 +7,7 @@ const express_1 = __importDefault(require("express"));
 const Auth_1 = require("./controllers/Auth");
 const Subject_1 = require("./routes/Subject");
 const Private_1 = require("./routes/Private");
+const Tutor_1 = require("./routes/Tutor");
 const User_1 = require("./routes/User");
 const Connections_1 = require("./database/Connections");
 const dotenv_1 = require("dotenv");
@@ -21,6 +22,7 @@ App.use("/auth-api/", (0, cors_1.default)(), Auth_1.Auth);
 App.use("/api/", (0, cors_1.default)(), Private_1.protectedRoute);
 App.use("/api/", (0, cors_1.default)(), User_1.UserRoute);
 App.use("/api/", (0, cors_1.default)(), Subject_1.Subject);
+App.use("/api/", (0, cors_1.default)(), Tutor_1.Tutor);
 let server;
 if (process.env.TEST !== "TRUE") {
     server = App.listen(PORT, () => {

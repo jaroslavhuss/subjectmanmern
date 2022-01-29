@@ -1,5 +1,4 @@
 import { Schema, model } from "mongoose";
-
 const subjectView = new Schema({
   credits: {
     type: Number,
