@@ -11,8 +11,8 @@
     "baseUrl": "./src",
     "paths": {
       "*": ["src/types/*"]
-    },
+    }
   },
   "exclude": ["node_modules", "**/*.spec.ts"],
-  "include": ["src/**/*", "test/**/*"]
+  "include": ["src/**/*", "test/**/*", "custom.d.ts"]
 }

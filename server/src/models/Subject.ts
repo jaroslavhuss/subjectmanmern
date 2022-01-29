@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
-
-const subjectSchema = new Schema({
+import { SubjectInterface } from "../interface/SubjectInterface";
+import { ObjectID } from "bson";
+const subjectSchema = new Schema<SubjectInterface>({
   credits: {
     type: Number,
     required: [true, "Number of credits is missing"],
@@ -14,11 +15,11 @@ const subjectSchema = new Schema({
     required: [true, "Compulsory value is missing"],
   },
   links: {
-    type: Array,
+    type: [String],
     required: [true, "At least one link has to be added to the subject"],
   },
   topics: {
-    type: Array,
+    type: [ObjectID],
     required: [true, "At least one topic must be within the subject"],
   },
   languages: {
@@ -38,11 +39,11 @@ const subjectSchema = new Schema({
     },
   },
   tutors: {
-    type: Array,
+    type: [ObjectID],
     required: [true, "At least one tutor has to be filled in"],
   },
   forms: {
-    type: Array,
+    type: [String],
     required: [true, "Study form has to be selected"],
   },
 });

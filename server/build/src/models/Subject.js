@@ -2,6 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SubjectModel = void 0;
 const mongoose_1 = require("mongoose");
+const bson_1 = require("bson");
 const subjectSchema = new mongoose_1.Schema({
     credits: {
         type: Number,
@@ -16,11 +17,11 @@ const subjectSchema = new mongoose_1.Schema({
         required: [true, "Compulsory value is missing"],
     },
     links: {
-        type: Array,
+        type: [String],
         required: [true, "At least one link has to be added to the subject"],
     },
     topics: {
-        type: Array,
+        type: [bson_1.ObjectID],
         required: [true, "At least one topic must be within the subject"],
     },
     languages: {
@@ -40,11 +41,11 @@ const subjectSchema = new mongoose_1.Schema({
         },
     },
     tutors: {
-        type: Array,
+        type: [bson_1.ObjectID],
         required: [true, "At least one tutor has to be filled in"],
     },
     forms: {
-        type: Array,
+        type: [String],
         required: [true, "Study form has to be selected"],
     },
 });

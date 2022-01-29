@@ -15,6 +15,7 @@ const SubjectsView_1 = require("../models/SubjectsView");
 const Auth_1 = require("../middleware/Auth");
 const Subject_1 = require("../models/Subject");
 const mongodb_1 = require("mongodb");
+const errorMap = {};
 exports.Subject = (0, express_1.Router)();
 /**
  * @method get
@@ -69,7 +70,6 @@ axios(config)
 });
  */
 exports.Subject.get("/subjects", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const errorMap = {};
     if (req.query.id) {
         const subject = yield SubjectsView_1.SubjectsView.findOne({ _id: req.query.id });
         if (subject) {
@@ -169,7 +169,6 @@ axios(config)
 });
  */
 exports.Subject.post("/subject/update", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const errorMap = {};
     const subjectToUpdate = req.body.subject;
     const topicsObjectId = subjectToUpdate.topics.map((topic) => {
         return new mongodb_1.ObjectId(topic);
@@ -229,7 +228,6 @@ axios(config)
 });
  * */
 exports.Subject.post("/subject/delete", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const errorMap = {};
     const subjectToUpdate = req.body.subject;
     try {
         const getSubjectTobeDeleted = yield Subject_1.SubjectModel.findByIdAndDelete(subjectToUpdate._id);
@@ -338,7 +336,6 @@ axios(config)
  *
  * */
 exports.Subject.post("/subject/create", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const errorMap = {};
     const subjectToBeCreated = req.body.subject;
     const topicsObjectId = subjectToBeCreated.topics.map((topic) => {
         return new mongodb_1.ObjectId(topic);
@@ -376,4 +373,4 @@ exports.Subject.post("/subject/create", Auth_1.protect, (req, res) => __awaiter(
         }
     }
 }));
-//# sourceMappingURL=Subject.js.map
+//# sourceMappingURL=Subject%20copy.js.map
