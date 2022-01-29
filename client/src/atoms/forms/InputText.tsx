@@ -3,11 +3,11 @@ import "./InputText.scss"
 function InputText (props: any) {
     return (
         <div className="form-field">
-            <label className="form-field__label" htmlFor={ props.htmlFor }>{ props.label }</label>
+            <label className="form-field__label" htmlFor={ props.htmlFor }>{ props?.label }</label>
             <br />
             <input 
                 value={ props.value }  
-                className="form-field__input" 
+                className={ props.useSmall === true ? "form-field__input form-field__input-small" : "form-field__input form-field__input-big" } 
                 required 
                 onChange={ props.onChange }
                 type={ props.type } 

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import Register from "./routes/Register";
 import Login from "./routes/Login";
 import StudentsDashboard from "./routes/StudentsDashboard";
+import SubjectDetail from "./routes/SubjectDetail";
 import { authUserFailed, authUserSuccess } from "./store/reducers/auth";
 import { useEffect } from "react";
 import { setAuthToken } from "./utils/setAuthToken";
@@ -20,7 +21,9 @@ const App = () => {
           token: token,
           subjects: res.subjects
         }))
-        navigate("/dashboard")
+        if (window.location.pathname == "/login") {
+          navigate("/dashboard")
+        }
       } else {
         dispatch(authUserFailed())
       }
@@ -34,6 +37,7 @@ const App = () => {
         <Route path="/registration" element={<Register />} />
         <Route path="/" element={<Login />} />
         <Route path="/dashboard" element={<StudentsDashboard />} />
+        <Route path="/subjectDetail/:_id" element={<SubjectDetail />} />
         <Route path="*" element={<Login />} />
       </Routes>
     </div>
