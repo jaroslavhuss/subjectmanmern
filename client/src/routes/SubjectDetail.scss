@@ -1,0 +1,74 @@
+@use "../styles/colorPalatte" as CP;
+.subject-detail-wrapper {
+    display: grid;
+    justify-content: center;
+    width: 100%;
+}
+
+.subject-detail-body {
+    background-color: CP.$bg-color-light;
+    max-width: 1000px;
+    margin-top: 20px;
+    min-height: calc(100vh - 150px);
+    border-radius: 50px;
+    margin-bottom: 50px;
+}
+
+.subject-detail {
+
+    &__header {
+        text-align: center;
+        font-size: 40px;
+        margin-top: 20px;
+
+        &__details {
+
+
+            &-big {
+                background-color:  CP.$bg-color-dark;
+                border-radius: 50px;
+                font-size: 20px;
+                margin-left: 50px;
+                margin-top: 20px;
+                display: flex;
+                
+                height: 80px;
+                max-width: 900px;
+                border-left: 2px solid CP.$bg-color-highlight-blue;
+                border-right: 2px solid CP.$bg-color-highlight-green;
+            }
+
+            &-small {
+                background-color:  CP.$bg-color-dark;
+                border-radius: 50px;
+                margin-left: 50px;
+                margin-right: 50px;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                font-size: 20px;
+                text-align: left;
+                padding: 20px;
+                border-left: 2px solid CP.$bg-color-highlight-blue;
+                border-right: 2px solid CP.$bg-color-highlight-green;
+            }
+
+            &__headline-green {
+                margin-bottom: 10px;
+                color: CP.$text-color-highlight-green;
+                font-size: 22px;
+                font-weight: bold;
+            }
+
+            &__headline-blue {
+                margin-bottom: 10px;
+                color: CP.$text-color-highlight-blue;
+                font-size: 22px;
+                font-weight: bold;
+            }
+
+            &__item {
+                margin: 20px;
+            }
+        }
+    }
+}

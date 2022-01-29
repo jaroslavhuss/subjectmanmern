@@ -134,4 +134,52 @@ export const Lang: ILang = {
     cs: "Jazyk",
     en: "Language",
   },
+
+  //dahboard
+  dashboardSearchTitle: {
+    cs: "Vyhledej předměty",
+    en: "Search subjects",
+  },
+  dashboardEnrolledSubjects: {
+    cs: "Zapsané předměty",
+    en: "Enrolled subjects",
+  },
+  dashboardSubjectDetail: {
+    cs: "Detail předmětu",
+    en: "Subject detail",
+  },
+  dashboardTitle: {
+    cs: "Přehled",
+    en: "Dashboard",
+  },
+  
+  //Subject Detail 
+  detailTitle: {
+    cs: "Detail předmětu",
+    en: "Subject detail",
+  },
+  detailCredits: {
+    cs: "Počet kreditů",
+    en: "Number of credits",
+  },
+  detailLevel: {
+    cs: "Úroveň studia",
+    en: "Degree level",
+  },
+  detailForm: {
+    cs: "Forma studia",
+    en: "Study form",
+  },
+  detailSubjectType: {
+    cs: "Typ předmětu",
+    en: "Subject type",
+  },
+  detailGoal: {
+    cs: "Cíl předmětu",
+    en: "Subject goal",
+  },
+  detailDescription: {
+    cs: "Popis předmětu",
+    en: "Subject description",
+  },
 };

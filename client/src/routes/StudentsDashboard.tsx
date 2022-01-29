@@ -1,63 +1,96 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { SubjectInterface } from "../interface/subject";
-import "./StudentDashboard.css"
+import { Link, useNavigate } from "react-router-dom";
+import "./StudentDashboard.scss"
 import AppBar from "../molecules/AppBar";
+import axios from "axios"
+import Searcher from "../molecules/Searcher";
+import { Lang } from "../langauges/Dictionary"
+import { Icon } from '@iconify/react';
 
 const StudentsDashboard = () => {
     const authState = useSelector((data: any) => { return data.auth })
+    const lang = useSelector((data: any) => { return data.language.language })
     const navigate = useNavigate();
-    useEffect(() => { if (!authState.isAuthenticated) navigate("/") }, [authState, navigate]);
+    const [subjects, setSubjects] = useState<[]>([]);
+    const [subsribedSubjects, setSubsribedSubjects] = useState<{}[]>();
+    const [_id, setID] = useState<string>("");
 
-    const [filteredSubjects, setFilteredSubjects] = useState<[]>([]);
-    const [subjectSearch, setSubjectSearch] = useState<string>("");
+    useEffect(() => { if (!authState.isAuthenticated) navigate("/") 
+        getSubjects()
+        getSubcribedSubjects()
+    }, [authState, navigate]);
+    
+    const getSubjects = async () => {
+        try {
+            const token = localStorage.getItem("token")
+            const res = await axios.get('http://localhost:5001/api/subjects', { 
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            setSubjects(res.data.subjects);
+        } 
+        catch (error) {
+            console.log(error);
+        }           
+    }
 
-    const getFilteredSubjects = (value: string): void => {
-        setSubjectSearch(value);
-        const pattern = new RegExp(value, "gi");
-        const filtered = authState.subjects.filter((subject: SubjectInterface) => {
-            //@ts-ignore
-            return subject.languages[0][lang].name.match(pattern);
-        }
-        )
-        setFilteredSubjects(filtered);
+    //get subjects of user that loged in
+    const getSubcribedSubjects = async () => {
+        try {
+            const token = localStorage.getItem("token")
+            const res = await axios.post('http://localhost:5001/api/user/subject/read', { 
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            setSubsribedSubjects(res.data.subjects);
+            console.log(res.data.subjects)
+        } 
+        catch (error) {
+            console.log(error);
+        }           
+    }
+
+    const setIDCallback = (id: SetStateAction<string>) =>{
+        setID(id)
     }
 
     return <>
-        {authState.isAuthenticated &&
+        { authState.isAuthenticated &&
             <div>
-                <AppBar></AppBar>
-                <h1>Studentský Dashboard</h1>
-                <div className="flex-row">
-                    <div className="left-panel">
-                        <label htmlFor="subject-search">
-                            <h3>Vyhledávač předmětu</h3>
-                            <input value={subjectSearch} type="text" name="subject-search" onChange={(e) => {
-                                getFilteredSubjects(e.target.value);
-                            }} />
-                        </label>
-                        {
-                            filteredSubjects.map((sub, index) => (
-                                <div key={index} style={{ display: "flex", flexDirection: "row" }}>
-                                    <div>{
-                                        //@ts-ignore
-                                        sub.languages[0][lang].name
-                                    }</div>
-                                    <div onClick={() => {
-                                        console.log(index)
-                                    }
-                                    } tabIndex={index}>Zapsat</div>
-                                </div>
-                            ))
-                        }
+                <AppBar />
+                    <h2 className="page-title">{ Lang.dashboardTitle[lang] }</h2>
+                    <div className="dashborad-wrapper">
+                         <div className="dashboard">
+                            <div className="dashboard__left">                        
+                                <Searcher
+                                    setIDCallback = { setIDCallback }
+                                    items={ subjects } 
+                                    title={ Lang.dashboardSearchTitle[lang] } 
+                                    dropDownContent={ 
+                                        <div className="dashboard-drop-down" >
+                                            <Link className="dashboard-drop-down_link" to={`/subjectDetail/${_id}`}>
+                                                <span>
+                                                <Icon inline={true} icon="mdi:file"/>
+                                                    { Lang.dashboardSubjectDetail[lang] }
+                                                </span> 
+                                            </Link>
+                                        </div>
+                                     }
+                                />
+                                
+                            </div>
+                            <div className="dashboard__right">
+                                <h3 className="dashboard__right__title">{ Lang.dashboardEnrolledSubjects[lang] }</h3>
+                            </div>
+                        </div>
                     </div>
-                    <div className="right-panel">
-                        <h3>Zapsané předměty</h3>
-
-                    </div>
-                </div>
-            </div>}
+            </div>
+        }
     </>;
 };
 

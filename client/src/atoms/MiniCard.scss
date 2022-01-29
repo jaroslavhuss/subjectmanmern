@@ -1,0 +1,58 @@
+@use "../styles/colorPalatte" as CP;
+.mini-card {
+    margin-bottom: 15px;
+    font-size: 20px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-right: 2px solid CP.$bg-color-highlight-blue;
+    border-top: 2px solid transparent ;
+    border-bottom: 2px solid transparent ;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    position: relative;
+    
+
+    &:hover {
+        transition: 0.5s linear;
+        border-right: 2px solid CP.$text-color-highlight-green;
+    }
+
+
+    &__content {
+        display: inline;
+        width: 260px;
+    }
+
+    &__content-opened {
+        display: inline;
+        width: 260px;
+        color: CP.$text-color-highlight-green;
+        transition: 0.5s;
+    }
+
+    &__actions {
+        display: inline;
+        border: 2px solid CP.$bg-color-highlight-blue;
+        border-radius: 50px;
+        cursor: pointer;
+
+        &:hover {
+            transition: 0.5s linear;
+            border: 2px solid CP.$text-color-highlight-green;
+        }
+    }
+
+    &__drop-down-content-hide {
+        display: none;
+    }
+
+    &__drop-down-content-show {
+        margin-top: 10px;
+        display: block;
+    }
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
