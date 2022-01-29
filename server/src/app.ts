@@ -3,7 +3,7 @@ import Express from "express";
 import { Auth } from "./controllers/Auth";
 import { Subject } from "./routes/Subject";
 import { protectedRoute } from "./routes/Private";
-import { subscribeSubject } from "./routes/userSubject";
+import { UserRoute } from "./routes/User";
 import { connect } from "./database/Connections";
 import { config } from "dotenv";
 import cors from "cors";
@@ -16,7 +16,7 @@ connect();
 
 App.use("/auth-api/", cors(), Auth);
 App.use("/api/", cors(), protectedRoute);
-App.use("/api/", cors(), subscribeSubject);
+App.use("/api/", cors(), UserRoute);
 App.use("/api/", cors(), Subject);
 
 let server: Server;

@@ -21,7 +21,22 @@ const subjectSchema = new Schema({
     type: Array,
     required: [true, "At least one topic must be within the subject"],
   },
-  languages: { type: Array, required: [true, "Language object is missing"] },
+  languages: {
+    cs: {
+      name: String,
+      goal: String,
+      description: String,
+      langSeverity: String,
+      langForm: Array,
+    },
+    en: {
+      name: String,
+      goal: String,
+      description: String,
+      langSeverity: String,
+      langForm: Array,
+    },
+  },
   tutors: {
     type: Array,
     required: [true, "At least one tutor has to be filled in"],
@@ -30,8 +45,5 @@ const subjectSchema = new Schema({
     type: Array,
     required: [true, "Study form has to be selected"],
   },
-  tutorials: {
-    type: Object,
-    require: [true, "At least one tutorial has to be filled!"],
-  },
 });
+export const SubjectModel = model("subject", subjectSchema);
