@@ -61,27 +61,8 @@ const StudentsDashboard = () => {
     const [_id, setID] = useState<string>("");
 
     useEffect(() => { if (!authState.isAuthenticated) navigate("/") 
-        getSubjects()
-     //   getSubcribedSubjects()
+       getSubcribedSubjects()
     }, [authState, navigate]);
-    
-    //get subjects for search
-    const getSubjects = async () => {
-        try {
-            const token = localStorage.getItem("token")
-            const res = await axios.get('http://localhost:5001/api/subjects', { 
-                headers: {
-                    "Content-type": "application/json",
-                    Authorization: `Bearer ${token}`,
-                }
-            })
-            setSubjects(res.data.subjects);
-            getSubcribedSubjects();
-        } 
-        catch (error) {
-            console.log(error);
-        }           
-    }
 
     //get subjects of user that is loged in
     const getSubcribedSubjects = async () => {
@@ -94,7 +75,8 @@ const StudentsDashboard = () => {
                 }
             })
 
-            setSubsribedSubjects(res.data.subjects);             
+            setSubsribedSubjects(res.data.subjects);
+            setSubjects(res.data.restOfSubjects);              
         } 
         catch (error) {
             console.log(error);
