@@ -9,17 +9,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Tutor = void 0;
+exports.Topic = void 0;
+const Topic_1 = require("../models/Topic");
 const express_1 = require("express");
 const Auth_1 = require("../middleware/Auth");
-const Tutor_1 = require("../models/Tutor");
-exports.Tutor = (0, express_1.Router)();
+exports.Topic = (0, express_1.Router)();
 /**
  * @protected Admin
- * @description Creates a Tutor based on TutorInterface
+ * @description Creates Topic based on TopicInterface
  * @method POST
  */
-exports.Tutor.post("/tutor/create", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Topic.post("/topic/create", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -31,34 +31,29 @@ exports.Tutor.post("/tutor/create", Auth_1.protect, (req, res) => __awaiter(void
         });
     }
     try {
-        const tutor = req.body.tutor || {};
-        yield Tutor_1.TutorModel.validate(tutor);
-        const createdTutor = yield Tutor_1.TutorModel.create(tutor);
-        if (!createdTutor) {
-            throw new Error("Tutor could not be created!");
-        }
+        const topic = req.body.topic || {};
+        yield Topic_1.TopicModel.validate(topic);
+        const createdTopic = yield Topic_1.TopicModel.create(topic);
         return res.status(200).json({
             success: true,
             errorMap,
-            tutor: createdTutor,
+            topic: createdTopic,
         });
     }
     catch (error) {
-        if (error) {
-            errorMap.err = error.message;
-            return res.status(500).json({
-                success: false,
-                errorMap,
-            });
-        }
+        errorMap.err = "Topic is not correclty filled in or is Missing!";
+        return res.status(400).json({
+            success: false,
+            errorMap,
+        });
     }
 }));
 /**
  * @protected Admin
- * @description Deletes tutor based on TutorInterface
+ * @description Deletes topic based on TopicInterface
  * @method POST
  */
-exports.Tutor.post("/tutor/delete", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Topic.post("/topic/delete", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -70,34 +65,30 @@ exports.Tutor.post("/tutor/delete", Auth_1.protect, (req, res) => __awaiter(void
         });
     }
     try {
-        const tutor = req.body.tutor || {};
-        yield Tutor_1.TutorModel.validate(tutor);
-        const createdTutor = yield Tutor_1.TutorModel.findOneAndDelete({ _id: tutor._id });
-        if (!createdTutor) {
-            throw new Error("No such a tutor found in DB");
-        }
+        const topic = req.body.topic || {};
+        yield Topic_1.TopicModel.validate(topic);
+        const deletedTopic = yield Topic_1.TopicModel.findOneAndDelete({ _id: topic._id });
         return res.status(200).json({
             success: true,
             errorMap,
-            tutor: createdTutor,
+            topic: deletedTopic,
         });
     }
     catch (error) {
-        if (error) {
-            errorMap.err = error.message;
-            return res.status(500).json({
-                success: false,
-                errorMap,
-            });
-        }
+        errorMap.err =
+            "Topic is not correclty filled in or is missing! Or Id of the topic can not be found!";
+        return res.status(400).json({
+            success: false,
+            errorMap,
+        });
     }
 }));
 /**
  * @protected Admin
- * @description Gets all tutors based on TutorInterface
- * @method get
+ * @description Returns all topics based on TopicInterface
+ * @method GET
  */
-exports.Tutor.get("/tutor/list", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Topic.get("/topic/list", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -109,32 +100,28 @@ exports.Tutor.get("/tutor/list", Auth_1.protect, (req, res) => __awaiter(void 0,
         });
     }
     try {
-        const createdTutor = yield Tutor_1.TutorModel.find({});
-        if (!createdTutor) {
-            throw new Error("Could not find any tutors...");
-        }
+        const allTopics = yield Topic_1.TopicModel.find({});
         return res.status(200).json({
             success: true,
             errorMap,
-            tutor: createdTutor,
+            topic: allTopics,
         });
     }
     catch (error) {
-        if (error) {
-            errorMap.err = error.message;
-            return res.status(500).json({
-                success: false,
-                errorMap,
-            });
-        }
+        errorMap.err =
+            "Topic is not correclty filled in or is missing! Or Id of the topic can not be found!";
+        return res.status(400).json({
+            success: false,
+            errorMap,
+        });
     }
 }));
 /**
  * @protected Admin
- * @description Updates tutor based on TutorInterface
+ * @description Updates topics based on TopicInterface
  * @method POST
  */
-exports.Tutor.post("/tutor/update", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Topic.post("/topic/update", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -146,19 +133,16 @@ exports.Tutor.post("/tutor/update", Auth_1.protect, (req, res) => __awaiter(void
         });
     }
     try {
-        const tutor = req.body.tutor || {};
-        if (!tutor._id) {
-            throw new Error("Tutor ID is missing");
+        const topic = req.body.topic || {};
+        if (!topic._id) {
+            throw new Error("Topic ID is missing");
         }
-        yield Tutor_1.TutorModel.validate(tutor);
-        const updatedTutor = yield Tutor_1.TutorModel.findOneAndUpdate({ _id: tutor._id }, Object.assign({}, tutor));
-        if (!updatedTutor) {
-            throw new Error("This tutor could not be updated!");
-        }
+        yield Topic_1.TopicModel.validate(topic);
+        const updatedTopic = yield Topic_1.TopicModel.findOneAndUpdate({ _id: topic._id }, Object.assign({}, topic));
         return res.status(200).json({
             success: true,
             errorMap,
-            tutor: updatedTutor,
+            topic: updatedTopic,
         });
     }
     catch (error) {
@@ -169,4 +153,4 @@ exports.Tutor.post("/tutor/update", Auth_1.protect, (req, res) => __awaiter(void
         });
     }
 }));
-//# sourceMappingURL=Tutor.js.map
+//# sourceMappingURL=Topic.js.map
