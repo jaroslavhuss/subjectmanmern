@@ -91,11 +91,17 @@ exports.UserRoute.post("/user/subject/read", Auth_1.protect, (req, res) => __awa
         .where("_id")
         .in(user.Subjects)
         .exec();
+    const allSubjects = yield SubjectsView_1.SubjectsView.find({});
+    const arrayOfSubscribedSubjects = UsersSubscribedSubjects.map((subject) => subject._id.toString());
+    const unique = allSubjects.filter((subjectAll) => {
+        return !arrayOfSubscribedSubjects.includes(subjectAll._id.toString());
+    });
     return res.status(200).json({
         success: true,
         user,
         errorMap,
         subjects: UsersSubscribedSubjects,
+        restOfSubjects: unique,
     });
 }));
 //# sourceMappingURL=User.js.map
