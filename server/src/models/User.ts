@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-
 const userSchema = new Schema({
   name: {
     type: String,
@@ -37,7 +36,7 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: [true, "Password is required"],
+    required: [true, "Password is required and minimum lengths must be 6"],
     minlength: 6,
     select: false,
   },

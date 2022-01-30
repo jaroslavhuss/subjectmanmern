@@ -5,6 +5,7 @@ import { Subject } from "./routes/Subject";
 import { protectedRoute } from "./routes/Private";
 import { Tutor } from "./routes/Tutor";
 import { UserRoute } from "./routes/User";
+import { Topic } from "./routes/Topic";
 import { connect } from "./database/Connections";
 import { config } from "dotenv";
 import cors from "cors";
@@ -20,6 +21,7 @@ App.use("/api/", cors(), protectedRoute);
 App.use("/api/", cors(), UserRoute);
 App.use("/api/", cors(), Subject);
 App.use("/api/", cors(), Tutor);
+App.use("/api/", cors(), Topic);
 
 let server: Server;
 

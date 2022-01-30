@@ -4,6 +4,7 @@ import { protect } from "../middleware/Auth";
 import { ErrorInterface } from "../interface/AuthInterface";
 import { User } from "../models/User";
 import { SubjectsView } from "../models/SubjectsView";
+import { SubjectInterface } from "../interface/SubjectInterface";
 export const UserRoute = Router();
 
 /**
@@ -99,11 +100,20 @@ UserRoute.post(
       .where("_id")
       .in(user.Subjects)
       .exec();
+    const allSubjects = await SubjectsView.find({});
+    const arrayOfSubscribedSubjects = UsersSubscribedSubjects.map(
+      (subject: SubjectInterface) => subject._id.toString()
+    );
+    const unique = allSubjects.filter((subjectAll) => {
+      return !arrayOfSubscribedSubjects.includes(subjectAll._id.toString());
+    });
+
     return res.status(200).json({
       success: true,
       user,
       errorMap,
       subjects: UsersSubscribedSubjects,
+      restOfSubjects: unique,
     });
   }
 );

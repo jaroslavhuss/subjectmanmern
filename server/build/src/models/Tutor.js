@@ -9,12 +9,7 @@ const tutorSchema = new mongoose_1.Schema({
     },
     titleBefore: {
         type: String,
-        required: [false, "Title before is missng"],
-        preferences: {
-            type: { preference1: String, preference2: String },
-            default: null,
-        },
-        minlength: 0,
+        default: null,
     },
     surname: {
         type: String,
@@ -22,12 +17,7 @@ const tutorSchema = new mongoose_1.Schema({
     },
     titleAfter: {
         type: String,
-        required: [false, "Title after is missing"],
-        preferences: {
-            type: { preference1: String, preference2: String },
-            default: null,
-        },
-        minlength: 0,
+        default: null,
     },
 });
 exports.TutorModel = (0, mongoose_1.model)("tutor", tutorSchema);
