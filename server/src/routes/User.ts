@@ -19,7 +19,7 @@ UserRoute.post(
       err: "",
     };
     const { user }: { user: UserInterface } = req;
-    const subjectId = req.body.subject;
+    const { subjectId } = req.body.subject;
     const isSubjectAlreadySubscribed: boolean =
       user.Subjects.includes(subjectId);
     if (isSubjectAlreadySubscribed) {
