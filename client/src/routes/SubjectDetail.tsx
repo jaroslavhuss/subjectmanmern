@@ -56,15 +56,39 @@ const SubjectDetail = () => {
     const lang = useSelector((data: any) => { return data.language.language })
     const navigate = useNavigate();
     const { _id } = useParams();
+    const [subscribed = false, setSubscribed] = useState<boolean>();
     const [subject, setSubject] = useState<ISubject>();
+    const [subscribedSubjects, setSubscribedSubjects] = useState<Array<ISubject>>();
 
-    useEffect(() => { if (!authState.isAuthenticated) navigate("/") 
-        getSubject()
+    useEffect(() => { if (!authState.isAuthenticated) navigate("/")
+        getSubscribedSubjects();
     }, [authState, navigate]);
-    
-    const getSubject = async () => {
+
+    useEffect(() => { if (!authState.isAuthenticated) navigate("/")
+        getSubject();
+    }, [authState, navigate, subscribedSubjects]);
+
+    const getSubscribedSubjects = async () => {
         try {
             const token = localStorage.getItem("token")
+            const res = await axios.post('http://localhost:5001/api/user/subject/read', {}, {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+
+            setSubscribedSubjects(res.data.subjects);
+        }
+        catch (error) {
+            console.log(error);
+        }
+    }
+
+    const getSubject = async () => {
+        try {
+            setSubscribed(false);
+            const token = localStorage.getItem("token");
             const res = await axios.get('http://localhost:5001/api/subjects', {
                 headers: {
                     "Content-type": "application/json",
@@ -73,14 +97,42 @@ const SubjectDetail = () => {
                 params: {
                     id: _id
                 }
-            })
+            });
             setSubject(res.data.subject);
-            console.log(res.data.subject)
-        } 
+            console.log(res.data.subject);
+
+            if (subscribedSubjects) {
+                const subject = subscribedSubjects.find((s) => s._id === _id);
+                if (subject) {
+                    setSubscribed(true);
+                }
+            }
+
+        }
         catch (error) {
             console.log(error);
-        }           
+        }
     }
+
+    const subscribeSubject = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            await axios.post('http://localhost:5001/api/user/subject/subscribe', {
+                subject: {
+                    subjectId: _id
+                }
+            }, {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            await getSubscribedSubjects();
+            await getSubject();
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     return <>
         { authState.isAuthenticated &&
@@ -93,10 +145,19 @@ const SubjectDetail = () => {
 
                             {/* HEADER */}
                             <h2 className="subject-detail__header" > { subject?.languages![0][lang].name } </h2>
-                            <div className="subject-detail__header__details-big">
 
+                            <div className="subject-detail__header__details-small">
+                                {/* ACTIONS */}
+                                <span className="subject-detail__header__details__item">
+                                    {!subscribed &&
+                                        <button onClick={subscribeSubject}>{ `${ Lang.detailSubscribe[lang] }` }</button>
+                                    }
+                                </span>
+                            </div>
+
+                            <div className="subject-detail__header__details-big">
                                 {/* CREDITS */}
-                                <span className="subject-detail__header__details__item"> 
+                                <span className="subject-detail__header__details__item">
                                     { `${ Lang.detailCredits[lang] }: ${ subject?.credits }` }
                                 </span>
 
@@ -111,7 +172,7 @@ const SubjectDetail = () => {
                                 </span>
 
                                  {/* SEVERITY*/}
-                                <span className="subject-detail__header__details__item"> 
+                                <span className="subject-detail__header__details__item">
                                     { `${ Lang.detailSubjectType[lang] }: ${ subject?.languages![0][lang].langSeverity }` }
                                 </span>
                             </div>
