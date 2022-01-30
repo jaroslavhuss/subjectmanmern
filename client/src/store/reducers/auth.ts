@@ -11,7 +11,6 @@ export const authSlice = createSlice({
   },
   reducers: {
     authUserSuccess: (state, action) => {
-      console.log("running aciton payload", action.payload);
       state.isAuthenticated = true;
       state.token = action.payload.token;
       state.loading = false;
