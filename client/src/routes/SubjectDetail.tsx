@@ -4,7 +4,7 @@ import { useNavigate, useParams  } from "react-router-dom";
 import "./SubjectDetail.scss"
 import AppBar from "../molecules/AppBar";
 import axios from "axios"
-import Searcher from "../molecules/Searcher";
+import BasicButton from "../atoms/BasicButton";
 import { Lang } from "../langauges/Dictionary"
 
 interface ISubjectLanguage {
@@ -163,10 +163,10 @@ const SubjectDetail = () => {
                                 {/* ACTIONS */}
                                 <span className="subject-detail__header__details__item">
                                     {!subscribed &&
-                                        <button onClick={subscribeSubject}>{ `${ Lang.detailSubscribe[lang] }` }</button>
+                                        <BasicButton onClick={subscribeSubject}>{ `${ Lang.detailSubscribe[lang] }` }</BasicButton>
                                     }
                                     {subscribed &&
-                                        <button onClick={unsubscribeSubject}>{ `${ Lang.detailUnSubscribe[lang] }` }</button>
+                                        <BasicButton onClick={unsubscribeSubject}>{ `${ Lang.detailUnSubscribe[lang] }` }</BasicButton>
                                     }
                                 </span>
                             </div>
