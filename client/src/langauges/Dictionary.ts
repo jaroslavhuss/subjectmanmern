@@ -185,5 +185,9 @@ export const Lang: ILang = {
   detailSubscribe: {
     cs: "Zapsat předmět",
     en: "Subscribe subject",
+  },
+  detailUnSubscribe: {
+    cs: "Odhlásit z předmětu",
+    en: "Unsubscribe from subject",
   }
 };

@@ -58,11 +58,11 @@ const SubjectDetail = () => {
     const { _id } = useParams();
     const [subscribed = false, setSubscribed] = useState<boolean>();
     const [subject, setSubject] = useState<ISubject>();
-    const [subscribedSubjects, setSubscribedSubjects] = useState<Array<ISubject>>();
+    const [subscribedSubjects = [], setSubscribedSubjects] = useState<Array<ISubject>>();
 
     useEffect(() => { if (!authState.isAuthenticated) navigate("/")
         getSubscribedSubjects();
-    }, [authState, navigate]);
+    }, [authState, navigate, subscribed]);
 
     useEffect(() => { if (!authState.isAuthenticated) navigate("/")
         getSubject();
@@ -87,7 +87,6 @@ const SubjectDetail = () => {
 
     const getSubject = async () => {
         try {
-            setSubscribed(false);
             const token = localStorage.getItem("token");
             const res = await axios.get('http://localhost:5001/api/subjects', {
                 headers: {
@@ -99,15 +98,11 @@ const SubjectDetail = () => {
                 }
             });
             setSubject(res.data.subject);
-            console.log(res.data.subject);
 
-            if (subscribedSubjects) {
-                const subject = subscribedSubjects.find((s) => s._id === _id);
-                if (subject) {
-                    setSubscribed(true);
-                }
+            const subject = subscribedSubjects.find((s) => s._id === _id);
+            if (subject) {
+                setSubscribed(true);
             }
-
         }
         catch (error) {
             console.log(error);
@@ -127,8 +122,26 @@ const SubjectDetail = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            await getSubscribedSubjects();
-            await getSubject();
+            setSubscribed(true);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const unsubscribeSubject = async () => {
+        try {
+            const token = localStorage.getItem("token");
+            await axios.post('http://localhost:5001/api/user/subject/unsubscribe', {
+                subject: {
+                    subjectId: _id
+                }
+            }, {
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setSubscribed(false);
         } catch (error) {
             console.log(error);
         }
@@ -151,6 +164,9 @@ const SubjectDetail = () => {
                                 <span className="subject-detail__header__details__item">
                                     {!subscribed &&
                                         <button onClick={subscribeSubject}>{ `${ Lang.detailSubscribe[lang] }` }</button>
+                                    }
+                                    {subscribed &&
+                                        <button onClick={unsubscribeSubject}>{ `${ Lang.detailUnSubscribe[lang] }` }</button>
                                     }
                                 </span>
                             </div>
