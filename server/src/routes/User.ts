@@ -56,7 +56,7 @@ UserRoute.post(
       err: "",
     };
     const { user }: { user: UserInterface } = req;
-    const subjectId = req.body.subject;
+    const { subjectId } = req.body.subject;
     const doesSubjectExistsAtUser: boolean = user.Subjects.includes(subjectId);
     if (!doesSubjectExistsAtUser) {
       errorMap.err = "Such subject is not present at this user";
