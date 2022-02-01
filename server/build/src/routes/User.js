@@ -24,7 +24,7 @@ exports.UserRoute.post("/user/subject/subscribe", Auth_1.protect, (req, res) => 
         err: "",
     };
     const { user } = req;
-    const subjectId = req.body.subject;
+    const { subjectId } = req.body.subject;
     const isSubjectAlreadySubscribed = user.Subjects.includes(subjectId);
     if (isSubjectAlreadySubscribed) {
         errorMap.err = "Subject is already subscribed on this user";
@@ -55,7 +55,7 @@ exports.UserRoute.post("/user/subject/unsubscribe", Auth_1.protect, (req, res) =
         err: "",
     };
     const { user } = req;
-    const subjectId = req.body.subject;
+    const { subjectId } = req.body.subject;
     const doesSubjectExistsAtUser = user.Subjects.includes(subjectId);
     if (!doesSubjectExistsAtUser) {
         errorMap.err = "Such subject is not present at this user";

@@ -152,8 +152,8 @@ export const Lang: ILang = {
     cs: "Přehled",
     en: "Dashboard",
   },
-  
-  //Subject Detail 
+
+  //Subject Detail
   detailTitle: {
     cs: "Detail předmětu",
     en: "Subject detail",
@@ -182,4 +182,12 @@ export const Lang: ILang = {
     cs: "Popis předmětu",
     en: "Subject description",
   },
+  detailSubscribe: {
+    cs: "Zapsat předmět",
+    en: "Subscribe subject",
+  },
+  detailUnSubscribe: {
+    cs: "Odhlásit z předmětu",
+    en: "Unsubscribe from subject",
+  }
 };
