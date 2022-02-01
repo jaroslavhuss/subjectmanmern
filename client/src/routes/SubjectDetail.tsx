@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useNavigate, useParams  } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import "./SubjectDetail.scss"
 import AppBar from "../molecules/AppBar";
 import axios from "axios"
@@ -21,10 +21,10 @@ type ISubjectLanguageFixer = object & {
 }
 
 interface ITopics {
-   _id: string,
-   description: string,
-   dificulty: number
-   name: string
+    _id: string,
+    description: string,
+    dificulty: number
+    name: string
 }
 
 interface ITutor {
@@ -33,12 +33,12 @@ interface ITutor {
     surname: string,
     titleBefore: string,
     titleAfter: string,
- }
+}
 
 interface ISubject {
-    _id : string,
+    _id: string,
     credits: number,
-    degree : string,
+    degree: string,
     forms: Array<string>,
     languages?: Array<any | ISubjectLanguageFixer>,
     links: Array<string>,
@@ -64,7 +64,8 @@ const SubjectDetail = () => {
         getSubscribedSubjects();
     }, [authState, navigate, subscribed]);
 
-    useEffect(() => { if (!authState.isAuthenticated) navigate("/")
+    useEffect(() => {
+        if (!authState.isAuthenticated) navigate("/")
         getSubject();
     }, [authState, navigate, subscribedSubjects]);
 
@@ -148,18 +149,17 @@ const SubjectDetail = () => {
     };
 
     return <>
-        { authState.isAuthenticated &&
+        {authState.isAuthenticated &&
             <div>
                 <AppBar />
-                    <h2 className="page-title">{ Lang.detailTitle[lang] }</h2>
-                    <div className="subject-detail-wrapper">
-                         <div className="subject-detail-body">
+                <h2 className="page-title">{Lang.detailTitle[lang]}</h2>
+                <div className="subject-detail-wrapper">
+                    <div className="subject-detail-body">
 
 
-                            {/* HEADER */}
-                            <h2 className="subject-detail__header" > { subject?.languages![0][lang].name } </h2>
-
-                            <div className="subject-detail__header__details-small">
+                        {/* HEADER */}
+                        <h2 className="subject-detail__header" > {subject?.languages![0][lang].name} </h2>
+                        <div className="subject-detail__header__details-small">
                                 {/* ACTIONS */}
                                 <span className="subject-detail__header__details__item">
                                     {!subscribed &&
@@ -172,56 +172,56 @@ const SubjectDetail = () => {
                             </div>
 
                             <div className="subject-detail__header__details-big">
-                                {/* CREDITS */}
-                                <span className="subject-detail__header__details__item">
-                                    { `${ Lang.detailCredits[lang] }: ${ subject?.credits }` }
-                                </span>
+                            {/* CREDITS */}
+                            <span className="subject-detail__header__details__item">
+                                {`${Lang.detailCredits[lang]}: ${subject?.credits}`}
+                            </span>
 
-                                {/* DEGREE */}
-                                <span className="subject-detail__header__details__item">
-                                    { `${ Lang.detailLevel[lang] }: ${ subject?.degree }` }
-                                </span>
+                            {/* DEGREE */}
+                            <span className="subject-detail__header__details__item">
+                                {`${Lang.detailLevel[lang]}: ${subject?.degree}`}
+                            </span>
 
-                                {/* FORM */}
-                                <span className="subject-detail__header__details__item">
-                                    { `${ Lang.detailForm[lang] }: ${ subject?.languages![0][lang].langForm}` }
-                                </span>
+                            {/* FORM */}
+                            <span className="subject-detail__header__details__item">
+                                {`${Lang.detailForm[lang]}: ${subject?.languages![0][lang].langForm}`}
+                            </span>
 
-                                 {/* SEVERITY*/}
-                                <span className="subject-detail__header__details__item">
-                                    { `${ Lang.detailSubjectType[lang] }: ${ subject?.languages![0][lang].langSeverity }` }
-                                </span>
-                            </div>
-
-                            {/* GOAL */}
-                            <div className="subject-detail__header__details-small">
-                                <div className="subject-detail__header__details__headline-green">{ Lang.detailGoal[lang] } :</div>
-                                <div>{ subject?.languages![0][lang].goal }</div>
-                            </div>
-
-                            {/* Description */}
-                            <div className="subject-detail__header__details-small">
-                                <div className="subject-detail__header__details__headline-blue">{ Lang.detailDescription[lang] } :</div>
-                                <div>{ subject?.languages![0][lang].description }</div>
-                            </div>
-
-                            {/* TMP JUST FOR TESTING */}
-                             <p> { subject?.links[0] } </p>
-                             <p> { subject?.topics[2].name } </p>
-                             <p> { subject?.topics[2].description } </p>
-                             <p> { subject?.topics[2].dificulty } </p>
-                             <p> { subject?.topics[2]._id } </p>
-                             <p> { subject?.tutorials.daily[0][0].name } </p>
-                             <p> { subject?.tutorials.daily[0][0].description } </p>
-                             <p> { subject?.tutorials.daily[0][0].dificulty } </p>
-                             <p> { subject?.tutorials.daily[0][0]._id } </p>
-                             <p> { subject?.tutors[0]._id } </p>
-                             <p> { subject?.tutors[0].name } </p>
-                             <p> { subject?.tutors[0].surname } </p>
-                             <p> { subject?.tutors[0].titleAfter } </p>
-                             <p> { subject?.tutors[0].titleBefore } </p>
+                            {/* SEVERITY*/}
+                            <span className="subject-detail__header__details__item">
+                                {`${Lang.detailSubjectType[lang]}: ${subject?.languages![0][lang].langSeverity}`}
+                            </span>
                         </div>
+
+                        {/* GOAL */}
+                        <div className="subject-detail__header__details-small">
+                            <div className="subject-detail__header__details__headline-green">{Lang.detailGoal[lang]} :</div>
+                            <div>{subject?.languages![0][lang].goal}</div>
+                        </div>
+
+                        {/* Description */}
+                        <div className="subject-detail__header__details-small">
+                            <div className="subject-detail__header__details__headline-blue">{Lang.detailDescription[lang]} :</div>
+                            <div>{subject?.languages![0][lang].description}</div>
+                        </div>
+
+                        {/* TMP JUST FOR TESTING */}
+                        <p> {subject?.links[0]} </p>
+                        <p> {subject?.topics[2].name} </p>
+                        <p> {subject?.topics[2].description} </p>
+                        <p> {subject?.topics[2].dificulty} </p>
+                        <p> {subject?.topics[2]._id} </p>
+                        <p> {subject?.tutorials.daily[0][0].name} </p>
+                        <p> {subject?.tutorials.daily[0][0].description} </p>
+                        <p> {subject?.tutorials.daily[0][0].dificulty} </p>
+                        <p> {subject?.tutorials.daily[0][0]._id} </p>
+                        <p> {subject?.tutors[0]._id} </p>
+                        <p> {subject?.tutors[0].name} </p>
+                        <p> {subject?.tutors[0].surname} </p>
+                        <p> {subject?.tutors[0].titleAfter} </p>
+                        <p> {subject?.tutors[0].titleBefore} </p>
                     </div>
+                </div>
             </div>
         }
     </>;

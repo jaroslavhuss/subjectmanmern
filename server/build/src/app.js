@@ -18,6 +18,7 @@ const PORT = process.env.PORT || 5001;
 const App = (0, express_1.default)();
 App.use(express_1.default.json());
 App.use(express_1.default.text());
+App.use((0, cors_1.default)());
 (0, Connections_1.connect)();
 App.use("/auth-api/", (0, cors_1.default)(), Auth_1.Auth);
 App.use("/api/", (0, cors_1.default)(), Private_1.protectedRoute);

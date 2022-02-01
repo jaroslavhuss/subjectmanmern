@@ -117,3 +117,46 @@ UserRoute.post(
     });
   }
 );
+
+//Admin protected
+UserRoute.get(
+  "/users/get/all",
+  protect,
+  async (req: Request | any, res: Response) => {
+    const errorMap: ErrorInterface = {
+      err: "",
+    };
+    const isUserAdmin = req.user.authLevel.match("Admin");
+    if (!isUserAdmin) {
+      errorMap.err =
+        "Not enough privileges! U are a student or you are not authorized for this action.";
+      return res.status(403).json({
+        success: false,
+        errorMap,
+      });
+    }
+    try {
+      const users = await User.find({ authLevel: "Student" });
+      if (users) {
+        return res.status(200).json({
+          users,
+          errorMap,
+          success: true,
+        });
+      }
+      errorMap.err = "No users found";
+      return res.status(400).json({
+        errorMap,
+        success: true,
+      });
+    } catch (error) {
+      if (error) {
+        errorMap.err = error.message;
+        return res.status(500).json({
+          success: false,
+          errorMap,
+        });
+      }
+    }
+  }
+);

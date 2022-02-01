@@ -1,7 +1,8 @@
-import React from 'react';
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import "./AdminMenu.scss"
+
 const AdminMenu = () => {
+    const navigate = useNavigate();
     return (
         <div className='row-admin-panel'>
             <div className="module">
@@ -9,6 +10,10 @@ const AdminMenu = () => {
                 <Link to="/subjects">Subjects</Link>
                 <Link to="/tutors">Tutors</Link>
                 <Link to="/topics">Topics</Link>
+                <span onClick={() => {
+                    localStorage.clear();
+                    navigate("/")
+                }}>Log-out</span>
             </div>
         </div>
     );

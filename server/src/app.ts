@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 5001;
 const App = Express();
 App.use(Express.json());
 App.use(Express.text());
+App.use(cors());
 connect();
 
 App.use("/auth-api/", cors(), Auth);
