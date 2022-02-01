@@ -22,10 +22,10 @@ type ISubjectLanguageFixer = object & {
 }
 
 interface ITopics {
-   _id: string,
-   description: string,
-   dificulty: number
-   name: string
+    _id: string,
+    description: string,
+    dificulty: number
+    name: string
 }
 
 interface ITutor {
@@ -34,12 +34,12 @@ interface ITutor {
     surname: string,
     titleBefore: string,
     titleAfter: string,
- }
+}
 
 interface ISubject {
-    _id : string,
+    _id: string,
     credits: number,
-    degree : string,
+    degree: string,
     forms: Array<string>,
     languages?: Array<any | ISubjectLanguageFixer>,
     links: Array<string>,
@@ -60,15 +60,16 @@ const StudentsDashboard = () => {
     const [subsribedSubjects, setSubsribedSubjects] = useState<Array<ISubject>>();
     const [_id, setID] = useState<string>("");
 
-    useEffect(() => { if (!authState.isAuthenticated) navigate("/") 
-       getSubcribedSubjects()
+    useEffect(() => {
+        if (!authState.isAuthenticated) navigate("/")
+        getSubcribedSubjects()
     }, [authState, navigate]);
 
     //get subjects of user that is loged in
     const getSubcribedSubjects = async () => {
         try {
             const token = localStorage.getItem("token")
-            const res = await axios.post('http://localhost:5001/api/user/subject/read', {}, { 
+            const res = await axios.post('http://localhost:5001/api/user/subject/read', {}, {
                 headers: {
                     "Content-type": "application/json",
                     Authorization: `Bearer ${token}`,
@@ -76,64 +77,65 @@ const StudentsDashboard = () => {
             })
 
             setSubsribedSubjects(res.data.subjects);
-            setSubjects(res.data.restOfSubjects);              
-        } 
+            setSubjects(res.data.restOfSubjects);
+        }
         catch (error) {
             console.log(error);
-        } 
+        }
     }
 
     //id listener for search
-    const setIDCallback = (id: SetStateAction<string>) =>{
+    const setIDCallback = (id: SetStateAction<string>) => {
         setID(id)
     }
 
     return <>
-        { authState.isAuthenticated &&
+        {authState.isAuthenticated &&
             <div>
                 <AppBar />
-                    <h2 className="page-title">{ Lang.dashboardTitle[lang] }</h2>
-                    <div className="dashborad-wrapper">
-                         <div className="dashboard">
-                            <div className="dashboard__left">               
-                                <Searcher
-                                    setIDCallback = { setIDCallback }
-                                    items={ subjects } 
-                                    title={ Lang.dashboardSearchTitle[lang] } 
-                                    dropDownContent={ 
-                                        <div className="dashboard-drop-down" >
-                                            <Link className="dashboard-drop-down_link" to={`/subjectDetail/${_id}`}>
-                                                <span>
-                                                <Icon inline={true} icon="mdi:file"/>
-                                                    { Lang.dashboardSubjectDetail[lang] }
-                                                </span> 
-                                            </Link>
-                                        </div>
-                                     }
-                                />
-                            </div>
-                            <div className="dashboard__right">
-                                <h3 className="dashboard__right__title">{ Lang.dashboardEnrolledSubjects[lang] }</h3>
-                                <div className="dashboard__right__wraper">
 
-                                    {/* check if we have loaded subjects */}
-                                    { subsribedSubjects === undefined ? "LOADING" :
-                                    
-                                       /* rendering of enrolled subjects */
-                                       subsribedSubjects.map((item: ISubject) => (
+                <h2 className="page-title">{Lang.dashboardTitle[lang]}</h2>
+                <div className="dashborad-wrapper">
+                    <div className="dashboard">
+                        <div className="dashboard__left">
+                            <Searcher
+                                setIDCallback={setIDCallback}
+                                items={subjects}
+                                title={Lang.dashboardSearchTitle[lang]}
+                                dropDownContent={
+                                    <div className="dashboard-drop-down" >
+                                        <Link className="dashboard-drop-down_link" to={`/subjectDetail/${_id}`}>
+                                            <span>
+                                                <Icon inline={true} icon="mdi:file" />
+                                                {Lang.dashboardSubjectDetail[lang]}
+                                            </span>
+                                        </Link>
+                                    </div>
+                                }
+                            />
+                        </div>
+                        <div className="dashboard__right">
+                            <h3 className="dashboard__right__title">{Lang.dashboardEnrolledSubjects[lang]}</h3>
+                            <div className="dashboard__right__wraper">
+
+                                {/* check if we have loaded subjects */}
+                                {subsribedSubjects === undefined ? "LOADING" :
+
+                                    /* rendering of enrolled subjects */
+                                    subsribedSubjects.map((item: ISubject) => (
                                         <Link key={item._id} className="dashboard__right__item-link" to={`/subjectDetail/${item._id}`}>
                                             <div className="dashboard__right__subsribed">
-                                                <div className="dashboard__right__subsribed__item-name">{ item?.languages![0][lang].name }</div>
-                                                <div className="dashboard__right__subsribed__item-goal">{ item?.languages![0][lang].goal }</div>
+                                                <div className="dashboard__right__subsribed__item-name">{item?.languages![0][lang].name}</div>
+                                                <div className="dashboard__right__subsribed__item-goal">{item?.languages![0][lang].goal}</div>
                                             </div>
                                         </Link>
-                                      ))                 
-                                    }
+                                    ))
+                                }
 
-                                </div>
                             </div>
                         </div>
                     </div>
+                </div>
             </div>
         }
     </>;
