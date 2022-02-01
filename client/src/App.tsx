@@ -1,10 +1,17 @@
 import "./styles/App.scss"
 import { Route, Routes, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+/**
+ * Admin components
+ */
+import Admin from "./utils/ProtectedAdminRoute"
+import AdminPanel from "./routes/AdminRoutes/AdminPanel";
+
 import Register from "./routes/Register";
 import Login from "./routes/Login";
 import StudentsDashboard from "./routes/StudentsDashboard";
 import SubjectDetail from "./routes/SubjectDetail";
+
 import { authUserFailed, authUserSuccess } from "./store/reducers/auth";
 import { useEffect } from "react";
 import { setAuthToken } from "./utils/setAuthToken";
@@ -21,7 +28,7 @@ const App = () => {
           token: token,
           subjects: res.subjects
         }))
-        if (window.location.pathname == "/login") {
+        if (window.location.pathname === "/login") {
           navigate("/dashboard")
         }
       } else {
@@ -39,6 +46,9 @@ const App = () => {
         <Route path="/dashboard" element={<StudentsDashboard />} />
         <Route path="/subjectDetail/:_id" element={<SubjectDetail />} />
         <Route path="*" element={<Login />} />
+        <Route element={<Admin />}>
+          <Route path="/admin-panel" element={<AdminPanel />} />
+        </Route>
       </Routes>
     </div>
   )
