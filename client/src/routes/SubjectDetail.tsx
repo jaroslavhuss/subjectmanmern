@@ -22,9 +22,12 @@ type ISubjectLanguageFixer = object & {
 
 interface ITopics {
     _id: string,
-    description: string,
-    dificulty: number
-    name: string
+    dificulty: number,
+    digitalContent: string | undefined,
+    languages: Array<{
+        description: string,
+        name: string,
+    }>
 }
 
 interface ITutor {
@@ -100,8 +103,8 @@ const SubjectDetail = () => {
             });
             setSubject(res.data.subject);
 
-            const subject = subscribedSubjects.find((s) => s._id === _id);
-            if (subject) {
+            const subscribedSubject = subscribedSubjects.find((s) => s._id === _id);
+            if (subscribedSubject) {
                 setSubscribed(true);
             }
         }
@@ -205,21 +208,81 @@ const SubjectDetail = () => {
                             <div>{subject?.languages![0][lang].description}</div>
                         </div>
 
-                        {/* TMP JUST FOR TESTING */}
-                        <p> {subject?.links[0]} </p>
-                        <p> {subject?.topics[2].name} </p>
-                        <p> {subject?.topics[2].description} </p>
-                        <p> {subject?.topics[2].dificulty} </p>
-                        <p> {subject?.topics[2]._id} </p>
-                        <p> {subject?.tutorials.daily[0][0].name} </p>
-                        <p> {subject?.tutorials.daily[0][0].description} </p>
-                        <p> {subject?.tutorials.daily[0][0].dificulty} </p>
-                        <p> {subject?.tutorials.daily[0][0]._id} </p>
-                        <p> {subject?.tutors[0]._id} </p>
-                        <p> {subject?.tutors[0].name} </p>
-                        <p> {subject?.tutors[0].surname} </p>
-                        <p> {subject?.tutors[0].titleAfter} </p>
-                        <p> {subject?.tutors[0].titleBefore} </p>
+                        <div className="subject-detail__header__details-small">
+                            <div className="subject-detail__header__details__headline-blue">{Lang.detailTutors[lang]} :</div>
+                            {subject && subject.tutors.map((tutor) => {
+                                return (<div>{tutor.titleBefore} {tutor.name} {tutor.surname} {tutor.titleAfter}</div>);
+                            })}
+                        </div>
+
+                        <div className="subject-detail__header__details-small">
+                            <div className="subject-detail__header__details__headline-blue">{Lang.detailTopics[lang]} :</div>
+                            {subject && subject.topics.map((topic) => {
+                                return (
+                                    <div>
+                                        <h4><b>{topic.languages[lang].name}</b></h4>
+                                        <p>{Lang.detailTopicsDifficulty[lang]}: {topic.dificulty}</p>
+                                        <p>{topic.languages[lang].description}</p>
+                                        <div>{topic.digitalContent}</div>
+                                        <br/>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        <div className="subject-detail__header__details-small">
+                            <div className="subject-detail__header__details__headline-blue">{Lang.detailTutorials[lang]} :</div>
+                            <h3>{Lang.detailTutorialsDaily[lang]}</h3>
+                            {subject && subject.tutorials.daily.map((tutorial, index) => {
+                                return (
+                                    <div>
+                                        <h4>{Lang.detailTutorial[lang]} {index + 1}</h4>
+                                        <br/>
+                                        {tutorial.map((topic) => {
+                                            return (
+                                                <div>
+                                                    <h4><b>{topic.languages[lang].name}</b></h4>
+                                                    <p>{Lang.detailTopicsDifficulty[lang]}: {topic.dificulty}</p>
+                                                    <p>{topic.languages[lang].description}</p>
+                                                    <div>{topic.digitalContent}</div>
+                                                    <br/>
+                                                </div>
+                                            );
+                                        })}
+                                        <br/><br/>
+                                    </div>
+                                );
+                            })}
+                            <br/>
+                            <h3>{Lang.detailTutorialsDistant[lang]}</h3>
+                            {subject && subject.tutorials.distant.map((tutorial, index) => {
+                                return (
+                                    <div>
+                                        <h4>{Lang.detailTutorial[lang]} {index + 1}</h4>
+                                        <br/>
+                                        {tutorial.map((topic) => {
+                                            return (
+                                                <div>
+                                                    <h4><b>{topic.languages[lang].name}</b></h4>
+                                                    <p>{Lang.detailTopicsDifficulty[lang]}: {topic.dificulty}</p>
+                                                    <p>{topic.languages[lang].description}</p>
+                                                    <div>{topic.digitalContent}</div>
+                                                    <br/>
+                                                </div>
+                                            );
+                                        })}
+                                        <br/><br/>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        <div className="subject-detail__header__details-small">
+                            <div className="subject-detail__header__details__headline-blue">{Lang.detailLinks[lang]} :</div>
+                            {subject && subject.links.map((link) => {
+                                return (<div><a href={link} target="_blank">{link}</a></div>);
+                            })}
+                        </div>
                     </div>
                 </div>
             </div>

@@ -189,5 +189,37 @@ export const Lang: ILang = {
   detailUnSubscribe: {
     cs: "Odhlásit z předmětu",
     en: "Unsubscribe from subject",
-  }
+  },
+  detailTutors: {
+    cs: 'Učitelé',
+    en: 'Tutors'
+  },
+  detailLinks: {
+    cs: 'Odkazy',
+    en: 'Links'
+  },
+  detailTopics: {
+    cs: 'Témata',
+    en: 'Topics'
+  },
+  detailTopicsDifficulty: {
+    cs: 'Obtížnost',
+    en: 'Difficulty'
+  },
+  detailTutorials: {
+    cs: 'Tutoriály',
+    en: 'Tutorials'
+  },
+  detailTutorial: {
+    cs: 'Tutoriál',
+    en: 'Tutorial'
+  },
+  detailTutorialsDaily: {
+    cs: 'Denní studium',
+    en: 'Daily study'
+  },
+  detailTutorialsDistant: {
+    cs: 'Distanční studium',
+    en: 'Distant study'
+  },
 };
