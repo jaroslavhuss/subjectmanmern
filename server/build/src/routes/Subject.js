@@ -21,10 +21,19 @@ exports.Subject = (0, express_1.Router)();
  */
 exports.Subject.get("/subjects", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
+    const user = req.user;
+    const isUserAdmin = user.authLevel.match("Admin");
     try {
         if (req.query.id) {
             const subject = yield SubjectsView_1.SubjectsView.findOne({ _id: req.query.id });
             if (subject) {
+                if (!isUserAdmin && subject.degree !== user.level) {
+                    errorMap.err = "Can not access a subject not in students programme level";
+                    return res.status(403).json({
+                        success: false,
+                        errorMap,
+                    });
+                }
                 errorMap.err = "";
                 return res.status(200).json({
                     subject,
@@ -39,7 +48,16 @@ exports.Subject.get("/subjects", Auth_1.protect, (req, res) => __awaiter(void 0,
             });
         }
         else {
-            const subjects = yield SubjectsView_1.SubjectsView.find({});
+            let subjects;
+            if (isUserAdmin) {
+                subjects = yield SubjectsView_1.SubjectsView.find({});
+            }
+            else {
+                subjects = yield SubjectsView_1.SubjectsView.find()
+                    .where("degree")
+                    .equals(user.level)
+                    .exec();
+            }
             res.status(200).json({
                 subjects,
                 errorMap,

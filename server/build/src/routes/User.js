@@ -33,6 +33,21 @@ exports.UserRoute.post("/user/subject/subscribe", Auth_1.protect, (req, res) => 
             errorMap,
         });
     }
+    const subject = yield SubjectsView_1.SubjectsView.findOne({ _id: subjectId });
+    if (!subject) {
+        errorMap.err = "Subject does not exists";
+        return res.status(400).json({
+            success: false,
+            errorMap,
+        });
+    }
+    if (subject.degree !== user.level) {
+        errorMap.err = "Can not subscribe to a subject not in students programme level";
+        return res.status(403).json({
+            success: false,
+            errorMap,
+        });
+    }
     user.Subjects.push(subjectId);
     yield User_1.User.findOneAndUpdate(
     //@ts-ignore
@@ -90,8 +105,13 @@ exports.UserRoute.post("/user/subject/read", Auth_1.protect, (req, res) => __awa
     const UsersSubscribedSubjects = yield SubjectsView_1.SubjectsView.find()
         .where("_id")
         .in(user.Subjects)
+        .where("degree")
+        .equals(user.level)
         .exec();
-    const allSubjects = yield SubjectsView_1.SubjectsView.find({});
+    const allSubjects = yield SubjectsView_1.SubjectsView.find()
+        .where("degree")
+        .equals(user.level)
+        .exec();
     const arrayOfSubscribedSubjects = UsersSubscribedSubjects.map((subject) => subject._id.toString());
     const unique = allSubjects.filter((subjectAll) => {
         return !arrayOfSubscribedSubjects.includes(subjectAll._id.toString());

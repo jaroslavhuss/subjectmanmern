@@ -14,10 +14,21 @@ export const Subject = Router();
  */
 Subject.get("/subjects", protect, async (req: Request, res: Response) => {
   const errorMap: ErrorInterface = {};
+  const user = req.user;
+  const isUserAdmin = user.authLevel.match("Admin");
+
   try {
     if (req.query.id) {
-      const subject = await SubjectsView.findOne({ _id: req.query.id });
+      const subject: SubjectInterface | undefined = await SubjectsView.findOne({ _id: req.query.id });
       if (subject) {
+        if (!isUserAdmin && subject.degree !== user.level) {
+          errorMap.err = "Can not access a subject not in students programme level";
+          return res.status(403).json({
+            success: false,
+            errorMap,
+          });
+        }
+
         errorMap.err = "";
         return res.status(200).json({
           subject,
@@ -31,7 +42,17 @@ Subject.get("/subjects", protect, async (req: Request, res: Response) => {
         success: false,
       });
     } else {
-      const subjects = await SubjectsView.find({});
+      let subjects;
+
+      if (isUserAdmin) {
+        subjects = await SubjectsView.find({});
+      } else {
+        subjects = await SubjectsView.find()
+            .where("degree")
+            .equals(user.level)
+            .exec();
+      }
+
       res.status(200).json({
         subjects,
         errorMap,

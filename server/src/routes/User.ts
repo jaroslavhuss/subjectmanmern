@@ -29,6 +29,25 @@ UserRoute.post(
         errorMap,
       });
     }
+
+    const subject: SubjectInterface | undefined = await SubjectsView.findOne({ _id: subjectId });
+
+    if (!subject) {
+        errorMap.err = "Subject does not exists";
+        return res.status(400).json({
+            success: false,
+            errorMap,
+        });
+    }
+
+    if (subject.degree !== user.level) {
+        errorMap.err = "Can not subscribe to a subject not in students programme level";
+        return res.status(403).json({
+            success: false,
+            errorMap,
+        });
+    }
+
     user.Subjects.push(subjectId);
     await User.findOneAndUpdate(
       //@ts-ignore
@@ -95,15 +114,25 @@ UserRoute.post(
     const errorMap: ErrorInterface = {
       err: "",
     };
+
     const { user }: { user: UserInterface } = req;
+
     const UsersSubscribedSubjects = await SubjectsView.find()
-      .where("_id")
-      .in(user.Subjects)
-      .exec();
-    const allSubjects = await SubjectsView.find({});
+        .where("_id")
+        .in(user.Subjects)
+        .where("degree")
+        .equals(user.level)
+        .exec();
+
+    const allSubjects = await SubjectsView.find()
+        .where("degree")
+        .equals(user.level)
+        .exec();
+
     const arrayOfSubscribedSubjects = UsersSubscribedSubjects.map(
       (subject: SubjectInterface) => subject._id.toString()
     );
+
     const unique = allSubjects.filter((subjectAll) => {
       return !arrayOfSubscribedSubjects.includes(subjectAll._id.toString());
     });
