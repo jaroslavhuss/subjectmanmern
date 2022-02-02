@@ -20,7 +20,7 @@ const subjectView = new Schema({
     type: Array,
     required: [true, "At least one topic must be within the subject"],
   },
-  languages: { type: Array, required: [true, "Language object is missing"] },
+  languages: { type: Object, required: [true, "Language object is missing"] },
   tutors: {
     type: Array,
     required: [true, "At least one tutor has to be filled in"],

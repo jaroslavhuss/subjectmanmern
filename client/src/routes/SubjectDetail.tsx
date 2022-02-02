@@ -60,7 +60,8 @@ const SubjectDetail = () => {
     const [subject, setSubject] = useState<ISubject>();
     const [subscribedSubjects = [], setSubscribedSubjects] = useState<Array<ISubject>>();
 
-    useEffect(() => { if (!authState.isAuthenticated) navigate("/")
+    useEffect(() => {
+        if (!authState.isAuthenticated) navigate("/")
         getSubscribedSubjects();
     }, [authState, navigate, subscribed]);
 
@@ -158,20 +159,20 @@ const SubjectDetail = () => {
 
 
                         {/* HEADER */}
-                        <h2 className="subject-detail__header" > {subject?.languages![0][lang].name} </h2>
+                        <h2 className="subject-detail__header" > {subject?.languages![lang].name} </h2>
                         <div className="subject-detail__header__details-small">
-                                {/* ACTIONS */}
-                                <span className="subject-detail__header__details__item">
-                                    {!subscribed &&
-                                        <BasicButton onClick={subscribeSubject}>{ `${ Lang.detailSubscribe[lang] }` }</BasicButton>
-                                    }
-                                    {subscribed &&
-                                        <BasicButton onClick={unsubscribeSubject}>{ `${ Lang.detailUnSubscribe[lang] }` }</BasicButton>
-                                    }
-                                </span>
-                            </div>
+                            {/* ACTIONS */}
+                            <span className="subject-detail__header__details__item">
+                                {!subscribed &&
+                                    <BasicButton onClick={subscribeSubject}>{`${Lang.detailSubscribe[lang]}`}</BasicButton>
+                                }
+                                {subscribed &&
+                                    <BasicButton onClick={unsubscribeSubject}>{`${Lang.detailUnSubscribe[lang]}`}</BasicButton>
+                                }
+                            </span>
+                        </div>
 
-                            <div className="subject-detail__header__details-big">
+                        <div className="subject-detail__header__details-big">
                             {/* CREDITS */}
                             <span className="subject-detail__header__details__item">
                                 {`${Lang.detailCredits[lang]}: ${subject?.credits}`}
@@ -184,25 +185,25 @@ const SubjectDetail = () => {
 
                             {/* FORM */}
                             <span className="subject-detail__header__details__item">
-                                {`${Lang.detailForm[lang]}: ${subject?.languages![0][lang].langForm}`}
+                                {`${Lang.detailForm[lang]}: ${subject?.languages![lang].langForm}`}
                             </span>
 
                             {/* SEVERITY*/}
                             <span className="subject-detail__header__details__item">
-                                {`${Lang.detailSubjectType[lang]}: ${subject?.languages![0][lang].langSeverity}`}
+                                {`${Lang.detailSubjectType[lang]}: ${subject?.languages![lang].langSeverity}`}
                             </span>
                         </div>
 
                         {/* GOAL */}
                         <div className="subject-detail__header__details-small">
                             <div className="subject-detail__header__details__headline-green">{Lang.detailGoal[lang]} :</div>
-                            <div>{subject?.languages![0][lang].goal}</div>
+                            <div>{subject?.languages![lang].goal}</div>
                         </div>
 
                         {/* Description */}
                         <div className="subject-detail__header__details-small">
                             <div className="subject-detail__header__details__headline-blue">{Lang.detailDescription[lang]} :</div>
-                            <div>{subject?.languages![0][lang].description}</div>
+                            <div>{subject?.languages![lang].description}</div>
                         </div>
 
                         {/* TMP JUST FOR TESTING */}

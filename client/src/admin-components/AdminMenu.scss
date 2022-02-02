@@ -1,4 +1,25 @@
 .row-admin-panel {
   flex-direction: row;
-  text-align: right;
+  margin-top: 10px;
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  .menu-btn,
+  .menu-btn-logoff {
+    margin: 4px;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.5s ease;
+  }
+  .menu-btn-logoff {
+    color: red;
+    cursor: pointer;
+  }
+  .menu-btn:hover,
+  .menu-btn-logoff:hover {
+    color: aqua;
+    border-bottom: 1px solid aquamarine;
+  }
 }

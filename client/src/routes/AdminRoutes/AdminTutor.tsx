@@ -1,8 +1,9 @@
 import AdminContainer from '../../admin-components/AdminContainer';
+import "./GlobalCSS.scss"
 const AdminTutor = () => {
     return (
         <AdminContainer>
-            <h1>Manipulation with Tutors</h1>
+            <h1 className='headline'>Tutors</h1>
         </AdminContainer>
     )
 };

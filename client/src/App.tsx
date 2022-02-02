@@ -5,10 +5,11 @@ import { useDispatch } from "react-redux";
  * Admin components
  */
 import Admin from "./utils/ProtectedAdminRoute"
-import AdminPanel from "./routes/AdminRoutes/AdminPanel";
+import AdminPanel from "./routes/AdminRoutes/AdminDashboard";
 import AdminSubject from "./routes/AdminRoutes/AdminSubject";
 import AdminTutor from "./routes/AdminRoutes/AdminTutor";
-import AdminTopic from "./routes/AdminRoutes/AdminSubjects";
+import AdminTopic from "./routes/AdminRoutes/AdminTopic";
+import SubjectUpdate from "./routes/AdminRoutes/AdminSubjectUpdate"
 
 import Register from "./routes/Register";
 import Login from "./routes/Login";
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/subjects" element={<AdminSubject />} />
           <Route path="/tutors" element={<AdminTutor />} />
           <Route path="/topics" element={<AdminTopic />} />
+          <Route path="/subject-update" element={<SubjectUpdate />} />
         </Route>
       </Routes>
     </div>

@@ -1,8 +1,9 @@
 import AdminContainer from '../../admin-components/AdminContainer';
+import "./GlobalCSS.scss"
 const AdminTopic = () => {
     return (
         <AdminContainer>
-            <h1>Manipulation with Topics</h1>
+            <h1 className='headline'>Topics</h1>
         </AdminContainer>
     )
 };
