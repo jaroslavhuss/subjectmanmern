@@ -9,7 +9,7 @@ const AdminContainer = ({ children }: { children: React.ReactNode }) => {
     const authState = useSelector((data: any) => { return data.auth });
     useEffect(() => {
         if (!authState.isAuthenticated) navigate("/")
-    }, [authState, navigate]);
+    });
     return (
         <div className="admin-container">
             <AdminMenu />

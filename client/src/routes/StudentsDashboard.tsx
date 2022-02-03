@@ -41,7 +41,7 @@ interface ISubject {
     credits: number,
     degree: string,
     forms: Array<string>,
-    languages?: Array<any | ISubjectLanguageFixer>,
+    languages?: any,
     links: Array<string>,
     severity: Array<string>,
     topics: Array<ITopics>,
@@ -125,8 +125,8 @@ const StudentsDashboard = () => {
                                     subsribedSubjects.map((item: ISubject) => (
                                         <Link key={item._id} className="dashboard__right__item-link" to={`/subjectDetail/${item._id}`}>
                                             <div className="dashboard__right__subsribed">
-                                                <div className="dashboard__right__subsribed__item-name">{item?.languages![0][lang].name}</div>
-                                                <div className="dashboard__right__subsribed__item-goal">{item?.languages![0][lang].goal}</div>
+                                                <div className="dashboard__right__subsribed__item-name">{item?.languages[lang]?.name}</div>
+                                                <div className="dashboard__right__subsribed__item-goal">{item?.languages[lang]?.goal}</div>
                                             </div>
                                         </Link>
                                     ))

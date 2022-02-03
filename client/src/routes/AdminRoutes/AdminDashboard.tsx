@@ -1,15 +1,19 @@
+/* eslint-disable */
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import AdminContainer from "../../admin-components/AdminContainer";
 import { FETCH_URL } from "./CONSTANT_CALL";
 import { UserInterface } from "../../interface/UserInterface";
 const AdminPanel = () => {
-    const user = useSelector((data: any) => {
+    let user = useSelector((data: any) => {
         return data.auth.user;
     })
     const [listOfStudents, setListOfStudents] = useState<UserInterface[]>([]);
     useEffect(() => {
         getAllStudents()
+        return () => {
+            user = {};
+        }
     });
 
     const getAllStudents = async () => {
@@ -29,9 +33,9 @@ const AdminPanel = () => {
     }
     return (
         <AdminContainer>
-            <p>
-                Admin: {user.name}
-            </p>
+            <h1 style={{ margin: 10 }}>
+                Admin: <span style={{ color: "red" }}>{user.name} {user.surname}</span>
+            </h1>
             <div className="listOfStudents" style={{ display: "flex", flexWrap: "wrap" }}>
                 {listOfStudents.map(({ name, email, surname, form, language, level, Subjects }: UserInterface, key) => (
                     <div style={{ flex: "30%", border: "1px solid white", padding: 10, margin: 4, display: "flex", flexDirection: "column" }} className="student-box" key={key}>
