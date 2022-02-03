@@ -1,5 +1,6 @@
 import { Response, Request, Router } from "express";
 import { protect } from "../middleware/Auth";
+import { audit } from "../middleware/Audit";
 import { ErrorInterface } from "../interface/AuthInterface";
 import { TutorModel } from "../models/Tutor";
 import { TutorInterface } from "../interface/TutorInterface";
@@ -9,7 +10,7 @@ export const Tutor = Router();
  * @description Creates a Tutor based on TutorInterface
  * @method POST
  */
-Tutor.post("/tutor/create", protect, async (req: Request, res: Response) => {
+Tutor.post("/tutor/create", protect, audit, async (req: Request, res: Response) => {
   const errorMap: ErrorInterface = {};
   const isUserAdmin = req.user.authLevel.match("Admin");
   if (!isUserAdmin) {
@@ -47,7 +48,7 @@ Tutor.post("/tutor/create", protect, async (req: Request, res: Response) => {
  * @description Deletes tutor based on TutorInterface
  * @method POST
  */
-Tutor.post("/tutor/delete", protect, async (req: Request, res: Response) => {
+Tutor.post("/tutor/delete", protect, audit, async (req: Request, res: Response) => {
   const errorMap: ErrorInterface = {};
   const isUserAdmin = req.user.authLevel.match("Admin");
   if (!isUserAdmin) {
@@ -86,7 +87,7 @@ Tutor.post("/tutor/delete", protect, async (req: Request, res: Response) => {
  * @description Gets all tutors based on TutorInterface
  * @method get
  */
-Tutor.get("/tutor/list", protect, async (req: Request, res: Response) => {
+Tutor.get("/tutor/list", protect, audit, async (req: Request, res: Response) => {
   const errorMap: ErrorInterface = {};
   const isUserAdmin = req.user.authLevel.match("Admin");
   if (!isUserAdmin) {
@@ -123,7 +124,7 @@ Tutor.get("/tutor/list", protect, async (req: Request, res: Response) => {
  * @description Updates tutor based on TutorInterface
  * @method POST
  */
-Tutor.post("/tutor/update", protect, async (req: Request, res: Response) => {
+Tutor.post("/tutor/update", protect, audit, async (req: Request, res: Response) => {
   const errorMap: ErrorInterface = {};
   const isUserAdmin = req.user.authLevel.match("Admin");
   if (!isUserAdmin) {

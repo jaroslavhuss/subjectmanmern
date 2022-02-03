@@ -1,6 +1,7 @@
 import { Response, Request, Router } from "express";
 import { SubjectsView } from "../models/SubjectsView";
 import { protect } from "../middleware/Auth";
+import { audit } from "../middleware/Audit";
 import { ErrorInterface } from "../interface/AuthInterface";
 import {
   SubjectInterface,
@@ -12,7 +13,7 @@ export const Subject = Router();
 /**
  * @protected User/Admin
  */
-Subject.get("/subjects", protect, async (req: Request, res: Response) => {
+Subject.get("/subjects", protect, audit, async (req: Request, res: Response) => {
   const errorMap: ErrorInterface = {};
   const user = req.user;
   const isUserAdmin = user.authLevel.match("Admin");
@@ -71,6 +72,7 @@ Subject.get("/subjects", protect, async (req: Request, res: Response) => {
 Subject.post(
   "/subject/update",
   protect,
+  audit,
   async (req: Request, res: Response) => {
     const errorMap: ErrorInterface = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
@@ -129,6 +131,7 @@ Subject.post(
 Subject.post(
   "/subject/delete",
   protect,
+  audit,
   async (req: Request, res: Response) => {
     const errorMap: ErrorInterface = {};
     const subjectToUpdate: SubjectInterfaceRequestBody = req.body.subject;
@@ -167,6 +170,7 @@ Subject.post(
 Subject.post(
   "/subject/create",
   protect,
+  audit,
   async (req: Request, res: Response) => {
     const errorMap: ErrorInterface = {};
     const subjectToBeCreated: SubjectInterfaceRequestBody = req.body.subject;

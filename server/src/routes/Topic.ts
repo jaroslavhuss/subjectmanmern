@@ -3,6 +3,7 @@ import { TopicModel } from "../models/Topic";
 import { ErrorInterface } from "../interface/AuthInterface";
 import { Router, Request, Response } from "express";
 import { protect } from "../middleware/Auth";
+import { audit } from "../middleware/Audit";
 export const Topic = Router();
 
 /**
@@ -10,7 +11,7 @@ export const Topic = Router();
  * @description Creates Topic based on TopicInterface
  * @method POST
  */
-Topic.post("/topic/create", protect, async (req: Request, res: Response) => {
+Topic.post("/topic/create", protect, audit, async (req: Request, res: Response) => {
   const errorMap: ErrorInterface = {};
   const isUserAdmin = req.user.authLevel.match("Admin");
   if (!isUserAdmin) {
@@ -44,7 +45,7 @@ Topic.post("/topic/create", protect, async (req: Request, res: Response) => {
  * @description Deletes topic based on TopicInterface
  * @method POST
  */
-Topic.post("/topic/delete", protect, async (req: Request, res: Response) => {
+Topic.post("/topic/delete", protect, audit, async (req: Request, res: Response) => {
   const errorMap: ErrorInterface = {};
   const isUserAdmin = req.user.authLevel.match("Admin");
   if (!isUserAdmin) {
@@ -79,7 +80,7 @@ Topic.post("/topic/delete", protect, async (req: Request, res: Response) => {
  * @description Returns all topics based on TopicInterface
  * @method GET
  */
-Topic.get("/topic/list", protect, async (req: Request, res: Response) => {
+Topic.get("/topic/list", protect, audit, async (req: Request, res: Response) => {
   const errorMap: ErrorInterface = {};
   const isUserAdmin = req.user.authLevel.match("Admin");
   if (!isUserAdmin) {
@@ -111,7 +112,7 @@ Topic.get("/topic/list", protect, async (req: Request, res: Response) => {
  * @description Updates topics based on TopicInterface
  * @method POST
  */
-Topic.post("/topic/update", protect, async (req: Request, res: Response) => {
+Topic.post("/topic/update", protect, audit, async (req: Request, res: Response) => {
   const errorMap: ErrorInterface = {};
   const isUserAdmin = req.user.authLevel.match("Admin");
   if (!isUserAdmin) {

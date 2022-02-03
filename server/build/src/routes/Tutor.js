@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Tutor = void 0;
 const express_1 = require("express");
 const Auth_1 = require("../middleware/Auth");
+const Audit_1 = require("../middleware/Audit");
 const Tutor_1 = require("../models/Tutor");
 exports.Tutor = (0, express_1.Router)();
 /**
@@ -19,7 +20,7 @@ exports.Tutor = (0, express_1.Router)();
  * @description Creates a Tutor based on TutorInterface
  * @method POST
  */
-exports.Tutor.post("/tutor/create", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Tutor.post("/tutor/create", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -58,7 +59,7 @@ exports.Tutor.post("/tutor/create", Auth_1.protect, (req, res) => __awaiter(void
  * @description Deletes tutor based on TutorInterface
  * @method POST
  */
-exports.Tutor.post("/tutor/delete", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Tutor.post("/tutor/delete", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -97,7 +98,7 @@ exports.Tutor.post("/tutor/delete", Auth_1.protect, (req, res) => __awaiter(void
  * @description Gets all tutors based on TutorInterface
  * @method get
  */
-exports.Tutor.get("/tutor/list", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Tutor.get("/tutor/list", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -134,7 +135,7 @@ exports.Tutor.get("/tutor/list", Auth_1.protect, (req, res) => __awaiter(void 0,
  * @description Updates tutor based on TutorInterface
  * @method POST
  */
-exports.Tutor.post("/tutor/update", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Tutor.post("/tutor/update", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {

@@ -13,13 +13,14 @@ exports.Topic = void 0;
 const Topic_1 = require("../models/Topic");
 const express_1 = require("express");
 const Auth_1 = require("../middleware/Auth");
+const Audit_1 = require("../middleware/Audit");
 exports.Topic = (0, express_1.Router)();
 /**
  * @protected Admin
  * @description Creates Topic based on TopicInterface
  * @method POST
  */
-exports.Topic.post("/topic/create", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Topic.post("/topic/create", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -53,7 +54,7 @@ exports.Topic.post("/topic/create", Auth_1.protect, (req, res) => __awaiter(void
  * @description Deletes topic based on TopicInterface
  * @method POST
  */
-exports.Topic.post("/topic/delete", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Topic.post("/topic/delete", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -88,7 +89,7 @@ exports.Topic.post("/topic/delete", Auth_1.protect, (req, res) => __awaiter(void
  * @description Returns all topics based on TopicInterface
  * @method GET
  */
-exports.Topic.get("/topic/list", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Topic.get("/topic/list", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -121,7 +122,7 @@ exports.Topic.get("/topic/list", Auth_1.protect, (req, res) => __awaiter(void 0,
  * @description Updates topics based on TopicInterface
  * @method POST
  */
-exports.Topic.post("/topic/update", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Topic.post("/topic/update", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {

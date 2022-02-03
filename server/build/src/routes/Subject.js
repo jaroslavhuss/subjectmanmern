@@ -13,13 +13,14 @@ exports.Subject = void 0;
 const express_1 = require("express");
 const SubjectsView_1 = require("../models/SubjectsView");
 const Auth_1 = require("../middleware/Auth");
+const Audit_1 = require("../middleware/Audit");
 const Subject_1 = require("../models/Subject");
 const mongodb_1 = require("mongodb");
 exports.Subject = (0, express_1.Router)();
 /**
  * @protected User/Admin
  */
-exports.Subject.get("/subjects", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Subject.get("/subjects", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const user = req.user;
     const isUserAdmin = user.authLevel.match("Admin");
@@ -74,7 +75,7 @@ exports.Subject.get("/subjects", Auth_1.protect, (req, res) => __awaiter(void 0,
     }
 }));
 //Admin
-exports.Subject.post("/subject/update", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Subject.post("/subject/update", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const isUserAdmin = req.user.authLevel.match("Admin");
     if (!isUserAdmin) {
@@ -116,7 +117,7 @@ exports.Subject.post("/subject/update", Auth_1.protect, (req, res) => __awaiter(
     }
 }));
 //Admin
-exports.Subject.post("/subject/delete", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Subject.post("/subject/delete", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const subjectToUpdate = req.body.subject;
     try {
@@ -150,7 +151,7 @@ exports.Subject.post("/subject/delete", Auth_1.protect, (req, res) => __awaiter(
     }
 }));
 //Admin
-exports.Subject.post("/subject/create", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.Subject.post("/subject/create", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
     const subjectToBeCreated = req.body.subject;
     const topicsObjectId = subjectToBeCreated.topics.map((topic) => {

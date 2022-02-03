@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRoute = void 0;
 const express_1 = require("express");
 const Auth_1 = require("../middleware/Auth");
+const Audit_1 = require("../middleware/Audit");
 const User_1 = require("../models/User");
 const SubjectsView_1 = require("../models/SubjectsView");
 exports.UserRoute = (0, express_1.Router)();
@@ -19,7 +20,7 @@ exports.UserRoute = (0, express_1.Router)();
  * @method POST
  * @description Returns a user with udpated subjects
  */
-exports.UserRoute.post("/user/subject/subscribe", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.UserRoute.post("/user/subject/subscribe", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {
         err: "",
     };
@@ -65,7 +66,7 @@ exports.UserRoute.post("/user/subject/subscribe", Auth_1.protect, (req, res) => 
         subjects: UsersSubscribedSubjects,
     });
 }));
-exports.UserRoute.post("/user/subject/unsubscribe", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.UserRoute.post("/user/subject/unsubscribe", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {
         err: "",
     };
@@ -97,7 +98,7 @@ exports.UserRoute.post("/user/subject/unsubscribe", Auth_1.protect, (req, res) =
         subjects: UsersSubscribedSubjects,
     });
 }));
-exports.UserRoute.post("/user/subject/read", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.UserRoute.post("/user/subject/read", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {
         err: "",
     };
@@ -125,7 +126,7 @@ exports.UserRoute.post("/user/subject/read", Auth_1.protect, (req, res) => __awa
     });
 }));
 //Admin protected
-exports.UserRoute.get("/users/get/all", Auth_1.protect, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+exports.UserRoute.get("/users/get/all", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {
         err: "",
     };

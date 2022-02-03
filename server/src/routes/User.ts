@@ -1,6 +1,7 @@
 import { Request, Response, Router } from "express";
 import { UserInterface } from "../interface/User";
 import { protect } from "../middleware/Auth";
+import { audit } from "../middleware/Audit";
 import { ErrorInterface } from "../interface/AuthInterface";
 import { User } from "../models/User";
 import { SubjectsView } from "../models/SubjectsView";
@@ -14,6 +15,7 @@ export const UserRoute = Router();
 UserRoute.post(
   "/user/subject/subscribe",
   protect,
+  audit,
   async (req: Request | any, res: Response) => {
     const errorMap: ErrorInterface = {
       err: "",
@@ -70,6 +72,7 @@ UserRoute.post(
 UserRoute.post(
   "/user/subject/unsubscribe",
   protect,
+  audit,
   async (req: Request | any, res: Response) => {
     const errorMap: ErrorInterface = {
       err: "",
@@ -110,6 +113,7 @@ UserRoute.post(
 UserRoute.post(
   "/user/subject/read",
   protect,
+  audit,
   async (req: Request | any, res: Response) => {
     const errorMap: ErrorInterface = {
       err: "",
@@ -151,6 +155,7 @@ UserRoute.post(
 UserRoute.get(
   "/users/get/all",
   protect,
+  audit,
   async (req: Request | any, res: Response) => {
     const errorMap: ErrorInterface = {
       err: "",
