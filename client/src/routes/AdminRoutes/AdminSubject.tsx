@@ -6,14 +6,13 @@ import AdminContainer from '../../admin-components/AdminContainer';
 import { SubjectInterface } from '../../interface/subject';
 import { updateSubject } from '../../store/reducers/updateSubject';
 import { FETCH_URL } from './CONSTANT_CALL';
-
+import { Link } from "react-router-dom";
 import "./GlobalCSS.scss"
 const AdminSubject = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [subjects, setSubjects] = useState<SubjectInterface[]>([]);
-    const [showAdminComponent, setShowAdminComponent] = useState<boolean>(false);
-    const [selectedSubject, setSelectedSubject] = useState({});
+    const [reload, setReload] = useState<boolean>(false);
     const lang = useSelector((data: any) => { return data.language.language })
 
     const getAllSubjects = async (): Promise<any> => {
@@ -35,18 +34,47 @@ const AdminSubject = () => {
     }
     useEffect(() => {
         getAllSubjects()
-    }, []);
+    }, [reload]);
 
     const subjectUpdate = (index: number) => {
         dispatch(updateSubject(subjects[index]));
         navigate("/subject-update")
     }
-    const subjectDelete = (index: number) => {
-        //Zde bude delete metoda
+    const subjectDelete = async (index: number) => {
+        const token: string | null = localStorage.getItem("token");
+        const deleteAction = window.confirm("Do you really wish to delete this subject?");
+        if (deleteAction) {
+            try {
+                const res: any = await fetch(FETCH_URL + "/api/subject/delete", {
+                    method: "post",
+                    headers: {
+                        "Content-type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: JSON.stringify({
+                        subject: {
+                            //@ts-ignore
+                            _id: subjects[index]._id
+                        }
+                    })
+                })
+                const data = await res.json();
+                if (data.success) {
+                    setReload(!reload);
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
     return (
         <AdminContainer>
             <h1 className='headline'>Subjects</h1>
+            <br />
+            <div className="">
+                <Link style={{ padding: 5 }} to="/subject-create" className='button-custom'>Create new subject</Link>
+            </div>
+            <br />
             <div className="subjectList">
                 {subjects.map((subitem: SubjectInterface, index) => {
                     return (

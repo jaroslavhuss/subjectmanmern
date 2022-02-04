@@ -10,6 +10,7 @@ import AdminSubject from "./routes/AdminRoutes/AdminSubject";
 import AdminTutor from "./routes/AdminRoutes/AdminTutor";
 import AdminTopic from "./routes/AdminRoutes/AdminTopic";
 import SubjectUpdate from "./routes/AdminRoutes/AdminSubjectUpdate"
+import CreateNewSubject from "./routes/AdminRoutes/AdminCreateNewSubject"
 
 import Register from "./routes/Register";
 import Login from "./routes/Login";
@@ -56,6 +57,7 @@ const App = () => {
           <Route path="/tutors" element={<AdminTutor />} />
           <Route path="/topics" element={<AdminTopic />} />
           <Route path="/subject-update" element={<SubjectUpdate />} />
+          <Route path="/subject-create" element={<CreateNewSubject />} />
         </Route>
       </Routes>
     </div>

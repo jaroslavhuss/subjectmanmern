@@ -13,61 +13,68 @@ export const Subject = Router();
 /**
  * @protected User/Admin
  */
-Subject.get("/subjects", protect, audit, async (req: Request, res: Response) => {
-  const errorMap: ErrorInterface = {};
-  const user = req.user;
-  const isUserAdmin = user.authLevel.match("Admin");
+Subject.get(
+  "/subjects",
+  protect,
+  audit,
+  async (req: Request, res: Response) => {
+    const errorMap: ErrorInterface = {};
+    const user = req.user;
+    const isUserAdmin = user.authLevel.match("Admin");
 
-  try {
-    if (req.query.id) {
-      const subject: SubjectInterface | undefined = await SubjectsView.findOne({ _id: req.query.id });
-      if (subject) {
-        if (!isUserAdmin && subject.degree !== user.level) {
-          errorMap.err = "Can not access a subject not in students programme level";
-          return res.status(403).json({
-            success: false,
+    try {
+      if (req.query.id) {
+        const subject: SubjectInterface | undefined =
+          await SubjectsView.findOne({ _id: req.query.id });
+        if (subject) {
+          if (!isUserAdmin && subject.degree !== user.level) {
+            errorMap.err =
+              "Can not access a subject not in students programme level";
+            return res.status(403).json({
+              success: false,
+              errorMap,
+            });
+          }
+
+          errorMap.err = "";
+          return res.status(200).json({
+            subject,
             errorMap,
+            success: true,
           });
         }
+        errorMap.err = "No subject was found";
+        return res.status(404).json({
+          errorMap,
+          success: false,
+        });
+      } else {
+        let subjects;
 
-        errorMap.err = "";
-        return res.status(200).json({
-          subject,
+        if (isUserAdmin) {
+          subjects = await SubjectsView.find({});
+        } else {
+          subjects = await SubjectsView.find()
+            .where("degree")
+            .equals(user.level)
+            .exec();
+        }
+
+        res.status(200).json({
+          subjects,
           errorMap,
           success: true,
         });
       }
-      errorMap.err = "No subject was found";
-      return res.status(404).json({
-        errorMap,
-        success: false,
-      });
-    } else {
-      let subjects;
-
-      if (isUserAdmin) {
-        subjects = await SubjectsView.find({});
-      } else {
-        subjects = await SubjectsView.find()
-            .where("degree")
-            .equals(user.level)
-            .exec();
-      }
-
-      res.status(200).json({
-        subjects,
+    } catch (error) {
+      errorMap.err = error.message;
+      res.status(400).json({
         errorMap,
         success: true,
       });
     }
-  } catch (error) {
-    errorMap.err = error.message;
-    res.status(400).json({
-      errorMap,
-      success: true,
-    });
   }
-});
+);
 //Admin
 Subject.post(
   "/subject/update",
@@ -134,6 +141,15 @@ Subject.post(
   audit,
   async (req: Request, res: Response) => {
     const errorMap: ErrorInterface = {};
+    const isUserAdmin = req.user.authLevel.match("Admin");
+    if (!isUserAdmin) {
+      errorMap.err =
+        "Not enough privileges! U are a student or you are not authorized for this action.";
+      return res.status(403).json({
+        success: false,
+        errorMap,
+      });
+    }
     const subjectToUpdate: SubjectInterfaceRequestBody = req.body.subject;
     try {
       const getSubjectTobeDeleted = await SubjectModel.findByIdAndDelete(
@@ -173,42 +189,47 @@ Subject.post(
   audit,
   async (req: Request, res: Response) => {
     const errorMap: ErrorInterface = {};
-    const subjectToBeCreated: SubjectInterfaceRequestBody = req.body.subject;
-    const topicsObjectId = subjectToBeCreated.topics.map((topic) => {
-      return new ObjectId(topic);
-    });
-
-    const tutorsObjectId = subjectToBeCreated.tutors.map((tutor) => {
-      return new ObjectId(tutor);
-    });
+    const isUserAdmin = req.user.authLevel.match("Admin");
+    if (!isUserAdmin) {
+      errorMap.err =
+        "Not enough privileges! U are a student or you are not authorized for this action.";
+      return res.status(403).json({
+        success: false,
+        errorMap,
+      });
+    }
     try {
+      //Validation runs here
+      const subjectToBeCreated: SubjectInterface = req.body.subject;
+      await SubjectModel.validate(subjectToBeCreated);
+
+      const topicsObjectId: any = subjectToBeCreated.topics.map(
+        (topic: any) => {
+          return new ObjectId(topic);
+        }
+      );
+      const tutorsObjectId: any = subjectToBeCreated.tutors.map(
+        (tutor: any) => {
+          return new ObjectId(tutor);
+        }
+      );
+
       const createdSubject = await SubjectModel.create({
         ...subjectToBeCreated,
         topics: topicsObjectId,
         tutors: tutorsObjectId,
       });
-      if (createdSubject) {
-        errorMap.err = "";
-        res.status(200).json({
-          errorMap,
-          success: true,
-          subject: createdSubject,
-        });
-      } else {
-        errorMap.err = "The subject was not created!";
-        res.status(401).json({
-          errorMap,
-          success: false,
-          subject: subjectToBeCreated,
-        });
-      }
+      res.status(200).json({
+        errorMap,
+        success: true,
+        subject: createdSubject,
+      });
     } catch (error) {
       if (error) {
         errorMap.err = error.message;
         res.status(500).json({
           success: false,
           errorMap,
-          subject: subjectToBeCreated,
         });
       }
     }

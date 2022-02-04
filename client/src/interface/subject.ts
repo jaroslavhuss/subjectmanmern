@@ -12,22 +12,20 @@ export interface SubjectInterface {
     daily: [];
     distant: [];
   };
-  languages: [
-    {
-      cs: {
-        name: string;
-        goal: string;
-        description: string;
-        langSeverity: string;
-        langForm: string[];
-      };
-      en: {
-        name: string;
-        goal: string;
-        description: string;
-        langSeverity: string;
-        langForm: string[];
-      };
-    }
-  ];
+  languages: {
+    cs: {
+      name: string;
+      goal: string;
+      description: string;
+      langSeverity: string;
+      langForm: string[];
+    };
+    en: {
+      name: string;
+      goal: string;
+      description: string;
+      langSeverity: string;
+      langForm: string[];
+    };
+  };
 }
