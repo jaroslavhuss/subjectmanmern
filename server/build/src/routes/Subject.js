@@ -29,7 +29,8 @@ exports.Subject.get("/subjects", Auth_1.protect, Audit_1.audit, (req, res) => __
             const subject = yield SubjectsView_1.SubjectsView.findOne({ _id: req.query.id });
             if (subject) {
                 if (!isUserAdmin && subject.degree !== user.level) {
-                    errorMap.err = "Can not access a subject not in students programme level";
+                    errorMap.err =
+                        "Can not access a subject not in students programme level";
                     return res.status(403).json({
                         success: false,
                         errorMap,
@@ -119,6 +120,15 @@ exports.Subject.post("/subject/update", Auth_1.protect, Audit_1.audit, (req, res
 //Admin
 exports.Subject.post("/subject/delete", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
+    const isUserAdmin = req.user.authLevel.match("Admin");
+    if (!isUserAdmin) {
+        errorMap.err =
+            "Not enough privileges! U are a student or you are not authorized for this action.";
+        return res.status(403).json({
+            success: false,
+            errorMap,
+        });
+    }
     const subjectToUpdate = req.body.subject;
     try {
         const getSubjectTobeDeleted = yield Subject_1.SubjectModel.findByIdAndDelete(subjectToUpdate._id);
@@ -153,31 +163,31 @@ exports.Subject.post("/subject/delete", Auth_1.protect, Audit_1.audit, (req, res
 //Admin
 exports.Subject.post("/subject/create", Auth_1.protect, Audit_1.audit, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const errorMap = {};
-    const subjectToBeCreated = req.body.subject;
-    const topicsObjectId = subjectToBeCreated.topics.map((topic) => {
-        return new mongodb_1.ObjectId(topic);
-    });
-    const tutorsObjectId = subjectToBeCreated.tutors.map((tutor) => {
-        return new mongodb_1.ObjectId(tutor);
-    });
+    const isUserAdmin = req.user.authLevel.match("Admin");
+    if (!isUserAdmin) {
+        errorMap.err =
+            "Not enough privileges! U are a student or you are not authorized for this action.";
+        return res.status(403).json({
+            success: false,
+            errorMap,
+        });
+    }
     try {
+        //Validation runs here
+        const subjectToBeCreated = req.body.subject;
+        yield Subject_1.SubjectModel.validate(subjectToBeCreated);
+        const topicsObjectId = subjectToBeCreated.topics.map((topic) => {
+            return new mongodb_1.ObjectId(topic);
+        });
+        const tutorsObjectId = subjectToBeCreated.tutors.map((tutor) => {
+            return new mongodb_1.ObjectId(tutor);
+        });
         const createdSubject = yield Subject_1.SubjectModel.create(Object.assign(Object.assign({}, subjectToBeCreated), { topics: topicsObjectId, tutors: tutorsObjectId }));
-        if (createdSubject) {
-            errorMap.err = "";
-            res.status(200).json({
-                errorMap,
-                success: true,
-                subject: createdSubject,
-            });
-        }
-        else {
-            errorMap.err = "The subject was not created!";
-            res.status(401).json({
-                errorMap,
-                success: false,
-                subject: subjectToBeCreated,
-            });
-        }
+        res.status(200).json({
+            errorMap,
+            success: true,
+            subject: createdSubject,
+        });
     }
     catch (error) {
         if (error) {
@@ -185,7 +195,6 @@ exports.Subject.post("/subject/create", Auth_1.protect, Audit_1.audit, (req, res
             res.status(500).json({
                 success: false,
                 errorMap,
-                subject: subjectToBeCreated,
             });
         }
     }

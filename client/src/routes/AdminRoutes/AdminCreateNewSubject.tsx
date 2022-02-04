@@ -1,10 +1,10 @@
-import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useState } from 'react';
 import AdminContainer from '../../admin-components/AdminContainer';
 import { FETCH_URL } from './CONSTANT_CALL';
 import { SubjectInterface } from "../../interface/subject"
 import { useNavigate } from 'react-router-dom';
 import validate from "validator"
+import { subjectExample } from "./SubjectExample"
 interface TutorI {
     name: string, surname: string, titleAfter: string | null, titleBefore: string | null,
     _id: string
@@ -28,7 +28,7 @@ interface TopicI {
 interface LinksI {
     links: string[]
 }
-const AdminSubjectUpdate = () => {
+const AdminCreateNewSubject = () => {
     const navigation = useNavigate();
     //Tutors
     const [showCustomTutorSearchAdd, setShowCustomTutorSearchAdd] = useState<boolean>(false);
@@ -40,20 +40,8 @@ const AdminSubjectUpdate = () => {
     const [listOfTopics, setListOfTopics] = useState<TopicI[]>([]);
     const [topicErrorMessage, setTopicErrorMessage] = useState<string>("");
     const [showTopicErrorMessage, setShowTopicErrorMessage] = useState<boolean>(false);
-    const globalSubject = useSelector((data) => {
-        return {
-            //@ts-ignore
-            subjectToBeUpdated: data.updateSubject.subjectToBeUpdated,
-            //@ts-ignore
-            lang: data.language.language
-        };
-    })
-    const [subjectToUpdate, setSubjectToUpdate] = useState<any>(globalSubject.subjectToBeUpdated);
 
-    useEffect(() => {
-        setSubjectToUpdate(globalSubject.subjectToBeUpdated)
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    const [subjectToUpdate, setSubjectToUpdate] = useState<any>(subjectExample);
 
     const getListOfTutors = async () => {
         const token: string | null = localStorage.getItem("token");
@@ -237,9 +225,10 @@ const AdminSubjectUpdate = () => {
             }
         }
     }
-    const updateSubject = async () => {
+    const subjectCreate = async () => {
         const token: string | null = localStorage.getItem("token");
         const theSubject: SubjectInterface = { ...subjectToUpdate };
+        console.log(theSubject);
         try {
             //Credits check
             if (theSubject.credits <= 0 && !theSubject.credits) {
@@ -276,7 +265,7 @@ const AdminSubjectUpdate = () => {
             if (theSubject.tutors.length <= 0) {
                 throw new Error("At least one tutor has to be selected!")
             }
-            const res = await fetch(FETCH_URL + "/api/subject/update", {
+            const res = await fetch(FETCH_URL + "/api/subject/create", {
                 method: "post",
                 body: JSON.stringify({ subject: theSubject }),
                 headers: {
@@ -658,11 +647,11 @@ const AdminSubjectUpdate = () => {
 
                 </div>
             </div>
-            <div onClick={updateSubject} className="update-button">
-                Update subject
+            <div onClick={subjectCreate} className="update-button">
+                Create new subject
             </div>
         </AdminContainer >
     );
 };
 
-export default AdminSubjectUpdate;
+export default AdminCreateNewSubject;
