@@ -42,7 +42,7 @@ exports.Topic.post("/topic/create", Auth_1.protect, Audit_1.audit, (req, res) =>
         });
     }
     catch (error) {
-        errorMap.err = "Topic is not correclty filled in or is Missing!";
+        errorMap.err = error.message;
         return res.status(400).json({
             success: false,
             errorMap,
@@ -68,7 +68,9 @@ exports.Topic.post("/topic/delete", Auth_1.protect, Audit_1.audit, (req, res) =>
     try {
         const topic = req.body.topic || {};
         yield Topic_1.TopicModel.validate(topic);
-        const deletedTopic = yield Topic_1.TopicModel.findOneAndDelete({ _id: topic._id });
+        const deletedTopic = yield Topic_1.TopicModel.findOneAndDelete({
+            _id: topic._id,
+        });
         return res.status(200).json({
             success: true,
             errorMap,
