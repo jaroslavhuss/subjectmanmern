@@ -1,0 +1,25 @@
+.right-admin {
+    &__wrapper {
+        padding: 10px;
+        min-width: 600px;
+    }
+}
+
+.right-btn-panel {
+    margin: 10px;
+    min-width: 250px;
+    display:inline-block;
+    text-align:center;
+}
+
+.right-submit-panel {
+    margin: 10px;
+    min-width: 600px;
+    display:inline-block;
+    text-align:center;
+}
+
+.separator {
+    margin-bottom: 10px;
+    border: 1px dashed grey;
+}

@@ -14,9 +14,9 @@ function MiniCard (props: { dropDownContent: boolean | ReactChild | ReactFragmen
                 </span>         
             </div>
 
-            <div className={ show ? "mini-card__content-opened" : "mini-card__content"} > { props.name } </div>
+            <div className={ show && props.dropDownContent! ? "mini-card__content-opened" : "mini-card__content"} > { props.name } </div>
 
-            <div className={ show ? "mini-card__drop-down-content-show" : "mini-card__drop-down-content-hide" }>
+            <div className={ show && props.dropDownContent! ? "mini-card__drop-down-content-show" : "mini-card__drop-down-content-hide" }>
                 { props.dropDownContent }
             </div>  
         </div>

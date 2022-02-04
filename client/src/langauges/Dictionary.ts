@@ -222,4 +222,55 @@ export const Lang: ILang = {
     cs: 'Distanční studium',
     en: 'Distant study'
   },
+  detailMaterials: {
+    cs: 'Materiály',
+    en: 'Materials'
+  },
+
+  //ADMIN
+  adminTutorsSearchField: {
+    cs: 'Vyhledej učitele',
+    en: 'Search tutor'
+  },
+  adminRightTitle: {
+    cs: 'Učitel',
+    en: 'Tutor'
+  },
+  adminRightTitleBefore: {
+    cs: 'Titul před jménem',
+    en: 'Title before name'
+  },
+  adminRightTitleAfter: {
+    cs: 'Titul za jménem',
+    en: 'Title after name'
+  },
+  adminTutorTitle: {
+    cs: 'Učitel',
+    en: 'Tutor'
+  },
+  adminNewBtn: {
+    cs: 'Nový',
+    en: 'New'
+  },
+  adminSubmitBtn: {
+    cs: 'Odeslat',
+    en: 'Send'
+  },
+  adminDeletetBtn: {
+    cs: 'Smazat',
+    en: 'Delete'
+  },
+  adminEdittBtn: {
+    cs: 'Editovat',
+    en: 'Edit'
+  },
+  adminFormTypeNew: {
+    cs: 'Nový',
+    en: 'New'
+  },
+  adminFormTypeEdit: {
+    cs: 'Editovat',
+    en: 'Edit'
+  },
+  
 };

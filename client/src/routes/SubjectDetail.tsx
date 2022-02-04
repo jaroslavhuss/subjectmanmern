@@ -6,6 +6,7 @@ import AppBar from "../molecules/AppBar";
 import axios from "axios"
 import BasicButton from "../atoms/BasicButton";
 import { Lang } from "../langauges/Dictionary"
+import { Icon } from '@iconify/react';
 
 interface ISubjectLanguage {
     description: string,
@@ -62,6 +63,9 @@ const SubjectDetail = () => {
     const [subscribed = false, setSubscribed] = useState<boolean>();
     const [subject, setSubject] = useState<ISubject>();
     const [subscribedSubjects = [], setSubscribedSubjects] = useState<Array<ISubject>>();
+    const [openTutorials = true, setOpenTutorials] = useState<boolean>();
+
+    const handleOpenTutorials = () => { setOpenTutorials(!openTutorials);  };
 
     useEffect(() => {
         if (!authState.isAuthenticated) navigate("/")
@@ -209,6 +213,7 @@ const SubjectDetail = () => {
                             <div>{subject?.languages![lang].description}</div>
                         </div>
 
+                        {/* TUTORS */}
                         <div className="subject-detail__header__details-small">
                             <div className="subject-detail__header__details__headline-blue">{Lang.detailTutors[lang]} :</div>
                             {subject && subject.tutors.map((tutor) => {
@@ -216,19 +221,29 @@ const SubjectDetail = () => {
                             })}
                         </div>
 
+                        {/* TOPICS */}
                         <div className="subject-detail__header__details-small">
-                            <div className="subject-detail__header__details__headline-blue">{Lang.detailTopics[lang]} :</div>
-                            {subject && subject.topics.map((topic) => {
-                                return (
-                                    <div>
-                                        <h4><b>{topic.languages[lang].name}</b></h4>
-                                        <p>{Lang.detailTopicsDifficulty[lang]}: {topic.dificulty}</p>
-                                        <p>{topic.languages[lang].description}</p>
-                                        <div>{topic.digitalContent}</div>
-                                        <br/>
-                                    </div>
-                                );
-                            })}
+                            <div className="subject-detail__caret">
+                                <Icon inline={true} icon={ openTutorials ? "mdi:arrow-up-drop-circle" : "mdi:arrow-down-drop-circle" } onClick={ handleOpenTutorials }/>
+                                <span className="subject-detail__header__details__headline-blue subject-detail__caret" onClick={ handleOpenTutorials }>{Lang.detailTopics[lang]}</span>
+                            </div>
+                            { openTutorials && 
+                                <div>
+
+                                    { subject?.topics.map((topic) => {
+                                        return (
+                                         <div className="subject-detail__caret__item">
+                                             
+                                             <div className="subject-detail__header__details__headline-green">{topic.languages[lang].name}</div>
+                                              <p>{Lang.detailTopicsDifficulty[lang]}: {topic.dificulty}</p>
+                                              <p>{topic.languages[lang].description}</p>
+                                          <div> <a href={ topic.digitalContent } target="_blank"> {Lang.detailMaterials[lang]} </a></div>
+                                         </div>
+                                    );
+                                })
+                                }
+                                </div>
+                            }
                         </div>
 
                         <div className="subject-detail__header__details-small">

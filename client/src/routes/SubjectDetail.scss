@@ -71,4 +71,22 @@
             }
         }
     }
+
+    &__caret {
+        cursor: pointer;
+        margin-top: 10px;
+        margin-bottom: 10px;
+
+        &:hover {
+            transition: 0.5s;
+            color: CP.$text-color-highlight-green;
+        }
+
+        &__item {
+            background-color: CP.$bg-color-light;
+            margin-bottom: 20px;
+            padding: 10px;
+            border-radius: 25px;
+        }
+    }
 }
