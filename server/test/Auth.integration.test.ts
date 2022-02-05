@@ -30,6 +30,13 @@ describe('Auth controller', () => {
         expect(response.status).toEqual(400);
     });
 
+    test('should return an error in case of weak password', async () => {
+        const user = generateUser();
+        user.password = 'weakPassword';
+        const response = await request.post('/auth-api/register').send(user);
+        expect(response.status).toEqual(400);
+    });
+
     test('should successfully register new user', async () => {
         const response = await request.post('/auth-api/register').send(generateUser());
         expect(response.status).toEqual(201);
