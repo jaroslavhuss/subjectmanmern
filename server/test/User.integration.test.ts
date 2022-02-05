@@ -37,4 +37,55 @@ describe('User controller', () => {
         expect(response.body.restOfSubjects.length).toBeGreaterThan(0);
         expect(response.body.restOfSubjects.every((s: any) => s.degree === user.level)).toEqual(true);
     });
+
+    test('should subscribe & unsubscribe student to & from given subject', async () => {
+        const user = generateUser();
+        const token = await loginUser(user);
+
+        const readSubjectsResponse1 = await request
+            .post('/api/user/subject/read')
+            .set('authorization', `Bearer ${token}`)
+            .send({});
+
+        expect(readSubjectsResponse1.status).toEqual(200);
+
+        const subjectId = readSubjectsResponse1.body.restOfSubjects[0]._id;
+
+        const subscribeResponse = await request
+            .post('/api/user/subject/subscribe')
+            .set('authorization', `Bearer ${token}`)
+            .send({ subject: { subjectId }});
+
+        expect(subscribeResponse.status).toEqual(200);
+
+        const readSubjectsResponse2 = await request
+            .post('/api/user/subject/read')
+            .set('authorization', `Bearer ${token}`)
+            .send({});
+
+        expect(readSubjectsResponse2.status).toEqual(200);
+
+        // Check that student has exactly one subscribed subjects
+        expect(readSubjectsResponse2.body.subjects).toBeDefined();
+        expect(readSubjectsResponse2.body.subjects.length).toEqual(1);
+        expect(readSubjectsResponse2.body.subjects[0]._id).toEqual(subjectId);
+
+        const unsubscribeResponse = await request
+            .post('/api/user/subject/unsubscribe')
+            .set('authorization', `Bearer ${token}`)
+            .send({ subject: { subjectId }});
+
+        expect(unsubscribeResponse.status).toEqual(200);
+
+        const readSubjectsResponse3 = await request
+            .post('/api/user/subject/read')
+            .set('authorization', `Bearer ${token}`)
+            .send({});
+
+        expect(readSubjectsResponse3.status).toEqual(200);
+
+        // Check that student has been successfully unsubscribed from a given subject
+        expect(readSubjectsResponse3.body.subjects).toBeDefined();
+        expect(readSubjectsResponse3.body.subjects.length).toEqual(0);
+    });
 });
