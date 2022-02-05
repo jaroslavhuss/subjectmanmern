@@ -40,14 +40,14 @@ Auth.post(
         }
       } catch (error) {
         errorMap.err = error.message;
-        return res.status(500).json({
+        return res.status(400).json({
           success: false,
           errorMap,
         });
       }
     } else {
       errorMap.err = errors.array();
-      return res.status(500).json({
+      return res.status(400).json({
         success: false,
         errorMap,
       });
