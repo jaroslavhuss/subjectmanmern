@@ -40,14 +40,14 @@ Auth.post(
         }
       } catch (error) {
         errorMap.err = error.message;
-        return res.status(500).json({
+        return res.status(400).json({
           success: false,
           errorMap,
         });
       }
     } else {
       errorMap.err = errors.array();
-      return res.status(500).json({
+      return res.status(400).json({
         success: false,
         errorMap,
       });
@@ -60,14 +60,14 @@ Auth.post("/login", async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findOne({ email }).select("+password");
     if (!user) {
       errorMap.err = "Invalid credentials";
-      return res.status(404).json({
+      return res.status(401).json({
         errorMap,
       });
     }
     const isMatched: boolean = await user.matchPasswords(password);
     if (!isMatched) {
       errorMap.err = "Invalid credentials";
-      return res.status(404).json({
+      return res.status(401).json({
         errorMap,
       });
     }

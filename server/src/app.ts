@@ -26,7 +26,7 @@ App.use("/api/", cors(), Topic);
 
 let server: Server;
 
-if (process.env.TEST !== "TRUE") {
+if (process.env.TEST !== "true") {
   server = App.listen(PORT, () => {
     console.log("Server is running!");
   });
