@@ -52,4 +52,32 @@ describe('Auth controller', () => {
         const response = await request.post('/auth-api/register').send(generateUser());
         expect(response.status).toEqual(201);
     });
+
+    test('should not login user with given wrong credentials', async () => {
+        const user = generateUser();
+        // Register user
+        const registerResponse = await request.post('/auth-api/register').send(user);
+        expect(registerResponse.status).toEqual(201);
+        // Login user
+        const loginResponse = await request.post('/auth-api/login').send({
+            email: user.email,
+            password: 'wrong_password'
+        });
+        expect(loginResponse.status).toEqual(401);
+    });
+
+    test('should successfully login given user', async () => {
+        const user = generateUser();
+        // Register user
+        const registerResponse = await request.post('/auth-api/register').send(user);
+        expect(registerResponse.status).toEqual(201);
+        // Login user
+        const loginResponse = await request.post('/auth-api/login').send({
+            email: user.email,
+            password: user.password
+        });
+        expect(loginResponse.status).toEqual(200);
+        expect(loginResponse.body.token).toBeDefined();
+        expect(typeof loginResponse.body.token).toEqual('string');
+    });
 });
