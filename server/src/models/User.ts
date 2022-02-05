@@ -39,6 +39,10 @@ const userSchema = new Schema({
     required: [true, "Password is required and minimum lengths must be 6"],
     minlength: 6,
     select: false,
+    match: [
+      /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/,
+      "The password must contain at least one special character and at least one number",
+    ],
   },
   resetPasswordToken: {
     type: String,
