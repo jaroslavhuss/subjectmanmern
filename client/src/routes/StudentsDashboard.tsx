@@ -1,5 +1,5 @@
 import { SetStateAction, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import "./StudentDashboard.scss"
 import AppBar from "../molecules/AppBar";
@@ -7,19 +7,7 @@ import axios from "axios"
 import Searcher from "../molecules/Searcher";
 import { Lang } from "../langauges/Dictionary"
 import { Icon } from '@iconify/react';
-
-interface ISubjectLanguage {
-    description: string,
-    goal: string,
-    langForm: Array<string>,
-    langSeverity: string,
-    name: string
-}
-
-type ISubjectLanguageFixer = object & {
-    cs: ISubjectLanguage,
-    en: ISubjectLanguage
-}
+import { setError } from "../store/reducers/errorReducer"
 
 interface ITopics {
     _id: string,
@@ -53,6 +41,7 @@ interface ISubject {
 }
 
 const StudentsDashboard = () => {
+    const dispatch = useDispatch();
     const authState = useSelector((data: any) => { return data.auth })
     const lang = useSelector((data: any) => { return data.language.language })
     const navigate = useNavigate();
@@ -79,8 +68,10 @@ const StudentsDashboard = () => {
             setSubsribedSubjects(res.data.subjects);
             setSubjects(res.data.restOfSubjects);
         }
-        catch (error) {
-            console.log(error);
+        catch (error: any) {
+            if (error) {
+                dispatch(setError(error.message))
+            }
         }
     }
 

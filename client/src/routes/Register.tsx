@@ -11,15 +11,14 @@ import InputText from "../atoms/forms/InputText";
 import FormErrors from "../atoms/forms/FormErrors";
 import LanguageSwitch from "../atoms/forms/LanguageSwitch";
 import FormSelect from "../atoms/forms/FormSelect";
-
 const Register = () => {
     const navigate = useNavigate();
     const lang = useSelector((data: any) => { return data.language.language })
     const [name, setName] = useState<string>("");
     const [surname, setSurname] = useState<string>("");
-    const [form, setForm] = useState<string>( Lang.formValuesDaily[lang] );
-    const [level, setLevel] = useState<string>( "Bc." );
-    const [prefferedLanguage, setPrefferedLanguage] = useState<string>( "cz" );
+    const [form, setForm] = useState<string>(Lang.formValuesDaily[lang]);
+    const [level, setLevel] = useState<string>("Bc.");
+    const [prefferedLanguage, setPrefferedLanguage] = useState<string>("cz");
     const [email, setEmail] = useState<string>("")
     const [password, setPassword] = useState<string>("")
     const [confirmedPassword, setConfirmedPassword] = useState<string>("")
@@ -84,102 +83,102 @@ const Register = () => {
             <Logo />
 
             <Box header={
-                <div> 
+                <div>
                     <span className="header-title">{Lang.register[lang]}</span>
-                    <span className="header-languge-switch"><LanguageSwitch></LanguageSwitch></span>  
-                </div> 
+                    <span className="header-languge-switch"><LanguageSwitch></LanguageSwitch></span>
+                </div>
             }>
 
-            <form onSubmit={submitForm} className="column-center" autoComplete="off" >
-                
-            {/* NAME */}
-            <InputText 
-                label={ Lang.name[lang] } 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setName(e.target.value) }}
-                htmlFor="name"  
-                type="text" 
-                name="name"
-                value={ name }>
-            </InputText>
+                <form onSubmit={submitForm} className="column-center" autoComplete="off" >
 
-            {/* SURNAME */}
-            <InputText 
-                label={ Lang.surname[lang] } 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setSurname(e.target.value) }}
-                htmlFor="surname"  
-                type="text" 
-                name="surname"
-                value={ surname }>
-            </InputText>
-            
-            <div className="register-selects">
-                {/* STUDY FORM */}
-                <FormSelect 
-                    label={ Lang.form[lang] } 
-                    htmlFor="form" 
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setForm(e.target.value) }}
-                    options={[ Lang.formValuesDaily[lang], Lang.formValuesDistant[lang] ]}>
-                </FormSelect>
+                    {/* NAME */}
+                    <InputText
+                        label={Lang.name[lang]}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setName(e.target.value) }}
+                        htmlFor="name"
+                        type="text"
+                        name="name"
+                        value={name}>
+                    </InputText>
 
-                {/* LEVEL */}
-                <FormSelect 
-                    label={ Lang.level[lang] } 
-                    htmlFor="level" 
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setLevel(e.target.value) }}
-                    options={[ "Bc.", "Ing." ]}>
-                </FormSelect>
+                    {/* SURNAME */}
+                    <InputText
+                        label={Lang.surname[lang]}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setSurname(e.target.value) }}
+                        htmlFor="surname"
+                        type="text"
+                        name="surname"
+                        value={surname}>
+                    </InputText>
 
-                {/* LANGUAGE */}
-                <FormSelect 
-                    label={ Lang.prefferdLanguage[lang] } 
-                    htmlFor="Language" 
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setPrefferedLanguage(e.target.value) }}
-                    options={[ "cz", "en" ]}>
-                </FormSelect>
-            </div>  
+                    <div className="register-selects">
+                        {/* STUDY FORM */}
+                        <FormSelect
+                            label={Lang.form[lang]}
+                            htmlFor="form"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setForm(e.target.value) }}
+                            options={[Lang.formValuesDaily[lang], Lang.formValuesDistant[lang]]}>
+                        </FormSelect>
 
-            {/* EMAIL */}
-            <InputText 
-                label={ Lang.emailRegister[lang] } 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setEmail(e.target.value) }}
-                htmlFor="email"  
-                type="email" 
-                name="email"
-                value={ email }>
-            </InputText>
+                        {/* LEVEL */}
+                        <FormSelect
+                            label={Lang.level[lang]}
+                            htmlFor="level"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setLevel(e.target.value) }}
+                            options={["Bc.", "Ing."]}>
+                        </FormSelect>
 
-            {/* PASSWORD */}
-            <InputText 
-                label={ Lang.passwordRegister[lang]} 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setPassword(e.target.value) }}
-                htmlFor="password"  
-                type="password" 
-                name="password"
-                value={ password }>
-            </InputText>
+                        {/* LANGUAGE */}
+                        <FormSelect
+                            label={Lang.prefferdLanguage[lang]}
+                            htmlFor="Language"
+                            onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setPrefferedLanguage(e.target.value) }}
+                            options={["cz", "en"]}>
+                        </FormSelect>
+                    </div>
 
-            {/* PASSWORD */}
-            <InputText 
-                label={ Lang.passwordConfirmRegister[lang] } 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setConfirmedPassword(e.target.value) }}
-                htmlFor="password-cofirm"  
-                type="password" 
-                name="password-cofirm"
-                value={ confirmedPassword }>
-            </InputText>
-            
-            {/* FORM CONTROL */}
-            <div className="register-form-control">
-                <Link to="/login"><button className="button-custom button-custom-big">{ Lang.backBtnRegister[lang] }</button></Link>
-                <input className="submit" type="submit" value={ Lang.submitBtnRegister[lang] } />
-            </div>
-            </form>
+                    {/* EMAIL */}
+                    <InputText
+                        label={Lang.emailRegister[lang]}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setEmail(e.target.value) }}
+                        htmlFor="email"
+                        type="email"
+                        name="email"
+                        value={email}>
+                    </InputText>
 
-            {/* ERRORS */}
-            {!errorStatus && <FormErrors error={ errorMessage } ></FormErrors>}
+                    {/* PASSWORD */}
+                    <InputText
+                        label={Lang.passwordRegister[lang]}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setPassword(e.target.value) }}
+                        htmlFor="password"
+                        type="password"
+                        name="password"
+                        value={password}>
+                    </InputText>
 
-            {/* FOOTER */}
-            <p className="credits"> {Lang.credits[lang]} </p>
+                    {/* PASSWORD */}
+                    <InputText
+                        label={Lang.passwordConfirmRegister[lang]}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setConfirmedPassword(e.target.value) }}
+                        htmlFor="password-cofirm"
+                        type="password"
+                        name="password-cofirm"
+                        value={confirmedPassword}>
+                    </InputText>
+
+                    {/* FORM CONTROL */}
+                    <div className="register-form-control">
+                        <Link to="/login"><button className="button-custom button-custom-big">{Lang.backBtnRegister[lang]}</button></Link>
+                        <input className="submit" type="submit" value={Lang.submitBtnRegister[lang]} />
+                    </div>
+                </form>
+
+                {/* ERRORS */}
+                {!errorStatus && <FormErrors error={errorMessage} ></FormErrors>}
+
+                {/* FOOTER */}
+                <p className="credits"> {Lang.credits[lang]} </p>
             </Box>
         </div>
     );

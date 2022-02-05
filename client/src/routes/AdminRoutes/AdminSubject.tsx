@@ -7,6 +7,7 @@ import { SubjectInterface } from '../../interface/subject';
 import { updateSubject } from '../../store/reducers/updateSubject';
 import { FETCH_URL } from './CONSTANT_CALL';
 import { Link } from "react-router-dom";
+import { setError } from '../../store/reducers/errorReducer';
 import "./GlobalCSS.scss"
 const AdminSubject = () => {
     const dispatch = useDispatch();
@@ -16,21 +17,27 @@ const AdminSubject = () => {
     const lang = useSelector((data: any) => { return data.language.language })
 
     const getAllSubjects = async (): Promise<any> => {
-        const token: string | null = localStorage.getItem("token");
-        const res: any = await fetch(FETCH_URL + "/api/subjects", {
-            method: "get",
-            headers: {
-                "Content-type": "application/json",
-                Authorization: `Bearer ${token}`,
+        try {
+            const token: string | null = localStorage.getItem("token");
+            const res: any = await fetch(FETCH_URL + "/api/subjects", {
+                method: "get",
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            const allSubjects: {
+                errorMap: object,
+                subjects: SubjectInterface[],
+                success: boolean
+            } = await res.json();
+            setSubjects(allSubjects.subjects);
+        } catch (error: any) {
+            if (error) {
+                dispatch(setError(error.message))
             }
-        })
-        const allSubjects: {
-            errorMap: object,
-            subjects: SubjectInterface[],
-            success: boolean
-        } = await res.json();
-        setSubjects(allSubjects.subjects);
-        console.log(allSubjects)
+        }
+
     }
     useEffect(() => {
         getAllSubjects()
@@ -62,8 +69,10 @@ const AdminSubject = () => {
                 if (data.success) {
                     setReload(!reload);
                 }
-            } catch (error) {
-                console.log(error)
+            } catch (error: any) {
+                if (error) {
+                    dispatch(setError(error.message))
+                }
             }
         }
     }

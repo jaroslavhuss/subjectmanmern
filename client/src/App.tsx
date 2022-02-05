@@ -1,6 +1,6 @@
 import "./styles/App.scss"
 import { Route, Routes, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 /**
  * Admin components
  */
@@ -21,30 +21,55 @@ import { authUserFailed, authUserSuccess } from "./store/reducers/auth";
 import { useEffect } from "react";
 import { setAuthToken } from "./utils/setAuthToken";
 
+//Global Error
+import ErrorComponent from "./components/Error";
+
 const App = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const data = useSelector((data: {
+    error: {
+      alerts: string,
+      show: boolean
+    }
+  }) => {
+    return data.error;
+  })
   useEffect(() => {
     const token = localStorage.getItem("token")
-    setAuthToken(token).then((res) => {
-      if (res.msg) {
-        dispatch(authUserSuccess({
-          user: res.user,
-          token: token,
-          subjects: res.subjects
-        }))
-        if (window.location.pathname === "/login") {
-          navigate("/dashboard")
+    try {
+      setAuthToken(token).then((res) => {
+        if (res.errorMap) {
+          throw new Error("Not auth")
         }
-      } else {
-        dispatch(authUserFailed())
+        if (res.msg) {
+          dispatch(authUserSuccess({
+            user: res.user,
+            token: token,
+            subjects: res.subjects
+          }))
+          if (window.location.pathname === "/login") {
+            navigate("/dashboard")
+          }
+        } else {
+          dispatch(authUserFailed())
+        }
+
       }
+      )
+    } catch (error: any) {
+      console.log(error.message)
+
+
     }
-    )
+
   },
     [dispatch, navigate])
+
+
   return (
     <div className="container">
+      {data.show && <ErrorComponent errorMessage={data.alerts} />}
       <Routes>
         <Route path="/registration" element={<Register />} />
         <Route path="/" element={<Login />} />

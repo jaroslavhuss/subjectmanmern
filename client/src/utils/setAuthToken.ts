@@ -9,7 +9,7 @@ export const setAuthToken = async (token: string | null) => {
     });
     const user = await res.json();
     return user;
-  } catch (error) {
-    console.log(error);
+  } catch (error: any) {
+    console.log(error.message);
   }
 };

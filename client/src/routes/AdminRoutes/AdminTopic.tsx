@@ -4,7 +4,11 @@ import AdminContainer from '../../admin-components/AdminContainer';
 import { FETCH_URL } from './CONSTANT_CALL';
 import "./GlobalCSS.scss"
 import { TopicInterface } from '../../interface/TopicInterface';
+import { setError } from "../../store/reducers/errorReducer";
+import { useDispatch } from 'react-redux';
+
 const AdminTopic = () => {
+    const dispatch = useDispatch();
     const [loaded, setLoaded] = useState<boolean>(false);
     const [topics, setTopics] = useState<TopicInterface[]>([]);
     const [filteredTopics, setfilteredTopics] = useState<TopicInterface[]>([]);
@@ -14,23 +18,30 @@ const AdminTopic = () => {
         getAlltopics();
     }, [loaded]);
     const getAlltopics = async () => {
-        const token: string | null = localStorage.getItem("token");
-        const res: any = await fetch(FETCH_URL + "/api/topic/list", {
-            method: "get",
-            headers: {
-                "Content-type": "application/json",
-                Authorization: `Bearer ${token}`,
+        try {
+            const token: string | null = localStorage.getItem("token");
+            const res: any = await fetch(FETCH_URL + "/api/topic/list", {
+                method: "get",
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+            const data: {
+                success: boolean,
+                errorMap: {
+                    err: string
+                },
+                topic: TopicInterface[]
+            } = await res.json();
+            setTopics(data.topic);
+            setfilteredTopics(data.topic)
+        } catch (error: any) {
+            if (error) {
+                dispatch(setError(error.message));
             }
-        })
-        const data: {
-            success: boolean,
-            errorMap: {
-                err: string
-            },
-            topic: TopicInterface[]
-        } = await res.json();
-        setTopics(data.topic);
-        setfilteredTopics(data.topic)
+        }
+
     }
     const updateTopic = async () => {
         const token: string | null = localStorage.getItem("token");
@@ -67,7 +78,9 @@ const AdminTopic = () => {
                 throw new Error(data.errorMap.err)
             }
         } catch (error: any) {
-            console.log(error.message)
+            if (error) {
+                dispatch(setError(error.message));
+            }
         }
 
 
@@ -106,7 +119,9 @@ const AdminTopic = () => {
                 throw new Error(data.errorMap.err)
             }
         } catch (error: any) {
-            console.log(error.message)
+            if (error) {
+                dispatch(setError(error.message));
+            }
         }
     }
     const createTopic = async () => {
@@ -114,7 +129,6 @@ const AdminTopic = () => {
         const modifiedTopic = { ...currentTopic };
         delete modifiedTopic._id;
         try {
-
             const res = await fetch(FETCH_URL + "/api/topic/create", {
                 method: "post",
                 headers: {
@@ -146,7 +160,9 @@ const AdminTopic = () => {
                 throw new Error(data.errorMap.err)
             }
         } catch (error: any) {
-            console.log(error.message)
+            if (error) {
+                dispatch(setError(error.message));
+            }
         }
     }
     return (
@@ -171,7 +187,7 @@ const AdminTopic = () => {
                         filteredTopics.map((topic: TopicInterface, index) => (
                             <div onClick={() => {
                                 setCurrentTopic(filteredTopics[index]);
-                                console.log(currentTopic)
+
                             }} key={index} className='topic-item'>
                                 <span style={{ color: "red" }}>{topic._id}</span><br /><span>{topic.languages.en.name}</span>
                             </div>
