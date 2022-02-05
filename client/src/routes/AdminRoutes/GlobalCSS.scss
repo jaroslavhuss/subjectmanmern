@@ -110,3 +110,19 @@
   top: 0;
   right: 0;
 }
+.left-panel {
+  max-width: 30%;
+
+  .topic-item {
+    padding: 10px;
+    cursor: pointer;
+    box-shadow: 10px -13px 2pc -27px;
+    margin: 10px;
+    border-radius: 12px;
+    transition: all 0.5s ease;
+  }
+  .topic-item:hover {
+    box-shadow: 10px -13px 3pc -10px;
+    background-color: #87001e;
+  }
+}
