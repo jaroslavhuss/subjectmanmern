@@ -87,6 +87,13 @@
             margin-bottom: 20px;
             padding: 10px;
             border-radius: 25px;
+            
         }
     }
+}
+
+.fucking-link {
+    &:link, &:visited, &:active {
+        color: hotpink;
+      }
 }

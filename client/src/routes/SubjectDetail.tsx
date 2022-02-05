@@ -237,7 +237,7 @@ const SubjectDetail = () => {
                                              <div className="subject-detail__header__details__headline-green">{topic.languages[lang].name}</div>
                                               <p>{Lang.detailTopicsDifficulty[lang]}: {topic.dificulty}</p>
                                               <p>{topic.languages[lang].description}</p>
-                                          <div> <a href={ topic.digitalContent } target="_blank"> {Lang.detailMaterials[lang]} </a></div>
+                                          <div> <a href={ topic.digitalContent } target="_blank" className="fucking-link"> {Lang.detailMaterials[lang]} </a></div>
                                          </div>
                                     );
                                 })
