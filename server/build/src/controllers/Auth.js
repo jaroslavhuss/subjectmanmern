@@ -43,7 +43,7 @@ exports.Auth.post("/register", (0, express_validator_1.body)("name").notEmpty().
         }
         catch (error) {
             errorMap.err = error.message;
-            return res.status(500).json({
+            return res.status(400).json({
                 success: false,
                 errorMap,
             });
@@ -51,7 +51,7 @@ exports.Auth.post("/register", (0, express_validator_1.body)("name").notEmpty().
     }
     else {
         errorMap.err = errors.array();
-        return res.status(500).json({
+        return res.status(400).json({
             success: false,
             errorMap,
         });
@@ -63,14 +63,14 @@ exports.Auth.post("/login", (req, res, next) => __awaiter(void 0, void 0, void 0
         const user = yield User_1.User.findOne({ email }).select("+password");
         if (!user) {
             errorMap.err = "Invalid credentials";
-            return res.status(404).json({
+            return res.status(401).json({
                 errorMap,
             });
         }
         const isMatched = yield user.matchPasswords(password);
         if (!isMatched) {
             errorMap.err = "Invalid credentials";
-            return res.status(404).json({
+            return res.status(401).json({
                 errorMap,
             });
         }

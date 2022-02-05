@@ -33,12 +33,57 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("../src/app"));
 const supertest = __importStar(require("supertest"));
+const user_1 = require("./utils/user");
 // @ts-ignore
 const request = supertest.default(app_1.default);
 describe('Auth controller', () => {
     test('should return an error in case of wrong request body', () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield request.post('/auth-api/register').send({});
         expect(response.status).toEqual(400);
+    }));
+    test('should return an error in case of weak password', () => __awaiter(void 0, void 0, void 0, function* () {
+        const user1 = (0, user_1.generateUser)();
+        user1.password = 'weakPassword';
+        const user2 = (0, user_1.generateUser)();
+        user2.password = 'weakPassword6';
+        const user3 = (0, user_1.generateUser)();
+        user3.password = 'weakPassword$';
+        const response1 = yield request.post('/auth-api/register').send(user1);
+        expect(response1.status).toEqual(400);
+        const response2 = yield request.post('/auth-api/register').send(user2);
+        expect(response2.status).toEqual(400);
+        const response3 = yield request.post('/auth-api/register').send(user3);
+        expect(response3.status).toEqual(400);
+    }));
+    test('should successfully register new user', () => __awaiter(void 0, void 0, void 0, function* () {
+        const response = yield request.post('/auth-api/register').send((0, user_1.generateUser)());
+        expect(response.status).toEqual(201);
+    }));
+    test('should not login user with given wrong credentials', () => __awaiter(void 0, void 0, void 0, function* () {
+        const user = (0, user_1.generateUser)();
+        // Register user
+        const registerResponse = yield request.post('/auth-api/register').send(user);
+        expect(registerResponse.status).toEqual(201);
+        // Login user
+        const loginResponse = yield request.post('/auth-api/login').send({
+            email: user.email,
+            password: 'wrong_password'
+        });
+        expect(loginResponse.status).toEqual(401);
+    }));
+    test('should successfully login given user', () => __awaiter(void 0, void 0, void 0, function* () {
+        const user = (0, user_1.generateUser)();
+        // Register user
+        const registerResponse = yield request.post('/auth-api/register').send(user);
+        expect(registerResponse.status).toEqual(201);
+        // Login user
+        const loginResponse = yield request.post('/auth-api/login').send({
+            email: user.email,
+            password: user.password
+        });
+        expect(loginResponse.status).toEqual(200);
+        expect(loginResponse.body.token).toBeDefined();
+        expect(typeof loginResponse.body.token).toEqual('string');
     }));
 });
 //# sourceMappingURL=Auth.integration.test.js.map

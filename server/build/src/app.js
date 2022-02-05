@@ -27,7 +27,7 @@ App.use("/api/", (0, cors_1.default)(), Subject_1.Subject);
 App.use("/api/", (0, cors_1.default)(), Tutor_1.Tutor);
 App.use("/api/", (0, cors_1.default)(), Topic_1.Topic);
 let server;
-if (process.env.TEST !== "TRUE") {
+if (process.env.TEST !== "true") {
     server = App.listen(PORT, () => {
         console.log("Server is running!");
     });
