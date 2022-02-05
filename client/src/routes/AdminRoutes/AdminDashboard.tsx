@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import AdminContainer from "../../admin-components/AdminContainer";
 import { FETCH_URL } from "./CONSTANT_CALL";
 import { UserInterface } from "../../interface/UserInterface";
+import { setError } from "../../store/reducers/errorReducer";
 const AdminPanel = () => {
     let user = useSelector((data: any) => {
         return data.auth.user;
@@ -27,8 +28,8 @@ const AdminPanel = () => {
             });
             const users = await res.json()
             setListOfStudents(users.users);
-        } catch (error) {
-
+        } catch (error: any) {
+            setError(error.message)
         }
     }
     return (

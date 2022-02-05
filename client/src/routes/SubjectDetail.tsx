@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import "./SubjectDetail.scss"
 import AppBar from "../molecules/AppBar";
@@ -7,6 +7,7 @@ import axios from "axios"
 import BasicButton from "../atoms/BasicButton";
 import { Lang } from "../langauges/Dictionary"
 import { Icon } from '@iconify/react';
+import { setError } from "../store/reducers/errorReducer"
 
 interface ISubjectLanguage {
     description: string,
@@ -56,6 +57,7 @@ interface ISubject {
 }
 
 const SubjectDetail = () => {
+    const dispatch = useDispatch();
     const authState = useSelector((data: any) => { return data.auth })
     const lang = useSelector((data: any) => { return data.language.language })
     const navigate = useNavigate();
@@ -65,16 +67,18 @@ const SubjectDetail = () => {
     const [subscribedSubjects = [], setSubscribedSubjects] = useState<Array<ISubject>>();
     const [openTutorials = true, setOpenTutorials] = useState<boolean>();
 
-    const handleOpenTutorials = () => { setOpenTutorials(!openTutorials);  };
+    const handleOpenTutorials = () => { setOpenTutorials(!openTutorials); };
 
     useEffect(() => {
         if (!authState.isAuthenticated) navigate("/")
         getSubscribedSubjects();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authState, navigate, subscribed]);
 
     useEffect(() => {
         if (!authState.isAuthenticated) navigate("/")
         getSubject();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authState, navigate, subscribedSubjects]);
 
     const getSubscribedSubjects = async () => {
@@ -89,8 +93,10 @@ const SubjectDetail = () => {
 
             setSubscribedSubjects(res.data.subjects);
         }
-        catch (error) {
-            console.log(error);
+        catch (error: any) {
+            if (error) {
+                dispatch(setError(error.message))
+            }
         }
     }
 
@@ -113,8 +119,10 @@ const SubjectDetail = () => {
                 setSubscribed(true);
             }
         }
-        catch (error) {
-            console.log(error);
+        catch (error: any) {
+            if (error) {
+                dispatch(setError(error.message))
+            }
         }
     }
 
@@ -132,8 +140,10 @@ const SubjectDetail = () => {
                 },
             });
             setSubscribed(true);
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            if (error) {
+                dispatch(setError(error.message))
+            }
         }
     };
 
@@ -151,8 +161,10 @@ const SubjectDetail = () => {
                 },
             });
             setSubscribed(false);
-        } catch (error) {
-            console.log(error);
+        } catch (error: any) {
+            if (error) {
+                dispatch(setError(error.message))
+            }
         }
     };
 
@@ -216,32 +228,32 @@ const SubjectDetail = () => {
                         {/* TUTORS */}
                         <div className="subject-detail__header__details-small">
                             <div className="subject-detail__header__details__headline-blue">{Lang.detailTutors[lang]} :</div>
-                            {subject && subject.tutors.map((tutor) => {
-                                return (<div>{tutor.titleBefore} {tutor.name} {tutor.surname} {tutor.titleAfter}</div>);
+                            {subject && subject.tutors.map((tutor, index) => {
+                                return (<div key={index}>{tutor.titleBefore} {tutor.name} {tutor.surname} {tutor.titleAfter}</div>);
                             })}
                         </div>
 
                         {/* TOPICS */}
                         <div className="subject-detail__header__details-small">
                             <div className="subject-detail__caret">
-                                <Icon inline={true} icon={ openTutorials ? "mdi:arrow-up-drop-circle" : "mdi:arrow-down-drop-circle" } onClick={ handleOpenTutorials }/>
-                                <span className="subject-detail__header__details__headline-blue subject-detail__caret" onClick={ handleOpenTutorials }>{Lang.detailTopics[lang]}</span>
+                                <Icon inline={true} icon={openTutorials ? "mdi:arrow-up-drop-circle" : "mdi:arrow-down-drop-circle"} onClick={handleOpenTutorials} />
+                                <span className="subject-detail__header__details__headline-blue subject-detail__caret" onClick={handleOpenTutorials}>{Lang.detailTopics[lang]}</span>
                             </div>
-                            { openTutorials && 
+                            {openTutorials &&
                                 <div>
 
-                                    { subject?.topics.map((topic) => {
+                                    {subject?.topics.map((topic, index) => {
                                         return (
-                                         <div className="subject-detail__caret__item">
-                                             
-                                             <div className="subject-detail__header__details__headline-green">{topic.languages[lang].name}</div>
-                                              <p>{Lang.detailTopicsDifficulty[lang]}: {topic.dificulty}</p>
-                                              <p>{topic.languages[lang].description}</p>
-                                          <div> <a href={ topic.digitalContent } target="_blank" className="fucking-link"> {Lang.detailMaterials[lang]} </a></div>
-                                         </div>
-                                    );
-                                })
-                                }
+                                            <div key={index} className="subject-detail__caret__item">
+
+                                                <div className="subject-detail__header__details__headline-green">{topic.languages[lang].name}</div>
+                                                <p>{Lang.detailTopicsDifficulty[lang]}: {topic.dificulty}</p>
+                                                <p>{topic.languages[lang].description}</p>
+                                                <div> <a href={topic.digitalContent} rel="noreferrer" target="_blank" className="fucking-link"> {Lang.detailMaterials[lang]} </a></div>
+                                            </div>
+                                        );
+                                    })
+                                    }
                                 </div>
                             }
                         </div>
@@ -251,43 +263,43 @@ const SubjectDetail = () => {
                             <h3>{Lang.detailTutorialsDaily[lang]}</h3>
                             {subject && subject.tutorials.daily.map((tutorial, index) => {
                                 return (
-                                    <div>
+                                    <div key={index}>
                                         <h4>{Lang.detailTutorial[lang]} {index + 1}</h4>
-                                        <br/>
-                                        {tutorial.map((topic) => {
+                                        <br />
+                                        {tutorial.map((topic, index) => {
                                             return (
-                                                <div>
+                                                <div key={index}>
                                                     <h4><b>{topic.languages[lang].name}</b></h4>
                                                     <p>{Lang.detailTopicsDifficulty[lang]}: {topic.dificulty}</p>
                                                     <p>{topic.languages[lang].description}</p>
                                                     <div>{topic.digitalContent}</div>
-                                                    <br/>
+                                                    <br />
                                                 </div>
                                             );
                                         })}
-                                        <br/><br/>
+                                        <br /><br />
                                     </div>
                                 );
                             })}
-                            <br/>
+                            <br />
                             <h3>{Lang.detailTutorialsDistant[lang]}</h3>
                             {subject && subject.tutorials.distant.map((tutorial, index) => {
                                 return (
-                                    <div>
+                                    <div key={index}>
                                         <h4>{Lang.detailTutorial[lang]} {index + 1}</h4>
-                                        <br/>
-                                        {tutorial.map((topic) => {
+                                        <br />
+                                        {tutorial.map((topic, index) => {
                                             return (
-                                                <div>
+                                                <div key={index}>
                                                     <h4><b>{topic.languages[lang].name}</b></h4>
                                                     <p>{Lang.detailTopicsDifficulty[lang]}: {topic.dificulty}</p>
                                                     <p>{topic.languages[lang].description}</p>
                                                     <div>{topic.digitalContent}</div>
-                                                    <br/>
+                                                    <br />
                                                 </div>
                                             );
                                         })}
-                                        <br/><br/>
+                                        <br /><br />
                                     </div>
                                 );
                             })}
@@ -295,8 +307,8 @@ const SubjectDetail = () => {
 
                         <div className="subject-detail__header__details-small">
                             <div className="subject-detail__header__details__headline-blue">{Lang.detailLinks[lang]} :</div>
-                            {subject && subject.links.map((link) => {
-                                return (<div><a href={link} target="_blank">{link}</a></div>);
+                            {subject && subject.links.map((link, index) => {
+                                return (<div key={index}><a href={link} target="_blank" rel="noreferrer">{link}</a></div>);
                             })}
                         </div>
                     </div>

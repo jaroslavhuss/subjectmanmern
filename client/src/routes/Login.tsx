@@ -44,6 +44,7 @@ const Login = () => {
 
                 const data: { success: boolean, errorMap: { err: [] }, token: string } = await response.json();
 
+
                 if (!data.success) {
                     setErrorStatus(false);
                     setErrorMessage(JSON.stringify(data.errorMap.err))
@@ -70,43 +71,43 @@ const Login = () => {
         <div className="column-center">
             <Logo />
             <Box header={
-                <div> 
+                <div>
                     <span className="header-title">{Lang.login[lang]}</span>
-                    <span className="header-languge-switch"><LanguageSwitch></LanguageSwitch></span>  
-                </div> 
+                    <span className="header-languge-switch"><LanguageSwitch></LanguageSwitch></span>
+                </div>
             }>
 
-            <form onSubmit={submitForm} className="column-center">
+                <form onSubmit={submitForm} className="column-center">
 
-            {/* EMAIL */}
-            <InputText 
-                label={ Lang.emailLogin[lang] } 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value) }}
-                htmlFor="email"  
-                type="email" 
-                name="email">
-            </InputText>
+                    {/* EMAIL */}
+                    <InputText
+                        label={Lang.emailLogin[lang]}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => { setEmail(e.target.value) }}
+                        htmlFor="email"
+                        type="email"
+                        name="email">
+                    </InputText>
 
-            {/* PASSWORD */}
-            <InputText 
-                label={ Lang.passwordLogin[lang] } 
-                onChange={(e: React.ChangeEvent<HTMLInputElement>): void  => { setPassword(e.target.value) }}
-                htmlFor="password"  
-                type="password" 
-                name="password">
-            </InputText>
+                    {/* PASSWORD */}
+                    <InputText
+                        label={Lang.passwordLogin[lang]}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setPassword(e.target.value) }}
+                        htmlFor="password"
+                        type="password"
+                        name="password">
+                    </InputText>
 
-            <span className="login-submit"><input className="submit" type="submit" value={ Lang.submitBtnLogin[lang] } /></span>
-            </form>
+                    <span className="login-submit"><input className="submit" type="submit" value={Lang.submitBtnLogin[lang]} /></span>
+                </form>
 
-            {/* ERRORS */}
-            {!errorStatus && <FormErrors error={ errorMessage } ></FormErrors>}
+                {/* ERRORS */}
+                {!errorStatus && <FormErrors error={errorMessage} ></FormErrors>}
 
-            {/* FOOTER*/}
-            <p className="login-registration"> {Lang.registrationText[lang]} <Link to="/registration"> {Lang.registration[lang]} </Link></p>
-            <p className="credits"> {Lang.credits[lang]} </p>
+                {/* FOOTER*/}
+                <p className="login-registration"> {Lang.registrationText[lang]} <Link to="/registration"> {Lang.registration[lang]} </Link></p>
+                <p className="credits"> {Lang.credits[lang]} </p>
             </Box>
-        </div> 
+        </div>
     );
 };
 

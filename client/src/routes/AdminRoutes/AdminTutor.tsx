@@ -8,7 +8,7 @@ import { Lang } from "../../langauges/Dictionary"
 import "./AdminTutor.scss"
 import InputText from '../../atoms/forms/InputText';
 import axios from "axios"
-
+import { setError } from "../../store/reducers/errorReducer";
 interface ITutor {
     _id: string,
     name: string,
@@ -28,7 +28,7 @@ const AdminTutor = () => {
     const [opendTutorSurnName, setOpendTutorSurname] = useState<string>("");
     const [opendTutorTitleBefore, setOpendTutorTitleBefore] = useState<string>(" ");
     const [opendTutorTitleAfter, setOpendTutorTitleAfter] = useState<string>(" ");
-    
+
     const getAllTutors = async (): Promise<any> => {
         const token: string | null = localStorage.getItem("token");
         const res: any = await fetch(FETCH_URL + "/api/tutor/list", {
@@ -45,9 +45,10 @@ const AdminTutor = () => {
         } = await res.json();
         setTutors(allTutors.tutor);
 
-        const restructuredTutorName = allTutors.tutor.map( (tutor : ITutor) => (
-            { _id: tutor._id, 
-             name: tutor.name + " " + tutor.surname
+        const restructuredTutorName = allTutors.tutor.map((tutor: ITutor) => (
+            {
+                _id: tutor._id,
+                name: tutor.name + " " + tutor.surname
             }));
         setTutorsForSearch(restructuredTutorName)
     }
@@ -59,11 +60,11 @@ const AdminTutor = () => {
     //id listener for search
     const setIDCallback = (id: any) => {
         changeForm("edit")
-        let searchTutor = tutors!.find( (tutor: ITutor) => tutor._id === id);
-        if(searchTutor) {
+        let searchTutor = tutors!.find((tutor: ITutor) => tutor._id === id);
+        if (searchTutor) {
             setOpendTutorName(searchTutor.name)
             setOpendTutorSurname(searchTutor.surname)
-            setOpendTutorTitleBefore(searchTutor.titleBefore ? searchTutor.titleBefore : " " )
+            setOpendTutorTitleBefore(searchTutor.titleBefore ? searchTutor.titleBefore : " ")
             setOpendTutorTitleAfter(searchTutor.titleAfter ? searchTutor.titleAfter : " ")
             setID(id)
         }
@@ -78,27 +79,27 @@ const AdminTutor = () => {
     }
 
     const changeForm = (type: string) => {
-        clearForm() 
-        setFormType(type)  
+        clearForm()
+        setFormType(type)
     }
 
     //form submit decider
-    const submitForm = async (e: any) =>{
+    const submitForm = async (e: any) => {
 
         e.preventDefault()
-        if(formType === "new") {
+        if (formType === "new") {
             postTutor()
             clearForm()
             setFormType("new")
         }
 
-        if(formType === "edit" && useDelete) {
+        if (formType === "edit" && useDelete) {
             deleteTutor()
             clearForm()
             setFormType("new")
         }
 
-        if ( formType === "edit" && !useDelete ) {
+        if (formType === "edit" && !useDelete) {
             updateTutor()
             clearForm()
             setFormType("new")
@@ -109,8 +110,8 @@ const AdminTutor = () => {
     const postTutor = async () => {
         try {
             const token = localStorage.getItem("token")
-            const res = await axios.post(FETCH_URL + "/api/tutor/create", {
-                tutor : {
+            await axios.post(FETCH_URL + "/api/tutor/create", {
+                tutor: {
                     titleBefore: opendTutorTitleBefore,
                     name: opendTutorName,
                     surname: opendTutorSurnName,
@@ -123,19 +124,19 @@ const AdminTutor = () => {
                 }
             })
             getAllTutors()
-            console.log(res)
+
         }
-        catch (error) {
-            console.log(error);
+        catch (error: any) {
+            setError(error.message)
         }
     }
 
     //Delete Tutor
-     const deleteTutor = async () => {
+    const deleteTutor = async () => {
         try {
             const token = localStorage.getItem("token")
-            const res = await axios.post(FETCH_URL + "/api/tutor/delete", {
-                tutor : {
+            await axios.post(FETCH_URL + "/api/tutor/delete", {
+                tutor: {
                     _id: _id,
                     titleBefore: opendTutorTitleBefore,
                     name: opendTutorName,
@@ -149,10 +150,10 @@ const AdminTutor = () => {
                 }
             })
             getAllTutors()
-            console.log(res)
+
         }
-        catch (error) {
-            console.log(error);
+        catch (error: any) {
+            setError(error.message)
         }
     }
 
@@ -160,8 +161,8 @@ const AdminTutor = () => {
     const updateTutor = async () => {
         try {
             const token = localStorage.getItem("token")
-            const res = await axios.post(FETCH_URL + "/api/tutor/update", {
-                tutor : {
+            await axios.post(FETCH_URL + "/api/tutor/update", {
+                tutor: {
                     _id: _id,
                     titleBefore: opendTutorTitleBefore,
                     name: opendTutorName,
@@ -175,13 +176,12 @@ const AdminTutor = () => {
                 }
             })
             getAllTutors()
-            console.log(res)
         }
-        catch (error) {
-            console.log(error);
+        catch (error: any) {
+            setError(error.message)
         }
     }
-    
+
     return (
         <AdminContainer>
             <div>
@@ -189,88 +189,88 @@ const AdminTutor = () => {
                 <div className="dashborad-wrapper">
                     <div className="dashboard">
                         <div className="dashboard__left">
-                        <div className='right-btn-panel'> 
+                            <div className='right-btn-panel'>
                                 <button className="button-custom button-custom-small" onClick={() => { changeForm("new") }}>
-                                    { Lang.adminNewBtn[lang] }
+                                    {Lang.adminNewBtn[lang]}
                                 </button>
-                        </div>
+                            </div>
 
-                        <hr className='separator'></hr>
-                         <Searcher
+                            <hr className='separator'></hr>
+                            <Searcher
 
-                                setIDCallback={ setIDCallback }
-                                items={ tutorsForSearch! }
-                                title={ Lang.adminTutorsSearchField[lang] } 
-                            /> 
+                                setIDCallback={setIDCallback}
+                                items={tutorsForSearch!}
+                                title={Lang.adminTutorsSearchField[lang]}
+                            />
                         </div>
                         <div className="dashboard__right">
 
-                            <h3 className="dashboard__right__title"> 
-                                {Lang.adminRightTitle[lang]} - { formType === "new" ? Lang.adminFormTypeNew[lang]  : Lang.adminFormTypeEdit[lang] } 
+                            <h3 className="dashboard__right__title">
+                                {Lang.adminRightTitle[lang]} - {formType === "new" ? Lang.adminFormTypeNew[lang] : Lang.adminFormTypeEdit[lang]}
                             </h3>
 
                             <div className="right-admin__wrapper">
 
-                            <form onSubmit={ submitForm } autoComplete="off" >
+                                <form onSubmit={submitForm} autoComplete="off" >
 
-                                {/* TITLE BEFORE */}
-                                <InputText 
-                                    label={ Lang.adminRightTitleBefore[lang] } 
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setOpendTutorTitleBefore(e.target.value) }}
-                                    htmlFor="opendTutorTitleBefore"  
-                                    type="text" 
-                                    name="opendTutorTitleBefore"
-                                    value={ opendTutorTitleBefore }>
-                                </InputText>
+                                    {/* TITLE BEFORE */}
+                                    <InputText
+                                        label={Lang.adminRightTitleBefore[lang]}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setOpendTutorTitleBefore(e.target.value) }}
+                                        htmlFor="opendTutorTitleBefore"
+                                        type="text"
+                                        name="opendTutorTitleBefore"
+                                        value={opendTutorTitleBefore}>
+                                    </InputText>
 
-                                {/* NAME */}
-                                <InputText 
-                                    label={ Lang.name[lang] } 
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setOpendTutorName(e.target.value) }}
-                                    htmlFor="name"  
-                                    type="text" 
-                                    name="name"
-                                    value={ opendTutorName }>
-                                </InputText>
+                                    {/* NAME */}
+                                    <InputText
+                                        label={Lang.name[lang]}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setOpendTutorName(e.target.value) }}
+                                        htmlFor="name"
+                                        type="text"
+                                        name="name"
+                                        value={opendTutorName}>
+                                    </InputText>
 
-                                {/* SURNAME */}
-                                <InputText 
-                                    label={ Lang.surname[lang] } 
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setOpendTutorSurname(e.target.value) }}
-                                    htmlFor="surname"  
-                                    type="text" 
-                                    name="surname"
-                                    value={ opendTutorSurnName }>
-                                </InputText>
+                                    {/* SURNAME */}
+                                    <InputText
+                                        label={Lang.surname[lang]}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setOpendTutorSurname(e.target.value) }}
+                                        htmlFor="surname"
+                                        type="text"
+                                        name="surname"
+                                        value={opendTutorSurnName}>
+                                    </InputText>
 
-                                {/* TITLE AFTER */}
-                                <InputText 
-                                    label={ Lang.adminRightTitleAfter[lang] } 
-                                    onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setOpendTutorTitleAfter(e.target.value) }}
-                                    htmlFor="opendTutorTitleBefore"  
-                                    type="text" 
-                                    name="opendTutorTitleBefore"
-                                    value={ opendTutorTitleAfter }>
-                                </InputText>
+                                    {/* TITLE AFTER */}
+                                    <InputText
+                                        label={Lang.adminRightTitleAfter[lang]}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>): void => { setOpendTutorTitleAfter(e.target.value) }}
+                                        htmlFor="opendTutorTitleBefore"
+                                        type="text"
+                                        name="opendTutorTitleBefore"
+                                        value={opendTutorTitleAfter}>
+                                    </InputText>
 
-                                {/* FORM ACTIONS */}
-                                <div className='right-submit-panel' >
-                                   { formType === "new" && <button className="button-custom button-custom-big" type="submit" onClick={() => setUseDelete(false)} > { Lang.adminSubmitBtn[lang] } </button> }
-                                   { formType === "edit" &&
-                                        <span>
-                                            <button className="button-custom button-custom-big" type="submit" onClick={() => setUseDelete(true)} > 
-                                                 { Lang.adminDeletetBtn[lang] } 
-                                            </button> 
+                                    {/* FORM ACTIONS */}
+                                    <div className='right-submit-panel' >
+                                        {formType === "new" && <button className="button-custom button-custom-big" type="submit" onClick={() => setUseDelete(false)} > {Lang.adminSubmitBtn[lang]} </button>}
+                                        {formType === "edit" &&
+                                            <span>
+                                                <button className="button-custom button-custom-big" type="submit" onClick={() => setUseDelete(true)} >
+                                                    {Lang.adminDeletetBtn[lang]}
+                                                </button>
 
-                                            <span className='padder' ></span>
+                                                <span className='padder' ></span>
 
-                                            <button className="button-custom button-custom-big" type="submit" onClick={() => setUseDelete(false)} > 
-                                                { Lang.adminEdittBtn[lang] } 
-                                            </button>
-                                        </span>
-                                    }
-                                </div>
-                            </form>
+                                                <button className="button-custom button-custom-big" type="submit" onClick={() => setUseDelete(false)} >
+                                                    {Lang.adminEdittBtn[lang]}
+                                                </button>
+                                            </span>
+                                        }
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
